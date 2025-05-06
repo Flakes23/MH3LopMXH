@@ -15,4 +15,6 @@ public interface PostUserRepository extends JpaRepository<PostUser, Long> {
     Optional<PostUser> findByPost(Post post);
     
     List<PostUser> findByUser(User user);
+
+    List<PostUser> findAllByPost(Post post);
 }
