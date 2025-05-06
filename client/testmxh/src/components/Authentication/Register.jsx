@@ -16,6 +16,7 @@ function Register() {
     xacnhanmatkhau: "",
   })
   const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
   const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
@@ -69,8 +70,10 @@ function Register() {
       const success = await register(formData.ho, formData.ten, formData.matkhau, formData.email)
   
       if (success) {
-        // Đăng ký thành công, chuyển hướng đến trang đăng nhập
-        navigate("/")
+        setSuccessMessage("Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập...")
+        setTimeout(() => {
+          navigate("/login")
+        }, 2000) // chờ 2 giây trước khi chuyển trang
       } else {
         setError("Đăng ký không thành công. Email có thể đã được sử dụng.")
       }
@@ -195,6 +198,12 @@ function Register() {
                   {error}
                 </div>
               )}
+              {successMessage && (
+                <div className="alert alert-success" role="alert">
+                  <i className="bi bi-check-circle-fill me-2"></i>
+                  {successMessage}
+                </div>
+              )} 
             </div>
 
             <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
@@ -218,7 +227,7 @@ function Register() {
             </button>
 
             <div className="register-link">
-              Đã có tài khoản? <a href="/">Đăng nhập</a>
+              Đã có tài khoản? <a href="/login">Đăng nhập</a>
             </div>
           </form>
         </div>
