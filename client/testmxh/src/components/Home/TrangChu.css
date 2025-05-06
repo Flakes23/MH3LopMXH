@@ -1,0 +1,740 @@
+.containerhome{
+    width: 100%;
+    height: 100%;
+    
+}
+
+.Homebanner{
+     background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 56px;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    right: 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    /* padding: 8px; */
+    /* background: white;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+}
+
+.logo {
+    /* width: 30px;
+    height: 30px; */
+    /* margin-right: 10px; */
+    width: 55px;
+    height: 55px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #f0f2f5;
+    padding: 8px 12px;
+    border-radius: 50px;
+}
+
+.search-box i {
+    color: gray;
+    margin-right: 8px;
+}
+
+.search-box input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.Bannercenter{
+    margin-left: 150px;
+    width: 650px;
+}
+.Bannercenter ul{
+    display: flex;
+    justify-content: center;
+    height: 56px;
+    margin: 0;
+}
+.Bannercenter ul li{
+    width: 140px;
+    /* padding: 10px; */
+    list-style: none;
+    margin-left: 10px;
+    cursor: pointer;
+    line-height: 38px;
+    overflow: hidden; /* Ẩn phần ảnh dư thừa */
+}
+.Bannercenter ul li img{
+    margin-left: 38%;
+    margin-top: 10px;
+}
+.Bannercenter ul li::after{
+    content:'';
+    display: block;
+    height: 3px;
+    background-color: blue;
+    margin-top: 6px;
+    transform-origin: right;
+    transform:scale(0);
+    opacity: 0;
+    transition: transform 300ms, opacity 500ms;
+}
+.Bannercenter ul li:hover::after{
+    opacity: 1;
+    transform:scale(1)
+}
+
+.Bannerright{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-left: 170px;
+}
+.Bannerright ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-top: 2px;
+}
+.Bannerright ul li{
+    padding: 10px;
+    list-style: none;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    background-color: #f2f3f5;
+    margin-right: 8px;
+}
+.Bannerright ul li img{
+    margin-bottom: 10px;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover; 
+}
+
+.Bannerrightanh{
+    margin-top: 10px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+}
+.Bannerrightanh .picavata{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+.Bannerrightanhduoi{
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #f2f3f5;
+    left: 1485px;
+        top: 35px;
+    margin: 0;
+}
+.picavatedown{
+    position: absolute;
+    left: 4%;
+    top: 1px;
+    margin: 0;
+}
+
+
+.HomeCenter{
+    height: 3000px;
+    background-color: red;
+    width: 100%;
+    display: flex;
+    margin-top: 56px;
+}
+.HomeCenter .HomeCenterTrai{
+    background-color: #f2f4f7;
+    width: 25%;
+}
+.HomeCenter .HomeCenterGiua{
+    background-color: #f2f4f7;
+    width: 50%;
+}
+.HomeCenter .HomeCenterPhai{
+    background-color: #f2f4f7;
+    width: 25%;
+}
+
+.HomeCenterGiua{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.HomeCenterGiua .post-box {
+    width: 650px;
+    margin-top: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.post-box .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.post-header .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.post-header .input-box {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f0f2f5;
+    outline: none;
+}
+.post-box .actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+.post-box .actions .action-btn {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #606770;
+    cursor: pointer;
+}
+.post-box .actions .action-btn img {
+    width: 20px;
+    margin-right: 5px;
+}
+
+.HomeCenterTraiTren{
+    width: 100%;
+
+}
+.HomeCenterTraiTren ul{
+    list-style: none;
+    margin: 0;
+    padding: 15px;
+}
+.HomeCenterTraiTren ul li .centraiavatar{
+    height: 40px;
+    margin-top: 10px;
+    margin-right: 15px;
+}
+.HomeCenterTraiTren ul li .centraiavatar img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.HomeCenterTraiTren ul li{
+display: flex;
+height: 50px;
+    cursor: pointer;
+}
+.HomeCenterTraiTren ul li p{
+    line-height: 50px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+/* .HomeCenterTraiTren ul li{
+    height: 50px;
+    cursor: pointer;
+} */
+
+.HomeCenterTraiTren ul li:hover{
+    background-color:#DDDDDD	;
+}
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .menu1{
+    background-image: url(../../assets/Images/Icons/iconmenu.png);
+    background-position: 0 -333px;
+    background-size: auto;
+    width: 36px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .menu2{
+    background-image: url(../../assets/Images/Icons/iconmenu.png);
+    background-position: 0 -481px;
+    background-size: auto;
+    width: 36px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .menu3{
+    background-image: url(../../assets/Images/Icons/iconmenu.png);
+    background-position: 0 -185px;
+    background-size: auto;
+    width: 36px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .menu4{
+    background-image: url(../../assets/Images/Icons/iconmenu.png);
+    background-position: 0 -37px;
+    background-size: auto;
+    width: 36px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .menu5{
+    background-image: url(../../assets/Images/Icons/iconmenu.png);
+    background-position: 0 -555px;
+    background-size: auto;
+    width: 36px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .menu6{
+    background-image: url(../../assets/Images/Icons/iconmenu.png);
+    background-position: 0 -444px;
+    background-size: auto;
+    width: 36px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .leftcenter{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color:#DDDDDD	;
+    font-weight: bold;
+    margin-right: 15px;
+    margin-top: 10px;
+}
+.HomeCenter .HomeCenterTrai .HomeCenterTraiTren .leftcenter .leftcenterarrow{
+    margin-top: 7px;
+    /* height: 23px; */
+    width: 15px;
+    margin-left: 7px;
+}
+
+        /* KHUNG MO MENU */
+ .khungpicavata{
+    width: 370px;
+    height: 410px;
+    background-color: red;
+    /* margin:0; */
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top:5px;
+    margin-right:20px;
+    border-radius: 1%;
+    overflow: hidden;
+ }
+ .khungpicavatatren{
+    margin-top: 10px;
+    margin-left: 25px;
+    width: 320px;
+    height: 124px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+    border: 1px solid #e0e0e0; 
+    border-radius: 2%;
+
+ }
+ .khungpicavatatanh{
+    display: flex;
+    width: 250px;
+    margin-left: 15px;
+    margin-top: 10px;
+ }
+ .khungpicavatatanh p{
+    margin-top: 0;
+    margin-bottom: 0;
+    left: 10px;
+    margin-left: 10px;
+    font-weight: 500;
+    line-height: 40px;
+    padding: 0px;
+ }
+ .khungpicavatatrenavatar::after{
+    content: '';
+    margin-left: 17px;
+    width: 285px;
+    display: block;
+    height: 2px;
+    background-color: #DDDDDD;
+    margin-top: 6px;
+    /* transform-origin: right; */
+    cursor: pointer;
+}
+.khungpicavatatrentatcatrang{
+    width: 100%;
+    height: 51px;
+    margin-top: 12px;
+}
+/* .khungpicavatatrentatcatrang::after{
+    content: '';
+    margin-left: 17px;
+    width: 285px;
+    display: block;
+    height: 2px;
+    background-color: #DDDDDD;
+    margin-top: 6px;
+} */
+.khungpicavatatrentatcatrang button{
+    margin-left: 20px;
+    width: 280px;
+    background-color: #e2e5e9;
+}
+.khungpicavataduoi ul {
+    list-style: none;
+    padding-left: 17px;
+}
+.khungpicavataduoi ul li{
+    display: flex;
+    height: 48px;
+    width: 96%;
+    cursor: pointer;
+}
+.khungpicavataduoi ul li:hover{
+    background-color: #DDDDDD;
+}
+.khungpicavataduoi ul li .coverkhungpicavataduoi{
+    margin-top: 6px;
+    margin-left: 9px;
+    width: 36px;
+    height: 36px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+}
+.khungpicavataduoi ul li img{
+    margin-left: 9px;
+    margin-top: 9px;
+
+}
+.khungpicavataduoi ul li p{
+    margin: 0;
+    height: 23px;
+    width: 178px;
+    margin-top: 11px;
+    margin-left: 10px;
+}
+.khungpicavataduoi ul li .settingarrow{
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    margin-left: 74px;
+    margin-top: 9px;
+}
+.khungpicavataduoi ul li .coverkhungpicavataduoip p{
+    margin-top: 0;
+}
+
+/* BÀI ĐĂNG */
+.modal{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    /* overflow: hidden; */
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+}
+
+.modal_overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.modal_body{
+    width: 503px;
+    height: 428px;
+    /* background-color: red; */
+    background-color: white;
+    position: relative;
+    z-index: 3;
+    border-radius: 10px;
+    overflow: hidden;
+
+    max-height: 80vh; /* Giới hạn chiều cao tối đa là 80% chiều cao màn hình */
+    overflow-y: auto; /* Tạo thanh cuộn khi nội dung quá dài */
+    transition: max-height 0.3s ease-in-out; /* Hiệu ứng mở rộng */
+}
+
+.modal-title{
+    height: 60px;
+    background-color: #f8f9fb;
+    display: flex;
+    justify-content: center;
+}
+.modal-title p{
+    margin: 0;
+    line-height: 70px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.gachngang::before{
+    content: '';
+    width: 100%;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+    margin-top: 1px;
+}
+.modalinforuse{
+    height: 90px;
+    background-color: white;
+    display: flex;
+}
+.picavatatcn{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+.modalinforuseahaichucnang{
+    margin-top: 12px;
+    margin-left: 10px;
+}
+.modalinforuseahaichucnang p{
+    margin: 0;
+}
+.modalinforuseahaichucnang .cong-khai-btn{
+    margin-top: 3px;
+}
+.cong-khai-btn {
+    background-color: #f0f2f5; /* Màu nền xám nhạt */
+    border: none;
+    border-radius: 10px; /* Góc bo tròn */
+    padding: 4px 7px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cong-khai-btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.dropdown-arrow {
+    margin-left: 5px;
+}
+
+.modaladdpostcover{
+    height: 70px;
+    background: white;
+}
+.modaladdpost{
+    width: 470px;
+    height: 70px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 16px;
+    /* margin-top: 10px; */
+}
+
+.modaladdpostcover .modaladdpost p{
+    margin:0;
+}
+
+.modalbamdangcover{
+    height: 70px;
+    background: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.modalbamdangcover button{
+    margin-top: 20px;
+    width: 444px;
+    height: 36px;
+    background-color: blue;
+    padding: 0;
+}
+
+ /* BÀI VIẾT */
+ .postitem{
+    margin-top: 20px;
+    width: 668px;
+    height: 150px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+ }
+ .postitemup{
+    height: 40px;
+    width: 40px;
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+ }
+ .postitem .postitemup .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* margin-top: 10px;
+    margin-left: 10px; */
+}
+.postitemore{
+    width: 20px;
+    height: 40px;
+}
+.postitemore img{
+    width: 20px;
+    height: 30px;
+    cursor: pointer;
+}
+.postitemupright{
+    width: 570px;
+    height: 40px;
+    margin-left: 10px;
+}
+.postitemupright p{
+    padding: 0;
+    margin: 0;
+    width: 590px;
+    height: 20px;
+    /* background-color: red; */
+}
+.postitemupright .postname{
+    font-weight: 600;
+}
+.postinput{
+    height: 50px;
+    margin-top: 10px;
+}
+.postinput p{
+    margin-left: 12px;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.postemotion{
+    height: 36px;
+    width: 100%;
+    background-color: white;
+    display: flex;
+}
+.postemotionlike{
+    width: 33.33%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.postemotioncmt{
+    width: 33.33%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.postemotionshare{
+    width: 33.33%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.postemotionlike img{
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+}
+.postemotionlike p{
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.postemotioncmt img{
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+}
+.postemotioncmt p{
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.postemotionshare img{
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+}
+.postemotionshare p{
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.gachngang1::before{
+    content: '';
+    width: 96%;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+    margin-left: 12px;
+    margin-bottom: 1px;
+}
+.postemotionlike:hover{
+    background-color: #DDDDDD;
+}
+.postemotionshare:hover{
+    background-color: #DDDDDD;
+}.postemotioncmt:hover{
+    background-color: #DDDDDD;
+}
+
+.postitemchucnangcover{
+    width: 100px;
+    height: 100px;
+}
+
+.postitemchucnangbody{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    
+}

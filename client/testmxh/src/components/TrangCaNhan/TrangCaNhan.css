@@ -1,0 +1,445 @@
+containerhome{
+    width: 100%;
+    height: 100%;
+    
+}
+
+.Homebanner{
+     background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 56px;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    right: 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    /* padding: 8px; */
+    /* background: white;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+}
+
+.logo {
+    /* width: 30px;
+    height: 30px; */
+    /* margin-right: 10px; */
+    width: 55px;
+    height: 55px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #f0f2f5;
+    padding: 8px 12px;
+    border-radius: 50px;
+}
+
+.search-box i {
+    color: gray;
+    margin-right: 8px;
+}
+
+.search-box input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.Bannercenter{
+    margin-left: 150px;
+    width: 650px;
+}
+.Bannercenter ul{
+    display: flex;
+    justify-content: center;
+    height: 56px;
+    margin: 0;
+}
+.Bannercenter ul li{
+    width: 140px;
+    /* padding: 10px; */
+    list-style: none;
+    margin-left: 10px;
+    cursor: pointer;
+    line-height: 38px;
+    overflow: hidden; /* Ẩn phần ảnh dư thừa */
+}
+.Bannercenter ul li img{
+    margin-left: 38%;
+    margin-top: 10px;
+}
+.Bannercenter ul li::after{
+    content:'';
+    display: block;
+    height: 3px;
+    background-color: blue;
+    margin-top: 6px;
+    transform-origin: right;
+    transform:scale(0);
+    opacity: 0;
+    transition: transform 300ms, opacity 500ms;
+}
+.Bannercenter ul li:hover::after{
+    opacity: 1;
+    transform:scale(1)
+}
+
+.Bannerright{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-left: 170px;
+}
+.Bannerright ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-top: 2px;
+}
+.Bannerright ul li{
+    padding: 10px;
+    list-style: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #f2f3f5;
+    margin-right: 8px;
+}
+.Bannerright ul li img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover; 
+}
+
+.Bannerrightanh{
+    margin-top: 10px;
+    width: 38px;
+    height: 38px;
+}
+.Bannerrightanh .picavata{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+.Bannerrightanhduoi{
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #f2f3f5;
+    left: 1490px;
+        top: 35px;
+    margin: 0;
+}
+.picavatedown{
+    position: absolute;
+    left: 4%;
+    top: 1px;
+    margin: 0;
+}
+
+.HomeCenterTrangCaNhan{
+    background-color: #f2f4f7;
+    height: 3000px;
+}
+
+
+
+.khungpicavataduoi ul {
+    list-style: none;
+    padding-left: 17px;
+}
+.khungpicavataduoi ul li{
+    display: flex;
+    height: 48px;
+    width: 96%;
+    cursor: pointer;
+}
+.khungpicavataduoi ul li:hover{
+    background-color: #DDDDDD;
+}
+.khungpicavataduoi ul li .coverkhungpicavataduoi{
+    margin-top: 6px;
+    margin-left: 9px;
+    width: 36px;
+    height: 36px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+}
+.khungpicavataduoi ul li img{
+    margin-left: 9px;
+    margin-top: 9px;
+
+}
+.khungpicavataduoi ul li p{
+    margin: 0;
+    height: 23px;
+    width: 178px;
+    margin-top: 11px;
+    margin-left: 10px;
+}
+.khungpicavataduoi ul li .settingarrow{
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    margin-left: 74px;
+    margin-top: 9px;
+}
+.khungpicavataduoi ul li .coverkhungpicavataduoip p{
+    margin-top: 0;
+}
+.HomeCenterTrangCaNhan{
+    margin-top: 57px;
+    width: 100%;
+    height: 1000px;
+    /* overflow: hidden; */
+
+}
+.HomeCenterPersonalpage{
+    width: 100%;
+    height: 1000px;
+}
+.HomeCenterPersonal1{
+    height: 1000px;
+    width: 100%;
+    /* display: inline-block;
+    justify-content: center; */
+}
+.HomeCenterPersonal1 .HomeCenterPersonalPictureCover{
+    height: 349px;
+    display: flex;
+    justify-content: center;
+}
+.HomeCenterPersonal1 .HomeCenterPersonalPicture{
+    width: 940px;
+    height: 349px;
+    /* padding-top: 349px; */
+    background-color: red;
+    border-radius: 0 0 10px 10px;
+    /* margin-left: 300px; */
+    /* display: flex;
+    justify-content: center;
+    align-items: center; Căn giữa theo chiều dọc */
+    overflow: hidden;
+}
+.HomeCenterPersonal1 .HomeCenterPersonalPicture img{
+    width: 100%;
+    height: 100%;
+}
+
+/* ẢNH TRANG CÁ NHÂN */
+.HomeCenterPersonal1 .HomeCenterPersonalCenter{
+    /* width: 100%; */
+    /* width: 940px; */
+    height: 651px;
+}
+.HomeCenterPersonal1 .HomeCenterPersonalCenter .HomeCenterPersonalCenterUpCover{
+    /* height: 351px; */
+    height: 155px;
+    /* width: 100%; */
+    display: flex;
+    justify-content: center;
+
+    /* margin-top: 15px; */
+    background: white;
+    /* padding: 10px; */
+    border-radius: 10px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+.HomeCenterPersonalAvatar{
+    width: 169px;
+    height: 169px;
+}
+.HomeCenterPersonalAvatar .picavatatcn{
+    width: 169px;
+    height: 169px;
+    border-radius: 50%;
+    margin-top: -40px; /* Điều chỉnh giá trị này để kéo ảnh lên */
+}
+.HomeCenterPersonalName .NameAvatar{
+    margin: 0;
+    color: black;
+    font-size: 30px;
+}
+.HomeCenterPersonalName .AmountFriends{
+    margin: 0;
+    color: gray;
+}
+.HomeCenterPersonalCenterUpCover .HomeCenterPersonalName{
+    width: 260px;
+    height: 90px;
+    margin-top: 35px;
+    margin-left: 22px;
+}
+.HomeCenterPersonalCenterUpCover .HomeCenterPersonalChucNang{
+    width: 420px;
+}
+
+
+.button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 169px;
+    margin-top: -40px;
+    margin-left: 70px;
+}
+.blue-button {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.gray-button {
+    background-color: #e4e6eb;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.dropdown-button {
+    background-color: #e4e6eb;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.HomeCenterPersonalCenterDown{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    background: white;
+    /* padding: 10px; */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 60px;
+}
+.HomeCenterPersonal1 .HomeCenterPersonalCenter .gachngang{
+    display: flex;
+    justify-content: center;
+}
+.HomeCenterPersonal1 .HomeCenterPersonalCenter .gachngang::before{
+    content: '';
+    /* margin-left: 100px; */
+    width: 860px;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+    /* margin-top: 6px; */
+}
+
+.HomeCenterPersonalCenterDown ul{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+.HomeCenterPersonalCenterDown ul li{
+    height: 50px;
+    width: 69px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 35px;
+    color: #5c5e62;
+    font-weight: 600;
+    overflow: hidden;
+}
+.HomeCenterPersonalCenterDown ul li:hover{
+    background-color: #DDDDDD;
+}
+.buttonseemore {
+    display: flex;
+    width: 87px !important;
+}
+.buttonseemore p{
+    margin: 0;
+    width: 71px;
+}
+.buttonseemore .arrowseemore{
+    width: 10px;
+    height: 10px;
+    margin-top: 14px;
+    margin-left: 6px;
+
+}
+.HomeCenterPersonalSeeMore{
+    width: 245px;
+
+}
+.HomeCenterPersonalSeeMore .ButtonSeeMore{
+    background-color: #e4e6eb;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    margin-left: 179px;
+}
+.HomeCenterPersonalCenterDown .HomeCenterPersonalListChucnang::before{
+    content: '';
+    /* width: 860px; */
+    margin-left: 26px;
+    width: 655px;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+}
+.HomeCenterPersonalCenterDown .HomeCenterPersonalSeeMore::before{
+    content: '';
+    /* width: 860px; */
+    width: 214px;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+}
+.HomeCenterPersonalListChucnangColor{
+    color: blue !important
+}
+.HomeCenterPersonalListChucnangColor::after{
+    content: '';
+    width: 100%;
+    display: block;
+    height: 3px;
+    background-color: blue;
+    margin-top: 11px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
