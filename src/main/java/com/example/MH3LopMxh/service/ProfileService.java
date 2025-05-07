@@ -131,9 +131,16 @@ public class ProfileService {
             dto.setProfileImageUrl("/default-avatar.jpg");
         }
 
-        // Có thể thêm ảnh bìa và trạng thái mối quan hệ nếu có
+        List<UserAbout> userAbouts = userAboutRepository.findByUser(user);
         dto.setCoverImageUrl("/default-cover.jpg");
-        dto.setRelationshipStatus("Độc thân");
+        for (UserAbout userAbout : userAbouts) {
+            if(userAbout.getAbout().getName().equals("Cover Image")) {
+                dto.setCoverImageUrl(userAbout.getDescription());
+            }
+            if(userAbout.getAbout().getName().equals("Bio")) {
+                dto.setBio(userAbout.getDescription());
+            }
+        }
 
         return dto;
     }

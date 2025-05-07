@@ -7,7 +7,6 @@ import cover from "../../assets/Images/Icons/testa.jpg";
 import avatar from "../../assets/Images/Icons/testa.jpg";
 import axios from 'axios';
 
-// Component hiển thị một bài viết đầy đủ như Facebook
 const Post = ({ post, currentUserAvatar }) => (
   <div className="post-card">
     <div className="post-header">
@@ -36,7 +35,7 @@ const Post = ({ post, currentUserAvatar }) => (
 
     <div className="post-reactions">
       {post.likes > 0 && (
-        <><i className="far fa-thumbs-up"></i> {post.likes} người thích</>
+        <><i className="far fa-thumbs-up"></i> {post.likes} người đã bày tỏ cảm xúc</>
       )}
     </div>
 
@@ -147,19 +146,22 @@ const Profile = () => {
             </div>
             <div className="profile-info">
               <h1>{userInfo.firstName} {userInfo.lastName}</h1>
-              <p>{userInfo.relationshipStatus || 'Chưa cập nhật trạng thái'}</p>
-              <div className="info-details">
-                {aboutInfo.map((info, index) => (
-                  <div key={index}><strong>{info.type}:</strong> {info.value}</div>
-                ))}
-                {aboutInfo.length === 0 && (
-                  <>
-                    <div><strong>Email:</strong> {userInfo.email}</div>
-                    <div><strong>Bạn bè:</strong> {profileData?.totalFriends || 0} người bạn</div>
-                  </>
-                )}
+              <p>{profileData?.totalFriends || 0} người bạn</p>
+              <div>
+                <h4>Giới thiệu</h4>
+                <p><strong>Tiểu sử: </strong>{userInfo.bio || 'Chưa cập nhật trạng thái'}</p>
+                <div className="info-details">
+                  {aboutInfo
+                    .filter(info => ['Giới tính', 'Sống tại'].includes(info.type))
+                    .map((info, index) => (
+                      <div key={index}>
+                        <strong>{info.type}:</strong> {info.value}
+                      </div>
+                    ))}
+                </div>
               </div>
-            </div>
+          </div>
+
             <div className="actions-menubar">
               <a href="#" className="active">Bài viết</a>
               <a href="#">Bạn bè ({profileData?.totalFriends || 0})</a>
@@ -170,7 +172,7 @@ const Profile = () => {
         </div>
 
         <div className="profile-container">
-          <div className="creat-profile-posts">
+          <div className="create-profile-posts">
             <div className="new-posts">
               <span className="profile"></span>
               <input type="text" placeholder="Bạn đang nghĩ gì?" />

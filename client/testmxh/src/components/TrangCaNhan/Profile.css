@@ -151,7 +151,7 @@ html, body {
   }
   
   /* Posts */
-.creat-profile-posts {
+.create-profile-posts {
   border: 1px solid #ddd;
 
   padding: 16px 24px;
@@ -183,10 +183,6 @@ html, body {
   border-radius: 16px;
   border: none;
 }
-
-  .profile-posts {
-    padding: 24px;
-  }
   /* Post card */
 .post-card {
   background: #fff;
@@ -235,6 +231,9 @@ html, body {
 .post-content {
   padding: 12px;
 }
+.post-content p {
+  margin: 0;
+}
 .background-card {
   border-radius: 8px;
   color: #fff;
@@ -244,7 +243,7 @@ html, body {
 }
 
 .post-reactions {
-  padding: 0 12px;
+  padding: 12px;
   font-size: 14px;
   color: #65676b;
 }
@@ -253,7 +252,6 @@ html, body {
 .post-actions {
   display: flex;
   justify-content: space-around;
-  padding: 8px 0;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
 }

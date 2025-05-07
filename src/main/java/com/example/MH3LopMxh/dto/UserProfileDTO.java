@@ -7,7 +7,7 @@ public class UserProfileDTO {
     private String email;
     private String profileImageUrl;
     private String coverImageUrl;
-    private String relationshipStatus;
+    private String bio;
     
     // Getters and Setters
     public Long getId() {
@@ -58,11 +58,11 @@ public class UserProfileDTO {
         this.coverImageUrl = coverImageUrl;
     }
     
-    public String getRelationshipStatus() {
-        return relationshipStatus;
+    public String getBio() {
+        return bio;
     }
     
-    public void setRelationshipStatus(String relationshipStatus) {
-        this.relationshipStatus = relationshipStatus;
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
