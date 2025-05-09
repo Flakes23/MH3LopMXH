@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class PostComment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Tự động tăng
     private Long id;
 
     @OneToOne

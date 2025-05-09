@@ -105,7 +105,7 @@ const Profile = () => {
     return (
       <div className="app-root">
         <Navbar />
-        <div className="error-container">
+        <div className="profile-error-container">
           <div className="alert alert-danger" role="alert">
             {error}
           </div>

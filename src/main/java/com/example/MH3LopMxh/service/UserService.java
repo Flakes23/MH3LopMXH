@@ -37,8 +37,7 @@ public class UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email đã được sử dụng");
         }
-        
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         user.setCreateAt(LocalDateTime.now());
         user.setIsActive(true);
         

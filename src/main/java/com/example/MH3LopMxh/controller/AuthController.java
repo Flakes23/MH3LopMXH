@@ -60,6 +60,7 @@ public class AuthController {
 
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
+                System.out.println(loginRequest.getPassword()+ user.getPassword());
 
                 // Kiểm tra mật khẩu với mã hóa
                 if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
