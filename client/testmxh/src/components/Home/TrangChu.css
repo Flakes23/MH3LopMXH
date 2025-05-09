@@ -517,11 +517,37 @@ height: 50px;
     /* justify-content: center; */
 }
 .modal-title p{
+    margin: 0 ;
+    line-height: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 100px;
+}
+.modal-titlechinh{
+     height: 60px;
+    background-color: #f8f9fb;
+    display: flex;
+}
+.modal-titlechinh p{
     margin: 0;
     line-height: 60px;
     font-size: 20px;
     font-weight: 700;
     margin-left: 180px;
+}
+.modaltitlebackchinh{
+    margin-top: 12px;
+    margin-left: 150px;
+    width: 36px;
+    height: 36px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+    cursor: pointer;
+}
+.modaltitlebackchinh img{
+        margin-top: 4px;
+    margin-left: 5px;
 }
 .gachngang::before{
     content: '';
@@ -865,7 +891,7 @@ input[type="radio"] {
 
 .modaltitleback{
     margin-top: 12px;
-    margin-left: 150px;
+    margin-left: 12px;
     width: 36px;
     height: 36px;
     line-height: 20px;

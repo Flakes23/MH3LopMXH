@@ -536,10 +536,10 @@ function Trangchu() {
 
           {/* ------------- */}
           <div className="modal_body" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-title">
+            <div className="modal-titlechinh">
               <p>Tạo bài viết</p>
               <div
-                className="modaltitleback"
+                className="modaltitlebackchinh"
                 onClick={() => setHienModal(false)}
               >
                 <img src={close} alt="" />
