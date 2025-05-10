@@ -48,7 +48,7 @@ function Trangchu() {
     navigate("/trangcanhan");
   };
   const ClickSignOut = () => {
-    navigate("/");
+    navigate("/login");
   };
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);

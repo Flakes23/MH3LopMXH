@@ -12,8 +12,9 @@ export async function SignIn(taikhoan, matkhau) {
       email: taikhoan, 
       password: matkhau
     });
-    console.log(response.data); // In ra dữ liệu trả về từ server
+    console.log("Login response:", response.data.user.idUser);
     if (response.status === 200) {
+      localStorage.setItem("idUser", response.data.user.idUser);
       return true;
     }
   } catch (error) {

@@ -1,6 +1,7 @@
 // User.java
 package com.example.MH3LopMxh.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -38,6 +39,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private Set<Interaction> interactions = new HashSet<>();
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "user")
 	private Set<UserAbout> userAbouts = new HashSet<>();
 
@@ -197,28 +199,5 @@ public class User {
 
 	public void setSentNotifications(Set<Notification> sentNotifications) {
 		this.sentNotifications = sentNotifications;
-	}
-
-	@Override
-	public String toString() {
-		return "User{" +
-				"idUser=" + idUser +
-				", firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", email='" + email + '\'' +
-				", password='" + password + '\'' +
-				", isActive=" + isActive +
-				", createAt=" + createAt +
-				", posts=" + posts +
-				", interactions=" + interactions +
-				", userAbouts=" + userAbouts +
-				", comments=" + comments +
-				", relationshipsAsUserOne=" + relationshipsAsUserOne +
-				", relationshipsAsUserTwo=" + relationshipsAsUserTwo +
-				", sentMessages=" + sentMessages +
-				", receivedMessages=" + receivedMessages +
-				", notifications=" + notifications +
-				", sentNotifications=" + sentNotifications +
-				'}';
 	}
 }

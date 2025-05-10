@@ -44,6 +44,9 @@ public class ProfileService {
     @Autowired
     private PostUserRepository postUserRepository;
 
+    @Autowired
+    private PostCommentRepository postCommentRepository;
+
     public ProfileResponse getUserProfile(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
 
@@ -161,9 +164,14 @@ public class ProfileService {
         Long likes = interactionRepository.countByPostId(post.getIdPost());
         dto.setLikes(likes.intValue());
 
-        // Đếm số bình luận
-        Long comments = commentRepository.countByPostId(post.getIdPost());
-        dto.setComments(comments.intValue());
+        // Lấy danh sách bình luận
+        List<Comment> comments = commentRepository.findByPostIdOrderByCreateAtAsc(post.getIdPost());
+        List<CommentDTO> commentDTOs = comments.stream()
+                .map(this::convertToCommentDTO)
+                .collect(Collectors.toList());
+
+        dto.setCommentList(commentDTOs);
+        dto.setComments(commentDTOs.size()); // Vẫn giữ số lượng bình luận
 
         // Số lượt chia sẻ (giả định là 0)
         dto.setShares(0);
@@ -174,6 +182,30 @@ public class ProfileService {
             User postUser = postUsers.get(0).getUser();
             dto.setUser(convertToUserProfileDTO(postUser));
         }
+
+        return dto;
+    }
+
+    private CommentDTO convertToCommentDTO(Comment comment) {
+        CommentDTO dto = new CommentDTO();
+        dto.setId(comment.getIdComment());
+        dto.setContent(comment.getContent());
+        dto.setCreateAt(comment.getCreateAt());
+
+        // Thông tin người bình luận
+        User user = comment.getUserSend();
+        if (user != null) {
+            dto.setUser(convertToUserProfileDTO(user));
+        }
+
+        // Lấy postId từ PostComment
+        Optional<PostComment> postComment = postCommentRepository.findByComment(comment);
+        if (postComment.isPresent()) {
+            dto.setPostId(postComment.get().getPost().getIdPost());
+        }
+
+        // Nếu có parentCommentId (cho bình luận phản hồi)
+        // dto.setParentCommentId(comment.getParentComment() != null ? comment.getParentComment().getIdComment() : null);
 
         return dto;
     }

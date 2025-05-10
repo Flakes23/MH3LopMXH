@@ -1,5 +1,6 @@
 package com.example.MH3LopMxh.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,14 +11,17 @@ public class Interaction {
     @Column(name = "id_interaction")
     private Long idInteraction;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_interact")
     private Interact interact;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_post")
     private Post post;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;

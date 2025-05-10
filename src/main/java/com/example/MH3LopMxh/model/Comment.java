@@ -1,5 +1,6 @@
 package com.example.MH3LopMxh.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -17,6 +18,7 @@ public class Comment {
     @Column(name = "create_at")
     private LocalDateTime createAt;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_send_id", nullable = false)
     private User userSend;

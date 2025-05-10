@@ -1,5 +1,6 @@
 package com.example.MH3LopMxh.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,10 +14,12 @@ public class UserAbout {
     @Column(name = "description")
     private String description;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_about")
     private About about;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
