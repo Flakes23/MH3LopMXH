@@ -20,23 +20,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MH3LopMxh.dto.FriendDTO;
 import com.example.MH3LopMxh.dto.ImageDTO;
+import com.example.MH3LopMxh.dto.MessageDTO;
 import com.example.MH3LopMxh.dto.PostDTO;
 import com.example.MH3LopMxh.dto.PostUserDTO;
+import com.example.MH3LopMxh.dto.RelationshipDTO;
 import com.example.MH3LopMxh.dto.UserFlowingDTO;
 import com.example.MH3LopMxh.model.Image;
+import com.example.MH3LopMxh.model.Message;
 import com.example.MH3LopMxh.model.Post;
 import com.example.MH3LopMxh.model.PostImage;
 import com.example.MH3LopMxh.model.PostUser;
+import com.example.MH3LopMxh.model.Relationship;
 import com.example.MH3LopMxh.model.User;
 import com.example.MH3LopMxh.model.UserFollow;
 import com.example.MH3LopMxh.model.UsersImage;
 import com.example.MH3LopMxh.repository.ImageRepository;
+import com.example.MH3LopMxh.repository.MessageRepository;
 import com.example.MH3LopMxh.repository.PostImageRepository;
 import com.example.MH3LopMxh.repository.PostRepository;
+import com.example.MH3LopMxh.repository.RelationshipRepository;
 import com.example.MH3LopMxh.repository.UserFollowRepository;
 import com.example.MH3LopMxh.repository.UserRepository;
 import com.example.MH3LopMxh.repository.UsersImageRepository;
 import com.example.MH3LopMxh.service.HomeService;
+import com.example.MH3LopMxh.service.MessageService;
 import com.example.MH3LopMxh.service.PostService;
 
 
@@ -61,6 +68,15 @@ public class HomeController {
 	   
 	   @Autowired
 	    private UserRepository userRepository;
+	   
+	   @Autowired
+	    private MessageService messservice;
+	   
+	    @Autowired
+	    private MessageRepository messageRepository;
+	    
+	    @Autowired
+	    private RelationshipRepository relationshipRepository;
 //	   @PostMapping("/postwrite")
 //	   public PostUser createBaiViet(@RequestBody PostDTO postDto) {
 //		   Random random = new Random();
@@ -153,6 +169,62 @@ public class HomeController {
 	        }
 	        
 	       return dsuldto;
+	   }
+
+
+//	   @GetMapping("/hienchat")
+//	   public List<Message> havemessfriend(@RequestParam long userId,@RequestParam long userIdflo) {
+//           Optional<User> optionalUser1 = userRepository.findById(userId);
+//           User user1 = optionalUser1.get();
+//           Optional<User> optionalUser2 = userRepository.findById(userIdflo);
+//           User user2 = optionalUser2.get();
+//		   Relationship rltmp=new Relationship();
+//		   rltmp.setUserOne(user1);
+//		   rltmp.setUserTwo(user2);
+//		   rltmp.setId(1L);
+//		   List<Message> dsmess=messageRepository.findMessagesByRelationshipId(rltmp.getId());
+//		return dsmess;
+//	   }
+	   
+	   
+	   @GetMapping("/hienchat")
+	   public List<MessageDTO> havemessfriend(@RequestParam long userId, @RequestParam long userIdflo) {
+	       // Lấy người dùng từ cơ sở dữ liệu
+	       Optional<User> optionalUser1 = userRepository.findById(userId);
+	       Optional<User> optionalUser2 = userRepository.findById(userIdflo);
+
+	       if (!optionalUser1.isPresent() || !optionalUser2.isPresent()) {
+	           // Nếu không tìm thấy người dùng, trả về danh sách rỗng hoặc xử lý lỗi theo cách khác
+	           return new ArrayList<>();
+	       }
+	       User user1 = optionalUser1.get();
+	       User user2 = optionalUser2.get();
+	       // Lấy mối quan hệ giữa 2 người dùng
+	       Optional<Relationship> relationshipOpt = relationshipRepository.findByUserOneAndUserTwo(user1, user2);
+	       if (!relationshipOpt.isPresent()) {
+	           // Nếu không có mối quan hệ giữa 2 người dùng, trả về danh sách rỗng
+	           return new ArrayList<>();
+	       }
+	       Relationship relationship = relationshipOpt.get();
+	       // Lấy danh sách tin nhắn dựa trên mối quan hệ
+	       List<Message> messages = messageRepository.findByRelationshipId(relationship.getId());
+	       // Chuyển các tin nhắn sang MessageDTO
+	       List<MessageDTO> messageDTOList = new ArrayList<>();
+	       for (Message message : messages) {
+	           MessageDTO messageDTO = new MessageDTO();
+	           messageDTO.setId(message.getId());
+	           messageDTO.setContent(message.getContent());
+	           messageDTO.setCreateAt(message.getCreateAt());
+	           messageDTO.setIdUser(message.getFromUser().getIdUser());
+	           
+	           // Chuyển đổi RelationshipDTO
+	           RelationshipDTO relationshipDTO = new RelationshipDTO();
+	           relationshipDTO.setId(relationship.getId());
+	           relationshipDTO.setStatus(relationship.getStatus().getStatus()); // Cập nhật theo thuộc tính của Relationship
+	           messageDTO.setRelationship(relationshipDTO);
+	           messageDTOList.add(messageDTO);
+	       }
+	       return messageDTOList;
 	   }
 
 }

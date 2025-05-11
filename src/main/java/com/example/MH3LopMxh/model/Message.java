@@ -3,6 +3,8 @@ package com.example.MH3LopMxh.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "message")
 public class Message {
@@ -20,14 +22,17 @@ public class Message {
     @Column(name = "is_seen")
     private boolean isSeen;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "relationship_id", nullable = false)
     private Relationship relationship;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "from_user_id", nullable = false)
     private User fromUser;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "to_user_id", nullable = false)
     private User toUser;

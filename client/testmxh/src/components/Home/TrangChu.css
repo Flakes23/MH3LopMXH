@@ -361,6 +361,8 @@ height: 50px;
 
         /* KHUNG MO MENU */
  .khungpicavata{
+    position: fixed;
+    z-index: 1000;
     width: 370px;
     height: 410px;
     background-color: red;
@@ -1132,6 +1134,7 @@ position: fixed;
   justify-content: flex-end; 
 }
 .screenmessuser .screenmess_overlayuser{
+    display: none;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -1219,4 +1222,73 @@ width: 100px;
     margin-right: 20px;
     border-radius: 1%;
     overflow: hidden;
+}
+.screenmesscoverusechat{
+    width: 100%;
+    height: 300px;
+
+     max-height: 300px; /* hoặc bất kỳ chiều cao nào phù hợp */
+  overflow-y: auto;
+}
+.screenmesscoverusechatfollowing{
+    display: flex;
+}
+.screenmesscoverusechatfollowingimg{
+       position: relative;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 40px;
+    height: 38px;
+    cursor: pointer;
+}
+.screenmesscoverusechatfollowingimg img{
+        width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+.screenmesscoverusechatfollowingchat{
+      display: inline-block;
+      background-color: #f1f1f1;
+      padding: 0px 5px;
+      /* width: 150px;
+      height: 40px; */
+      border-radius: 20px;
+      font-family: "Courier New", monospace;
+      font-size: 18px;
+            white-space: nowrap; /* Ngăn xuống dòng giữa các ký tự */
+    margin-left: 6px;
+    margin-top: 15px;
+}
+.screenmesscoverusechatfollowingchat p{
+    margin-top: 8px;
+    
+}
+
+.screenmesscoverusechatfollower{
+    display: flex;
+    justify-content: end;
+    margin-right: 14px;
+    margin-top: 10px;
+}
+.screenmesscoverusechatfollowerchat{
+    display: inline-block;
+      background-color: #f1f1f1;
+      padding: 0px 5px;
+      /* width: 150px;
+      height: 40px; */
+      border-radius: 20px;
+      font-family: "Courier New", monospace;
+      font-size: 18px;
+    white-space: nowrap; /* Ngăn xuống dòng giữa các ký tự */
+    /* margin-right: 6px; */
+    /* direction: rtl; */
+    /* margin-top: 15px; */
+    font-size: 18px;
+}
+.screenmesscoverusechatfollowerchat p{
+margin-top: 3px;
+    /* margin-bottom: 0; */
+    line-height: 44px;
+
 }

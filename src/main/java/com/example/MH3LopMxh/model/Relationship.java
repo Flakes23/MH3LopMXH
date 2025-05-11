@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "relationship")
 public class Relationship {
@@ -13,14 +15,17 @@ public class Relationship {
     @Column(name = "id")
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_status")
     private StatusRelationship status;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_one_id", nullable = false)
     private User userOne;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_two_id", nullable = false)
     private User userTwo;

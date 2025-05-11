@@ -27,4 +27,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     
     @Query("SELECT DISTINCT m.relationship FROM Message m WHERE m.fromUser.idUser = :userId OR m.toUser.idUser = :userId ORDER BY m.createAt DESC")
     List<Relationship> findRecentConversations(@Param("userId") Long userId);
+    
+    List<Message> findByRelationshipId(Long relationshipId);
+
 }

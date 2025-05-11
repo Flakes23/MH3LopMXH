@@ -48,13 +48,17 @@ function Trangchu() {
     navigate("/trangcanhan");
   };
   const ClickSignOut = () => {
-    navigate("/");
+    navigate("/login");
+  };
+const Clickhienkc = () => {
+    navigate("/mess");
   };
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const defaultCoverSrc = cover;
   const defaultAvatarSrc = avatar;
-  const userId = 4638422354641785; // ID người dùng bạn đã cung cấp
+  const userId = localStorage.getItem("idUser"); // ID người dùng bạn đã cung cấp
+  const userId1=2646614742091262;
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -125,10 +129,10 @@ function Trangchu() {
   const [showmessageuse, setshowmessageuse] = useState(false);
   const [showtronang, setshowtronang] = useState(false);
 
-
   const [noidung, setNoidung] = useState("");
   const [dsBaiViet, setDsBaiViet] = useState([]);
   const [dsMesstc, setdsMesstc] = useState([]);
+
   // useEffect(() => {
   //   // Gọi API lấy danh sách bài viết từ database
   //   fetch("/poststhu")
@@ -179,6 +183,38 @@ function Trangchu() {
       fetchProfileData();
     }
   }, [userId]); // useEffect sẽ chạy lại khi userId thay đổi
+
+  // -----TEST
+  const [dstinchat, setdstinchat] = useState([]);
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `http://localhost:8080/api/home/hienchat`,
+          {
+            params: {
+              userId: userId,
+              userIdflo: 2646614742091262,
+            },
+          }
+        );
+        setdstinchat(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+        setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      // Đảm bảo userId đã có giá trị
+      fetchProfileData();
+    }
+  }, [userId]); // useEffect sẽ chạy lại khi userId thay đổi
+  // --------------
   // useEffect(() => {
   //   const fetchPosts = async () => {
   //     try {
@@ -680,7 +716,9 @@ function Trangchu() {
             <li>
               <img src={menu} />
             </li>
-            <li onClick={() => setshowmessage(true)}>
+            {/* <li onClick={() => setshowmessage(true)}> */}
+                        <li onClick={Clickhienkc}>
+
               <img src={mess} />
             </li>
             <li>
@@ -922,30 +960,105 @@ function Trangchu() {
                 ></div>
                 <div className="screenmesscoveruse">
                   <div className="screenmesscoverusetitle">
-                  <ul>
-                    {dsMesstc.length > 0 ? (
-                    dsMesstc.map((post) => (
-                      <li
-                        key={
-                          post.id || `default-${post.index || Math.random()}`
+                    <ul>
+                      {dsMesstc.length > 0 ? (
+                        dsMesstc.map((post) => (
+                          <li
+                            key={
+                              post.id ||
+                              `default-${post.index || Math.random()}`
+                            }
+                          >
+                            <div className="screenmesscoveruseimg">
+                              <img
+                                src={
+                                  userInfo.profileImageUrl || defaultAvatarSrc
+                                }
+                                alt=""
+                              />{" "}
+                            </div>
+                            <p>
+                              {post.lastName} {post.firstName}
+                            </p>
+                          </li>
+                        ))
+                      ) : (
+                        <p>Chưa có bài viết nào.</p>
+                      )}
+                    </ul>
+                  </div>
+                  <div className="screenmesscoverusechat">
+                    {/* <div className="screenmesscoverusechatfollowing">
+                      <div className="screenmesscoverusechatfollowingimg">
+                        <img
+                          src={userInfo.profileImageUrl || defaultAvatarSrc}
+                          alt=""
+                        />
+                      </div>
+                      <div className="screenmesscoverusechatfollowingchat">
+                        <p>helo em</p>
+                      </div>
+                    </div>
+
+                    <div className="screenmesscoverusechatfollower">
+                      <div className="screenmesscoverusechatfollowerchat">
+                        <p>helo gì ba?</p>
+                      </div>
+                    </div> */}
+
+                    {dstinchat.length > 0 ? (
+                      dstinchat.map((post, index) => {
+                        // Kiểm tra nếu post.id = 1 và chọn nơi hiển thị content
+
+                        if (post.idUser === userId1) {
+                          console.log(post.idUser)
+                                                    console.log(userId)
+                          return (
+                            <>
+                              <div
+                                key={index || `default-${post.index || Math.random()}`}
+                                className="screenmesscoverusechatfollowing"
+                              >
+                                <div className="screenmesscoverusechatfollowingimg">
+                                  <img
+                                    src={
+                                      userInfo.profileImageUrl ||
+                                      defaultAvatarSrc
+                                    }
+                                    alt="User Avatar"
+                                  />
+                                </div>
+                                <div className="screenmesscoverusechatfollowingchat">
+                                  <p>
+                                    {post.content || "Nội dung không có sẵn"}
+                                  </p>
+                                </div>
+                              </div>
+                            </>
+                          );
+                        } 
+                        else {
+                          return (
+                            <>
+                              <div
+                                key={index || `default-${post.index || Math.random()}`}
+                                className="screenmesscoverusechatfollower"
+                              >
+                                <div className="screenmesscoverusechatfollowerchat">
+                                  <p>
+                                    {post.content || "Nội dung không có sẵn"}
+                                  </p>
+                                </div>
+                              </div>
+                            </>
+                          );
                         }
-                      >
-                        <div className="screenmesscoveruseimg">
-                          <img
-                            src={userInfo.profileImageUrl || defaultAvatarSrc}
-                            alt=""
-                          />{" "}
-                        </div>
-                        <p>
-                          {post.lastName} {post.firstName}
-                        </p>
-                      </li>
-                    ))
-                  ) : (
-                    <p>Chưa có bài viết nào.</p>
-                  )}
-                  </ul>
-                   </div>
+                      }
+                    )
+                    ) : (
+                      <p>Chưa có bài viết nào.</p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -992,10 +1105,12 @@ function Trangchu() {
                     <p>Trợ giúp và hỗ trợ</p>
                     <img src={arrowright} className="settingarrow" />
                   </li>
-                  <li  onClick={() => {
-                  setIsVisibleavatar(false);
-                  setshowtronang(true);
-                }}>
+                  <li
+                    onClick={() => {
+                      setIsVisibleavatar(false);
+                      setshowtronang(true);
+                    }}
+                  >
                     <div className="coverkhungpicavataduoi">
                       <img src={moon} />
                     </div>
@@ -1031,7 +1146,9 @@ function Trangchu() {
           {/* --------------------- */}
           {showtronang && (
             <div className="screenaccessibility">
-              <button style={{backgroundColor:"blue",marginLeft:"130px"}}>Trợ năng</button>
+              <button style={{ backgroundColor: "blue", marginLeft: "130px" }}>
+                Trợ năng
+              </button>
             </div>
           )}
           {/* ------------------------- */}

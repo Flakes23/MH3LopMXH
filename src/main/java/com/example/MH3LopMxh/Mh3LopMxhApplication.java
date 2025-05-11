@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @SpringBootApplication
 public class Mh3LopMxhApplication {
     public static void main(String[] args) {
-            SpringApplication.run(Mh3LopMxhApplication.class, args);
+            SpringApplication.run(Mh3LopMxhApplication.class, args);  
     }
 
 }
