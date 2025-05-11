@@ -1082,3 +1082,141 @@ color: black;
 .HomeCenterPhaiAdvertisementMess{
     margin-top: 10px;
 }
+.HomeCenterPhaiAdvertisementMess p{
+    margin-bottom: 5px;
+    margin-left: 8px;
+}
+.HomeCenterPhaiAdvertisementShowMess ul{
+    padding: 0;
+    list-style: none;
+}
+.HomeCenterPhaiAdvertisementShowMess ul li{
+    height: 55px;
+    display: flex;
+}
+.HomeCenterPhaiAdvertisementShowMessimg{
+    position: relative;
+    margin-top: 8px;
+        margin-left: 8px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+}
+.HomeCenterPhaiAdvertisementShowMessimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+.HomeCenterPhaiAdvertisementShowMess ul li p{
+    margin-left: 10px;
+    margin-top: 16px;
+}
+.HomeCenterPhaiAdvertisementShowMess ul li:hover{
+    background-color: #DDDDDD;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+
+.screenmessuser{
+position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2000;
+    /* overflow: hidden; */
+    display: flex;
+    align-items: flex-end; 
+  justify-content: flex-end; 
+}
+.screenmessuser .screenmess_overlayuser{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* background-color: rgba(0, 0, 0, 0.4); */
+    z-index: 2;
+}
+ .screenmesscoveruse{
+        /* width: 370px; */
+    width: 330px;
+    height: 454px;
+
+    /* margin: 0; */
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 52px;
+    margin-right: 80px;
+    border-radius: 2%;
+    overflow: hidden;
+}
+
+.HomeCenterPhaiAdvertisementMessTitle{
+    display: flex;
+}
+.HomeCenterPhaiAdvertisementMessTitle p{
+width: 100px;
+}
+.HomeCenterPhaiAdvertisementMessTitle .HomeCenterPhaiAdvertisementMessTitleimg1{
+    width: 35px;
+    /* margin-top: 6px;
+    margin-left: 9px; */
+    /* width: 36px; */
+    height: 35px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+}
+.HomeCenterPhaiAdvertisementMessTitle .HomeCenterPhaiAdvertisementMessTitleimg1 img{
+        width: 20px;
+}
+
+.screenmesscoveruse ul{
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+.screenmesscoveruse ul li{
+    display: flex;
+}
+ .screenmesscoveruseimg{
+    position: relative;
+   margin-top: 10px;
+    margin-left: 10px;
+    width: 40px;
+    height: 38px;
+    cursor: pointer;
+}
+.screenmesscoveruseimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+.screenmesscoveruse ul li p{
+    margin-bottom: 0;
+    height: 25px;
+    width: 116px;
+         margin-top: 17px;
+    margin-left: 5px;
+}
+.screenmesscoverusetitle{
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 58px;
+}
+
+.screenaccessibility{
+    width: 370px;
+    height: 410px;
+    background-color: red;
+    /* margin: 0; */
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    margin-right: 20px;
+    border-radius: 1%;
+    overflow: hidden;
+}

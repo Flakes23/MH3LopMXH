@@ -48,7 +48,7 @@ function Trangchu() {
     navigate("/trangcanhan");
   };
   const ClickSignOut = () => {
-    navigate("/login");
+    navigate("/");
   };
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -92,6 +92,7 @@ function Trangchu() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    console.log(storedUser);
     try {
       if (storedUser) {
         setUser(JSON.parse(storedUser));
@@ -121,6 +122,9 @@ function Trangchu() {
   const [hienTest, setHienTest] = useState(false);
   const [showprivacyhome, setshowprivacyhome] = useState(false);
   const [showmessage, setshowmessage] = useState(false);
+  const [showmessageuse, setshowmessageuse] = useState(false);
+  const [showtronang, setshowtronang] = useState(false);
+
 
   const [noidung, setNoidung] = useState("");
   const [dsBaiViet, setDsBaiViet] = useState([]);
@@ -151,19 +155,44 @@ function Trangchu() {
   }, []);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchProfileData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
-          `http://localhost:8080/api/profile/${userId}`
+          `http://localhost:8080/api/home/messfri`,
+          {
+            params: { userId: userId }, // truyền userId dưới dạng query param
+          }
         );
-        // const response = await axios.get("http://localhost:8080/post"); // nhớ đúng URL backend bạn nhé
-        setDsBaiViet(response.data.posts); // response.data.posts là mảng bài viết
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách bài viết:", error);
+        setdsMesstc(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+        setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      } finally {
+        setLoading(false);
       }
     };
-    fetchPosts();
-  }, []);
+
+    if (userId) {
+      // Đảm bảo userId đã có giá trị
+      fetchProfileData();
+    }
+  }, [userId]); // useEffect sẽ chạy lại khi userId thay đổi
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:8080/api/profile/${userId}`
+  //       );
+  //       // const response = await axios.get("http://localhost:8080/post"); // nhớ đúng URL backend bạn nhé
+  //       setDsBaiViet(response.data.posts); // response.data.posts là mảng bài viết
+  //     } catch (error) {
+  //       console.error("Lỗi khi lấy danh sách bài viết:", error);
+  //     }
+  //   };
+  //   fetchPosts();
+  // }, []);
 
   // const handleDangBai = async () => {
   //   if (!noidung.trim()) return;
@@ -358,29 +387,6 @@ function Trangchu() {
       console.log(anhDaTai); // Đây sẽ in giá trị ảnh sau khi đã được lưu trữ vào anhDaTai
     }
   }, [anhDaTai]); // Chạy mỗi khi anhDaTai thay đổi
-  // const handleDangBai = async () => {
-  //   if (!noidung.trim()) return; // Kiểm tra nội dung không rỗng
-  //   const baiviet = {
-  //     tennguoidung: user.tennguoidung,
-  //     noidung,
-  //     thoigian: new Date().toISOString(),
-  //   };
-  //   try {
-  //     const response = await fetch("http://localhost:8080/api/baiviet", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(baiviet),
-  //     });
-  //     if (response.ok) {
-  //       const newPost = await response.json();
-  //       setDsBaiViet([newPost, ...dsBaiViet]); // Cập nhật danh sách bài viết
-  //       setNoidung(""); // Reset nội dung sau khi đăng
-  //       setHienModal(false); // Ẩn modal
-  //     }
-  //   } catch (error) {
-  //     console.error("Lỗi khi đăng bài:", error);
-  //   }
-  // };
 
   const [privacy, setPrivacy] = useState("Công khai");
   const handleChange = (value) => {
@@ -906,6 +912,44 @@ function Trangchu() {
               </div>
             )}
           </>
+
+          <>
+            {showmessageuse && (
+              <div className="screenmessuser">
+                <div
+                  className="screenmess_overlayuser"
+                  onClick={() => setshowmessage(false)}
+                ></div>
+                <div className="screenmesscoveruse">
+                  <div className="screenmesscoverusetitle">
+                  <ul>
+                    {dsMesstc.length > 0 ? (
+                    dsMesstc.map((post) => (
+                      <li
+                        key={
+                          post.id || `default-${post.index || Math.random()}`
+                        }
+                      >
+                        <div className="screenmesscoveruseimg">
+                          <img
+                            src={userInfo.profileImageUrl || defaultAvatarSrc}
+                            alt=""
+                          />{" "}
+                        </div>
+                        <p>
+                          {post.lastName} {post.firstName}
+                        </p>
+                      </li>
+                    ))
+                  ) : (
+                    <p>Chưa có bài viết nào.</p>
+                  )}
+                  </ul>
+                   </div>
+                </div>
+              </div>
+            )}
+          </>
         </div>
 
         <div className="HomeCenterPhai">
@@ -948,7 +992,10 @@ function Trangchu() {
                     <p>Trợ giúp và hỗ trợ</p>
                     <img src={arrowright} className="settingarrow" />
                   </li>
-                  <li>
+                  <li  onClick={() => {
+                  setIsVisibleavatar(false);
+                  setshowtronang(true);
+                }}>
                     <div className="coverkhungpicavataduoi">
                       <img src={moon} />
                     </div>
@@ -980,6 +1027,14 @@ function Trangchu() {
               </div>
             </div>
           )}
+
+          {/* --------------------- */}
+          {showtronang && (
+            <div className="screenaccessibility">
+              <button style={{backgroundColor:"blue",marginLeft:"130px"}}>Trợ năng</button>
+            </div>
+          )}
+          {/* ------------------------- */}
           <div className="HomeCenterPhaiAdvertisement">
             <div className="HomeCenterPhaiAdvertisementTitle">
               <p>Được tài trợ</p>
@@ -1026,16 +1081,40 @@ function Trangchu() {
             </div>
             <div className="gachngang"></div>
             <div className="HomeCenterPhaiAdvertisementMess">
-            <p>Người liên hệ</p>
-            {dsMesstc.length > 0 ? (
-              dsMesstc.map((post) => (
-                <div className="HomeCenterPhaiAdvertisementShowMess">
-
+              {/* <div className="HomeCenterPhaiAdvertisementMessTitle"> */}
+              <p>Người liên hệ</p>
+              {/* <div className="HomeCenterPhaiAdvertisementMessTitleimg1">
+                  <img src={kinh} alt="" />
                 </div>
-              ))
-            ) : (
-              <p>Chưa có bài viết nào.</p>
-            )}
+                <div className="HomeCenterPhaiAdvertisementMessTitleimg2">
+                  <img src={`/Images/Icons/more.svg`} alt="" />
+                </div> */}
+              {/* </div> */}
+              <div className="HomeCenterPhaiAdvertisementShowMess">
+                <ul>
+                  {dsMesstc.length > 0 ? (
+                    dsMesstc.map((post) => (
+                      <li
+                        key={
+                          post.id || `default-${post.index || Math.random()}`
+                        }
+                      >
+                        <div className="HomeCenterPhaiAdvertisementShowMessimg">
+                          <img
+                            src={userInfo.profileImageUrl || defaultAvatarSrc}
+                            alt=""
+                          />{" "}
+                        </div>
+                        <p>
+                          {post.lastName} {post.firstName}
+                        </p>
+                      </li>
+                    ))
+                  ) : (
+                    <p>Chưa có bài viết nào.</p>
+                  )}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
