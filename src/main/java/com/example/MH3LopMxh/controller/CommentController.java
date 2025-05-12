@@ -28,14 +28,13 @@ public class CommentController {
     @PostMapping("/post/{postId}")
     public ResponseEntity<?> createComment(
             @PathVariable Long postId,
-            @RequestBody CommentDTO commentDTO,
-            @RequestHeader("Authorization") String token) {
+            @RequestBody CommentDTO commentDTO) {
 
-        // Lấy userId từ token
-        Long userId = getUserIdFromToken(token);
+        // Lấy userId từ UserProfileDTO
+        Long userId = commentDTO.getUser().getId(); // Lấy idUser từ UserProfileDTO
 
         if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token không hợp lệ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("userId không hợp lệ");
         }
 
         try {
@@ -46,17 +45,17 @@ public class CommentController {
         }
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateComment(
             @PathVariable Long id,
-            @RequestBody CommentDTO commentDTO,
-            @RequestHeader("Authorization") String token) {
+            @RequestBody CommentDTO commentDTO) {
 
-        // Lấy userId từ token
-        Long userId = getUserIdFromToken(token);
+        // Lấy userId từ UserProfileDTO
+        Long userId = commentDTO.getUser().getId(); // Lấy idUser từ UserProfileDTO
 
         if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token không hợp lệ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("userId không hợp lệ");
         }
 
         try {
@@ -79,16 +78,17 @@ public class CommentController {
         }
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(
             @PathVariable Long id,
-            @RequestHeader("Authorization") String token) {
+            @RequestBody CommentDTO commentDTO) {
 
-        // Lấy userId từ token
-        Long userId = getUserIdFromToken(token);
+        // Lấy userId từ UserProfileDTO
+        Long userId = commentDTO.getUser().getId(); // Lấy idUser từ UserProfileDTO
 
         if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token không hợp lệ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("userId không hợp lệ");
         }
 
         try {
@@ -110,16 +110,4 @@ public class CommentController {
         }
     }
 
-    // Phương thức giả định để lấy userId từ token
-    private Long getUserIdFromToken(String token) {
-        // Trong thực tế, bạn sẽ giải mã token để lấy userId
-        // Đây chỉ là một phương thức giả định
-        try {
-            // Giả sử token có định dạng "userId:randomString"
-            String[] parts = token.split(":");
-            return Long.parseLong(parts[0]);
-        } catch (Exception e) {
-            return null;
-        }
-    }
 }

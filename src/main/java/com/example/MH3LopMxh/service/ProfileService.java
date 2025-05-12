@@ -5,7 +5,10 @@ import com.example.MH3LopMxh.model.*;
 import com.example.MH3LopMxh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +49,12 @@ public class ProfileService {
 
     @Autowired
     private PostCommentRepository postCommentRepository;
+
+    @Autowired
+    private AboutRepository aboutRepository;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     public ProfileResponse getUserProfile(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -204,9 +213,6 @@ public class ProfileService {
             dto.setPostId(postComment.get().getPost().getIdPost());
         }
 
-        // Nếu có parentCommentId (cho bình luận phản hồi)
-        // dto.setParentCommentId(comment.getParentComment() != null ? comment.getParentComment().getIdComment() : null);
-
         return dto;
     }
 
@@ -233,9 +239,132 @@ public class ProfileService {
     private AboutDTO convertToAboutDTO(UserAbout userAbout) {
         AboutDTO dto = new AboutDTO();
         dto.setType(userAbout.getAbout().getName());
-        // Sử dụng trường trực tiếp hoặc phương thức getter thích hợp thay vì getValue()
-        // Giả sử trường là 'content' hoặc 'aboutValue'
-        dto.setValue(userAbout.getDescription()); // Thay đổi tên phương thức này theo mô hình của bạn
+        dto.setValue(userAbout.getDescription());
         return dto;
     }
+
+    @Transactional
+    public boolean updateUserProfile(Long userId, ProfileUpdateRequest request) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (!optionalUser.isPresent()) {
+            return false;
+        }
+
+        User user = optionalUser.get();
+
+        // Cập nhật tiểu sử
+        updateOrCreateUserAbout(user, "Bio", request.getBio());
+
+        // Cập nhật giới tính
+        updateOrCreateUserAbout(user, "Giới tính", request.getGender());
+
+        // Cập nhật nơi sống
+        updateOrCreateUserAbout(user, "Sống tại", request.getLocation());
+
+        return true;
+    }
+
+    private void updateOrCreateUserAbout(User user, String aboutType, String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return;
+        }
+
+        // Tìm About theo tên
+        Optional<About> optionalAbout = aboutRepository.findByName(aboutType);
+        About about;
+
+        if (!optionalAbout.isPresent()) {
+            // Nếu không tồn tại, tạo mới
+            about = new About();
+            about.setName(aboutType);
+            about = aboutRepository.save(about);
+        } else {
+            about = optionalAbout.get();
+        }
+
+        // Tìm UserAbout hiện có
+        Optional<UserAbout> optionalUserAbout = userAboutRepository.findByUserAndAbout(user, about);
+
+        if (optionalUserAbout.isPresent()) {
+            // Cập nhật nếu đã tồn tại
+            UserAbout userAbout = optionalUserAbout.get();
+            userAbout.setDescription(value);
+            userAboutRepository.save(userAbout);
+        } else {
+            // Tạo mới nếu chưa tồn tại
+            UserAbout userAbout = new UserAbout();
+            userAbout.setUser(user);
+            userAbout.setAbout(about);
+            userAbout.setDescription(value);
+            userAboutRepository.save(userAbout);
+        }
+    }
+
+    public String updateUserAvatar(Long userId, MultipartFile avatarFile) throws IOException {
+        // Tìm người dùng theo userId
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+
+        // Kiểm tra xem người dùng đã có ảnh đại diện chưa
+        Optional<UsersImage> optionalUsersImage = usersImageRepository.findByUser(user);
+
+        String imageUrl = cloudinaryService.uploadImage(avatarFile);
+
+        if (optionalUsersImage.isPresent()) {
+            // Nếu đã có ảnh đại diện, cập nhật ảnh mới
+            UsersImage usersImage = optionalUsersImage.get();
+            Image image = usersImage.getImage();
+            image.setUrlImage(imageUrl);
+            imageRepository.save(image);
+        } else {
+            // Nếu chưa có ảnh đại diện, tạo mới ảnh và thêm vào bảng users_image
+            Image newImage = new Image();
+            newImage.setUrlImage(imageUrl);
+            imageRepository.save(newImage);
+
+            // Tạo mới bản ghi trong bảng users_image
+            UsersImage usersImage = new UsersImage();
+            usersImage.setUser(user);
+            usersImage.setImage(newImage);
+            usersImageRepository.save(usersImage);
+        }
+
+        return imageUrl;  // Trả về URL ảnh mới
+    }
+    public String updateCoverImage(Long userId, MultipartFile coverFile) throws IOException {
+        // Tìm người dùng theo userId
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+
+        // Kiểm tra sự tồn tại của About với tên "CoverImage"
+        Optional<About> aboutOptional = aboutRepository.findByName("Cover Image");
+        if (!aboutOptional.isPresent()) {
+            throw new RuntimeException("Không tìm thấy thông tin về ảnh bìa");
+        }
+        About about = aboutOptional.get();
+
+        // Kiểm tra xem người dùng đã có ảnh bìa chưa
+        Optional<UserAbout> optionalUserAbout = userAboutRepository.findByUserAndAbout(user, about);
+
+        // Tải ảnh lên Cloudinary và nhận URL
+        String imageUrl = cloudinaryService.uploadImage(coverFile);
+
+        if (optionalUserAbout.isPresent()) {
+            // Nếu đã có ảnh bìa, cập nhật ảnh mới
+            UserAbout userAbout = optionalUserAbout.get();
+            userAbout.setDescription(imageUrl);
+            userAboutRepository.save(userAbout);
+        } else {
+            // Nếu chưa có ảnh bìa, tạo mới bản ghi UserAbout
+            UserAbout newUserAbout = new UserAbout();
+            newUserAbout.setUser(user);
+            newUserAbout.setAbout(about);
+            newUserAbout.setDescription(imageUrl);
+            userAboutRepository.save(newUserAbout);
+        }
+
+        return imageUrl;  // Trả về URL ảnh mới
+    }
+
 }

@@ -15,7 +15,7 @@ public class UsersImage {
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "id", unique = true)
+    @JoinColumn(name = "id_image", unique = true)
     private Image image;
 
     // Getters and Setters

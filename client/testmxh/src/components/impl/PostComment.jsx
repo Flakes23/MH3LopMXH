@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import "./PostComment.css"
+import avatar from "../../assets/Images/default-avatar.jpg";
 
 // Comment component to display individual comments
 const Comment = ({ comment, currentUserAvatar }) => (

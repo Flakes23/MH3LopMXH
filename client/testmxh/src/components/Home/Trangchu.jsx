@@ -61,7 +61,6 @@ const Clickhienkc = () => {
   const defaultCoverSrc = cover;
   const defaultAvatarSrc = avatar;
   const userId = localStorage.getItem("idUser"); // ID người dùng bạn đã cung cấp
-  const userId1=2646614742091262;
   useEffect(() => {
     const fetchProfileData = async () => {
       try {

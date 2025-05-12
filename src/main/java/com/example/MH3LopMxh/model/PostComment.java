@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 public class PostComment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonBackReference
@@ -45,3 +46,4 @@ public class PostComment {
         this.post = post;
     }
 }
+

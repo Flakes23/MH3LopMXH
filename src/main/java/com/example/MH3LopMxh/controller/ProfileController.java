@@ -1,11 +1,16 @@
 package com.example.MH3LopMxh.controller;
 
 import com.example.MH3LopMxh.dto.ProfileResponse;
+import com.example.MH3LopMxh.dto.ProfileUpdateRequest;
 import com.example.MH3LopMxh.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/profile")
@@ -27,10 +32,8 @@ public class ProfileController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getMyProfile(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getMyProfile(@PathVariable Long userId) {
         // Lấy userId từ token (giả sử có một phương thức để lấy userId từ token)
-        Long userId = getUserIdFromToken(token);
-
         if (userId != null) {
             ProfileResponse profileResponse = profileService.getUserProfile(userId);
 
@@ -44,16 +47,61 @@ public class ProfileController {
         }
     }
 
-    // Phương thức giả định để lấy userId từ token
-    private Long getUserIdFromToken(String token) {
-        // Trong thực tế, bạn sẽ giải mã token để lấy userId
-        // Đây chỉ là một phương thức giả định
+    @PutMapping("/update")
+    public ResponseEntity<?> updateProfile(@RequestBody ProfileUpdateRequest request) {
+        Long userId = request.getUserId();  // Lấy userId trực tiếp từ request body
+
         try {
-            // Giả sử token có định dạng "userId:randomString"
-            String[] parts = token.split(":");
-            return Long.parseLong(parts[0]);
+            boolean updated = profileService.updateUserProfile(userId, request);
+
+            if (updated) {
+                return ResponseEntity.ok("Cập nhật thông tin thành công");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
+            }
         } catch (Exception e) {
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Không thể cập nhật thông tin: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/avatar")
+    public ResponseEntity<?> uploadAvatar(
+            @RequestParam("avatar") MultipartFile avatarFile,
+            @RequestParam("userId") Long userId) {
+
+        try {
+            String imageUrl = profileService.updateUserAvatar(userId, avatarFile);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("profileImageUrl", imageUrl);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Không thể cập nhật ảnh đại diện: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/cover")
+    public ResponseEntity<?> updateCoverImage(
+            @RequestParam("cover") MultipartFile coverImage,
+            @RequestParam("userId") Long userId) {
+
+        try {
+            String imageUrl = profileService.updateCoverImage(userId, coverImage);
+            System.out.println(imageUrl);
+            if (imageUrl == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
+            }
+
+            Map<String, String> response = new HashMap<>();
+            response.put("coverImageUrl", imageUrl);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Không thể cập nhật ảnh bìa: " + e.getMessage());
         }
     }
 }

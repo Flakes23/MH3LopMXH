@@ -2,14 +2,8 @@ package com.example.MH3LopMxh.service;
 
 import com.example.MH3LopMxh.dto.CommentDTO;
 import com.example.MH3LopMxh.dto.UserProfileDTO;
-import com.example.MH3LopMxh.model.Comment;
-import com.example.MH3LopMxh.model.Post;
-import com.example.MH3LopMxh.model.PostComment;
-import com.example.MH3LopMxh.model.User;
-import com.example.MH3LopMxh.repository.CommentRepository;
-import com.example.MH3LopMxh.repository.PostCommentRepository;
-import com.example.MH3LopMxh.repository.PostRepository;
-import com.example.MH3LopMxh.repository.UserRepository;
+import com.example.MH3LopMxh.model.*;
+import com.example.MH3LopMxh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +31,12 @@ public class CommentService {
 
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private UsersImageRepository usersImageRepository;
+
+    @Autowired
+    private UserAboutRepository userAboutRepository;
 
     public List<Comment> getCommentsByPostId(Long postId) {
         return commentRepository.findByPostIdOrderByCreateAtAsc(postId);
@@ -61,6 +62,8 @@ public class CommentService {
             Post post = optionalPost.get();
             User user = optionalUser.get();
 
+            UUID uuid = UUID.randomUUID();
+            comment.setIdComment(uuid.getMostSignificantBits() & 0x1FFFFFFFFFFFFFL);
             comment.setCreateAt(LocalDateTime.now());
             comment.setUserSend(user);
 
@@ -130,8 +133,24 @@ public class CommentService {
             userDTO.setFirstName(user.getFirstName());
             userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
+            // Lấy ảnh đại diện
+            Optional<UsersImage> profileImage = usersImageRepository.findByUser(user);
+            if (profileImage.isPresent()) {
+                userDTO.setProfileImageUrl(profileImage.get().getImage().getUrlImage());
+            } else {
+                userDTO.setProfileImageUrl("/default-avatar.jpg");
+            }
 
-            // Có thể thêm ảnh đại diện và các thông tin khác
+            List<UserAbout> userAbouts = userAboutRepository.findByUser(user);
+            userDTO.setCoverImageUrl("/default-cover.jpg");
+            for (UserAbout userAbout : userAbouts) {
+                if(userAbout.getAbout().getName().equals("Cover Image")) {
+                    userDTO.setCoverImageUrl(userAbout.getDescription());
+                }
+                if(userAbout.getAbout().getName().equals("Bio")) {
+                    userDTO.setBio(userAbout.getDescription());
+                }
+            }
 
             dto.setUser(userDTO);
         }

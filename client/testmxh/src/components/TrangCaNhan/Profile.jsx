@@ -6,15 +6,22 @@ import { useState, useEffect } from "react"
 import "./Profile.css"
 import Navbar from "../impl/Navbar"
 import cover from "../../assets/Images/Icons/testa.jpg"
-import avatar from "../../assets/Images/Icons/testa.jpg"
+import avatar from "../../assets/Images/default-avatar.jpg"
 import axios from "axios"
-import Post from "../impl/PostComment" 
+import Post from "../impl/PostComment"
+import EditProfileModal from "./EditProfileModal"
+import { Pencil, Camera } from "lucide-react"
 
 const Profile = () => {
   const [profileData, setProfileData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [isVisibleavatar, setIsVisibleavatar] = useState(false)
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false)
+  const [selectedAvatarFile, setSelectedAvatarFile] = useState(null)
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState(null)
+  const [selectedCoverFile, setSelectedCoverFile] = useState(null)
+  const [coverPreviewUrl, setcoverPreviewUrl] = useState(null)
 
   const userId = localStorage.getItem("idUser")
 
@@ -38,10 +45,9 @@ const Profile = () => {
 
   const handleAddComment = async (postId, commentText) => {
     try {
-      // Lấy token từ localStorage hoặc từ context/redux store
-      const token = localStorage.getItem("token")
+      const userId = localStorage.getItem("idUser")
 
-      if (!token) {
+      if (!userId) {
         alert("Bạn cần đăng nhập để bình luận")
         return
       }
@@ -49,9 +55,14 @@ const Profile = () => {
       // Gọi API để thêm bình luận
       const response = await axios.post(
         `http://localhost:8080/api/comments/post/${postId}`,
-        { content: commentText },
-        { headers: { Authorization: token } },
-      )
+        {
+          content: commentText,
+          user: { id: userId }
+        },
+        {
+          headers: { Authorization: userId },
+        }
+      );
 
       // Cập nhật state để hiển thị bình luận mới
       if (response.data) {
@@ -84,6 +95,106 @@ const Profile = () => {
   const hienkhunganh = () => {
     setIsVisibleavatar(!isVisibleavatar)
   }
+
+  const handleProfileUpdate = (updatedInfo) => {
+    setProfileData(updatedInfo)
+    location.reload()
+  }
+
+  const handleAvatarChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedAvatarFile(file);
+      setAvatarPreviewUrl(URL.createObjectURL(file));
+    }
+  }
+
+  const triggerFileInput = () => {
+    document.getElementById('avatar-input').click();
+  };
+
+  const handleCoverChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      setSelectedCoverFile(file);
+      setcoverPreviewUrl(URL.createObjectURL(file))
+    }
+  }
+
+  const triggerCoverInput = () => {
+    document.getElementById("cover-input").click()
+  }
+
+  const uploadAvatar = async () => {
+    if (!selectedAvatarFile) {
+      alert("Vui lòng chọn ảnh trước.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("avatar", selectedAvatarFile);
+      formData.append("userId", localStorage.getItem("idUser")); // Thêm userId vào
+      for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+      const response = await axios.post("http://localhost:8080/api/profile/avatar", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setProfileData((prevData) => ({
+        ...prevData,
+        userInfo: {
+          ...prevData.userInfo,
+          profileImageUrl: response.data.profileImageUrl,
+        },
+      }));
+
+      setIsVisibleavatar(false);
+      setSelectedAvatarFile(null);
+      location.reload();
+    } catch (err) {
+      console.error("Upload avatar failed:", err);
+      alert("Không thể cập nhật ảnh đại diện.");
+    }
+  };
+  const uploadCover = async () => {
+    if (!selectedCoverFile) {
+      alert("Vui lòng chọn ảnh bìa trước.")
+      return
+    }
+
+    try {
+      const formData = new FormData()
+      formData.append("cover", selectedCoverFile)
+      formData.append("userId", localStorage.getItem("idUser"))
+
+      const response = await axios.post("http://localhost:8080/api/profile/cover", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+
+      setProfileData((prevData) => ({
+        ...prevData,
+        userInfo: {
+          ...prevData.userInfo,
+          coverImageUrl: response.data.coverImageUrl,
+        },
+      }))
+
+      setSelectedCoverFile(null)
+      location.reload()
+    } catch (err) {
+      console.error("Upload cover failed:", err)
+      alert("Không thể cập nhật ảnh bìa.")
+    }
+  }
+
+
+
 
   // Fallback data khi API chưa trả về kết quả
   const defaultCoverSrc = cover
@@ -135,10 +246,29 @@ const Profile = () => {
             <div className="profile-header">
               <div
                 className="cover-photo"
-                style={{ backgroundImage: `url(${userInfo.coverImageUrl || defaultCoverSrc})` }}
+                style={{
+                  backgroundImage: `url(${coverPreviewUrl || userInfo.coverImageUrl || defaultCoverSrc})`,
+                }}
                 aria-label="Ảnh bìa cá nhân"
               />
-              <button className="edit-cover-btn">Chỉnh sửa ảnh bìa</button>
+              <div className="edit-buttons-container">
+                <button className="edit-cover-btn" onClick={triggerCoverInput}>
+                  <Camera className="h-4 w-4 mr-2" />
+                  Chỉnh sửa ảnh bìa
+                </button>
+                <input
+                  type="file"
+                  id="cover-input"
+                  accept="image/*"
+                  onChange={handleCoverChange}
+                  style={{ display: "none" }}
+                />
+                {selectedCoverFile && (
+                  <button className="btn btn-success mt-2" onClick={uploadCover}>
+                    Cập nhật ảnh bìa
+                  </button>
+                )}
+              </div>
               <img
                 className="avatar"
                 src={userInfo.profileImageUrl || defaultAvatarSrc}
@@ -147,9 +277,15 @@ const Profile = () => {
               />
             </div>
             <div className="profile-info">
-              <h1>
-                {userInfo.firstName} {userInfo.lastName}
-              </h1>
+              <div className="profile-name-container">
+                <h1>
+                  {userInfo.firstName} {userInfo.lastName}
+                </h1>
+                <button className="edit-profile-btn" onClick={() => setIsEditProfileModalOpen(true)}>
+                  <Pencil className="h-4 w-4 mr-2" />
+                   Chỉnh sửa thông tin cá nhân
+                </button>
+              </div>
               <p>{profileData?.totalFriends || 0} người bạn</p>
               <div>
                 <h4>Giới thiệu</h4>
@@ -175,7 +311,9 @@ const Profile = () => {
               </a>
               <a href="#">Bạn bè ({profileData?.totalFriends || 0})</a>
               <a href="#">Hình ảnh ({profileData?.totalPhotos || 0})</a>
-              <a href="#">Chỉnh sửa cá nhân</a>
+              <a href="#" onClick={() => setIsEditProfileModalOpen(true)}>
+                Chỉnh sửa cá nhân
+              </a>
             </div>
           </div>
         </div>
@@ -210,9 +348,34 @@ const Profile = () => {
       {isVisibleavatar && (
         <div className="avatar-modal" onClick={() => setIsVisibleavatar(false)}>
           <div className="avatar-modal-content" onClick={(e) => e.stopPropagation()}>
-            <img src={userInfo.profileImageUrl || defaultAvatarSrc} alt="Avatar cá nhân" />
+            {/* Hiển thị ảnh đại diện, nếu đã có ảnh chọn thì dùng ảnh đó */}
+            <img
+              src={avatarPreviewUrl || userInfo.profileImageUrl || defaultAvatarSrc}
+              alt="Avatar cá nhân"
+              className="rounded-circle mb-3"
+              style={{ width: "120px", height: "120px", objectFit: "cover" }}
+            />
             <div className="avatar-modal-actions">
-              <button className="btn btn-primary">Cập nhật ảnh đại diện</button>
+              {/* Nút Tải ảnh lên */}
+              <button className="btn btn-primary" onClick={triggerFileInput}>
+                Tải ảnh lên
+              </button>
+
+              {/* Input ẩn */}
+              <input
+                type="file"
+                id="avatar-input"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                style={{ display: 'none' }} // Ẩn input đi
+              />
+
+              {/* Nút Cập nhật */}
+              <button className="btn btn-success" onClick={uploadAvatar}>
+                Cập nhật ảnh đại diện
+              </button>
+
+              {/* Nút Đóng */}
               <button className="btn btn-secondary" onClick={() => setIsVisibleavatar(false)}>
                 Đóng
               </button>
@@ -220,6 +383,13 @@ const Profile = () => {
           </div>
         </div>
       )}
+
+      <EditProfileModal
+        isOpen={isEditProfileModalOpen}
+        onClose={() => setIsEditProfileModalOpen(false)}
+        userInfo={profileData}
+        onProfileUpdate={handleProfileUpdate}
+      />
     </>
   )
 }
