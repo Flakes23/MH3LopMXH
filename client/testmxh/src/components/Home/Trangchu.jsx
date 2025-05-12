@@ -53,6 +53,9 @@ function Trangchu() {
 const Clickhienkc = () => {
     navigate("/mess");
   };
+  const Clickhienprivacy = () => {
+    navigate("/privacy");
+  };
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const defaultCoverSrc = cover;
@@ -693,7 +696,12 @@ const Clickhienkc = () => {
 
         <div className="Bannercenter">
           <ul>
-            <li>
+            <li onClick={() => {
+                  setHienModal(true);
+                  setshowprivacyhome(false);
+                  setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+                  handleChangewrite(privacy);
+                }}>
               <img src={home} />
             </li>
             <li>
@@ -1091,7 +1099,7 @@ const Clickhienkc = () => {
 
               <div className="khungpicavataduoi">
                 <ul>
-                  <li>
+                  <li onClick={Clickhienprivacy}>
                     <div className="coverkhungpicavataduoi">
                       <img src={caidat} />
                     </div>

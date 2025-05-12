@@ -19,6 +19,10 @@ import avatar from "../../assets/Images/Icons/testa.jpg";
 import axios from "axios";
 
 function Navbar() {
+    const navigate = useNavigate();
+  const Clickvaotc = () => {
+    navigate("/home");
+  };
   const hienkhunganh = () => {
     console.log("Avatar clicked!");
     // Bạn có thể mở menu user ở đây
@@ -65,7 +69,7 @@ const defaultCoverSrc = cover;
     
             <div className="Bannercenter">
               <ul>
-                <li>
+                <li onClick={Clickvaotc}>
                   <img src={home} />
                 </li>
                 <li>
