@@ -1,5 +1,6 @@
 import React from "react";
 import "./Navbar.css";
+import "../Home/TrangChu.css";
 import face from "../../assets/Images/Icons/face.png";
 import kinh from "../../assets/Images/Icons/kinh.svg";
 import home from "../../assets/Images/Icons/home.svg";

@@ -44,8 +44,11 @@ import qc2 from "../../assets/Images/Imgkhac/lq.jpg";
 import axios from "axios";
 function Trangchu() {
   const navigate = useNavigate();
-  const handleClick = () => {
+  const handleClickProfile = () => {
     navigate("/trangcanhan");
+  };
+  const handleClickFriend = () => {
+    navigate("/friend");
   };
   const ClickSignOut = () => {
     navigate("/login");
@@ -753,7 +756,7 @@ const Clickhienkc = () => {
         <div className="HomeCenterTrai">
           <div className="HomeCenterTraiTren">
             <ul>
-              <li className="liavatar" onClick={handleClick}>
+              <li className="liavatar" onClick={handleClickProfile}>
                 <div className="centraiavatar">
                   {/* <img src={hthanh} /> */}
                   {/* src={userInfo.profileImageUrl || defaultAvatarSrc}  */}
@@ -766,7 +769,7 @@ const Clickhienkc = () => {
                   {userInfo.firstName} {userInfo.lastName}
                 </p>
               </li>
-              <li>
+              <li onClick={handleClickFriend}>
                 <div className="menu1"></div>
                 <p>Bạn bè</p>
               </li>
@@ -1078,7 +1081,7 @@ const Clickhienkc = () => {
           {isVisibleavatar && (
             <div className="khungpicavata">
               <div className="khungpicavatatren">
-                <div className="khungpicavatatrenavatar" onClick={handleClick}>
+                <div className="khungpicavatatrenavatar" onClick={handleClickProfile}>
                   <div className="khungpicavatatanh">
                     <img
                       // src={"/Images/Icons/testa.jpg"}
