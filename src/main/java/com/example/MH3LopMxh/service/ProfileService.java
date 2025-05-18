@@ -140,11 +140,11 @@ public class ProfileService {
         if (profileImage.isPresent()) {
             dto.setProfileImageUrl(profileImage.get().getImage().getUrlImage());
         } else {
-            dto.setProfileImageUrl("/default-avatar.jpg");
+            dto.setProfileImageUrl("");
         }
 
         List<UserAbout> userAbouts = userAboutRepository.findByUser(user);
-        dto.setCoverImageUrl("/default-cover.jpg");
+        dto.setCoverImageUrl("");
         for (UserAbout userAbout : userAbouts) {
             if(userAbout.getAbout().getName().equals("Cover Image")) {
                 dto.setCoverImageUrl(userAbout.getDescription());
@@ -227,7 +227,7 @@ public class ProfileService {
         if (profileImage.isPresent()) {
             dto.setProfileImageUrl(profileImage.get().getImage().getUrlImage());
         } else {
-            dto.setProfileImageUrl("/default-avatar.jpg");
+            dto.setProfileImageUrl("");
         }
 
         // Số bạn chung (giả định là 0, có thể tính toán sau)

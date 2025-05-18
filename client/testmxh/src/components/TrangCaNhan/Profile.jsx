@@ -311,9 +311,6 @@ const Profile = () => {
               </a>
               <a href="#">Bạn bè ({profileData?.totalFriends || 0})</a>
               <a href="#">Hình ảnh ({profileData?.totalPhotos || 0})</a>
-              <a href="#" onClick={() => setIsEditProfileModalOpen(true)}>
-                Chỉnh sửa cá nhân
-              </a>
             </div>
           </div>
         </div>

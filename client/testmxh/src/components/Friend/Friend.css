@@ -146,7 +146,7 @@ html, body {
     gap: 12px;
 }
 
-.user-image {
+.user-image img{
     width: 80px;
     height: 80px;
     background: #e4e6eb;
@@ -175,7 +175,7 @@ html, body {
     margin-top: 12px;
 }
 
-.delete-btn, .accept-btn, .add-btn {
+.delete-btn, .accept-btn, .add-btn, .cancel-btn {
     padding: 8px 16px;
     border: none;
     border-radius: 6px;
@@ -206,6 +206,14 @@ html, body {
     width: 100%;
     margin-top: 8px;
 }
+
+.cancel-btn {
+    background-color: #ccc;
+    color: #333;
+    width: 100%;
+    margin-top: 8px;
+}
+
 
 .see-all, .see-more {
     background: none;

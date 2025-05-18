@@ -35,6 +35,10 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Long
     @Query("SELECT r FROM Relationship r WHERE (r.userOne.idUser = :userId1 AND r.userTwo.idUser = :userId2) OR (r.userOne.idUser = :userId2 AND r.userTwo.idUser = :userId1)")
     Optional<Relationship> findExactRelationshipByUserIds(@Param("userId1") Long userId1, @Param("userId2") Long userId2);
 
+    @Query("SELECT COUNT(r) > 0 FROM Relationship r " +
+            "WHERE r.userOne.idUser = :fromUserId AND r.userTwo.idUser = :toUserId AND r.status.status = 'dagui'")
+    boolean existsSentRequest(@Param("fromUserId") Long fromUserId, @Param("toUserId") Long toUserId);
+
     Optional<Relationship> findByUserOneAndUserTwo(User userOne, User userTwo);
 
 }
