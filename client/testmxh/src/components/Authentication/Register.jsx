@@ -3,6 +3,7 @@
 import { useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./Register.css"
+import "./Login.css"
 import { register } from "../api/Account";
 import { useNavigate } from "react-router-dom"
 
