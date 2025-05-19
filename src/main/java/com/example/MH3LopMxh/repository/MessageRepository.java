@@ -30,4 +30,10 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     
     List<Message> findByRelationshipId(Long relationshipId);
 
+    @Query("SELECT m FROM Message m WHERE " +
+    	       "(m.fromUser.id = :userId1 AND m.toUser.id = :userId2) OR " +
+    	       "(m.fromUser.id = :userId2 AND m.toUser.id = :userId1) " +
+    	       "ORDER BY m.createAt ASC")
+    	List<Message> findMessagesBetweenUsers(@Param("userId1") Long userId1,
+    	                                       @Param("userId2") Long userId2);
 }

@@ -8,6 +8,14 @@ public class MessageDTO {
 	    private LocalDateTime createAt;
 	    private RelationshipDTO relationship;
 	    private Long idUser;
+		private String linkanh;
+
+		public String getLinkanh() {
+			return linkanh;
+		}
+		public void setLinkanh(String linkanh) {
+			this.linkanh = linkanh;
+		}
 		public Long getId() {
 			return id;
 		}

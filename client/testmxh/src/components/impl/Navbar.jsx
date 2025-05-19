@@ -1,6 +1,5 @@
 import React from "react";
 import "./Navbar.css";
-import "../Home/TrangChu.css";
 import face from "../../assets/Images/Icons/face.png";
 import kinh from "../../assets/Images/Icons/kinh.svg";
 import home from "../../assets/Images/Icons/home.svg";
@@ -13,24 +12,28 @@ import mess from "../../assets/Images/Icons/mess.svg";
 import bell from "../../assets/Images/Icons/bell.svg";
 import testa from "../../assets/Images/Icons/testa.jpg";
 import picarrow from "../../assets/Images/Icons/picarrow.svg";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import cover from "../../assets/Images/Icons/testa.jpg";
-import avatar from "../../assets/Images/Icons/testa.jpg";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Navbar() {
-    const navigate = useNavigate();
-  const Clickvaotc = () => {
-    navigate("/home");
-  };
   const hienkhunganh = () => {
     console.log("Avatar clicked!");
     // Bạn có thể mở menu user ở đây
   };
-  const [profileData, setProfileData] = useState(null);
-    const [loading, setLoading] = useState(true);
-const userId = localStorage.getItem("idUser"); // ID người dùng bạn đã cung cấp
+      const navigate = useNavigate();
+
+  const Clickhienkc = () => {
+    navigate("/mess");
+  };
+  const ClickHome = () => {
+    navigate("/home");
+  };
+ const [profileData, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const userInfo = profileData?.userInfo || {};
+    const userId = 4638422354641785; // ID người dùng bạn đã cung cấp
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -39,6 +42,7 @@ const userId = localStorage.getItem("idUser"); // ID người dùng bạn đã c
         const response = await axios.get(
           `http://localhost:8080/api/profile/${userId}`
         );
+        console.log(response.data);
         setProfileData(response.data);
         setLoading(false);
       } catch (err) {
@@ -50,9 +54,6 @@ const userId = localStorage.getItem("idUser"); // ID người dùng bạn đã c
 
     fetchProfileData();
   }, [userId]);
-  const userInfo = profileData?.userInfo || {};
-const defaultCoverSrc = cover;
-  const defaultAvatarSrc = avatar;
   return (
     <div className="Homebanner">
             <div className="search-container">
@@ -70,18 +71,27 @@ const defaultCoverSrc = cover;
     
             <div className="Bannercenter">
               <ul>
-                <li onClick={Clickvaotc}>
-                  <img src={home} />
+                <li
+                  onClick={() => {
+                    setHienModal(true);
+                    setshowprivacyhome(false);
+                    setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+                    handleChangewrite(privacy);
+                  }}
+                >
+                  <img src={home} 
+                  onClick={ClickHome}
+                  />
                 </li>
-                <li>
+                {/* <li>
                   <img src={video} />
-                </li>
+                </li> */}
                 {/* <li>
                   <img src={market} />
                 </li> */}
-                <li>
+                {/* <li>
                   <img src={group} />
-                </li>
+                </li> */}
                 {/* <li>
                   <img src={game} />
                 </li> */}
@@ -93,7 +103,8 @@ const defaultCoverSrc = cover;
                 <li>
                   <img src={menu} />
                 </li>
-                <li onClick={() => setshowmessage(true)}>
+                {/* <li onClick={() => setshowmessage(true)}> */}
+                <li onClick={Clickhienkc}>
                   <img src={mess} />
                 </li>
                 <li>
@@ -107,7 +118,7 @@ const defaultCoverSrc = cover;
                 <img
                   // src={"/Images/Icons/testa.jpg"}
                   // src={hthanh}
-                  src={userInfo.profileImageUrl || defaultAvatarSrc}
+                  src={userInfo.profileImageUrl}
                   className="picavata"
                   onClick={hienkhunganh}
                 />

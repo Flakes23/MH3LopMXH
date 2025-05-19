@@ -1,12 +1,149 @@
 .Homebanner{
-    background: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 56px;
-  width: 100%;
-  display: flex;
-  position: fixed;
-  top:0;
-  left:0;
-  right: 0;
-  z-index: 1000;
-  }
+     background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 56px;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    right: 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    /* padding: 8px; */
+    /* background: white;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+}
+
+.logo {
+    /* width: 30px;
+    height: 30px; */
+    /* margin-right: 10px; */
+    width: 55px;
+    height: 55px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #f0f2f5;
+    padding: 8px 12px;
+    border-radius: 50px;
+}
+
+.search-box i {
+    color: gray;
+    margin-right: 8px;
+}
+
+.search-box input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.Bannercenter{
+    margin-left: 150px;
+    width: 650px;
+}
+.Bannercenter ul{
+    display: flex;
+    justify-content: center;
+    height: 56px;
+    margin: 0;
+}
+.Bannercenter ul li{
+    width: 140px;
+    /* padding: 10px; */
+    list-style: none;
+    margin-left: 10px;
+    cursor: pointer;
+    line-height: 38px;
+    overflow: hidden; /* Ẩn phần ảnh dư thừa */
+}
+.Bannercenter ul li img{
+    margin-left: 38%;
+    margin-top: 10px;
+}
+.Bannercenter ul li::after{
+    content:'';
+    display: block;
+    height: 3px;
+    background-color: blue;
+    margin-top: 6px;
+    transform-origin: right;
+    transform:scale(0);
+    opacity: 0;
+    transition: transform 300ms, opacity 500ms;
+}
+.Bannercenter ul li:hover::after{
+    opacity: 1;
+    transform:scale(1)
+}
+
+.Bannerright{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-left: 170px;
+}
+.Bannerright ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-top: 2px;
+}
+.Bannerright ul li{
+    /* padding: 10px; */
+    list-style: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f2f3f5;
+    margin-right: 8px;
+}
+.Bannerright ul li img{
+    /* width: 100%; */
+    /* height: 100%; */
+    margin-left: 8px;
+    margin-top: 10px;
+    border-radius: 50%;
+    object-fit: cover; 
+}
+
+.Bannerrightanh{
+    position: relative;
+    margin-top: 10px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+}
+.Bannerrightanh .picavata{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+.Bannerrightanhduoi{
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #f2f3f5;
+    left: 27px;
+    top:27px;
+    margin: 0;
+}
+.picavatedown{
+    position: absolute;
+    left: 17%;
+    top: 1px;
+    margin: 0;
+}

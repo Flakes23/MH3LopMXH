@@ -40,30 +40,37 @@ import cover from "../../assets/Images/Icons/testa.jpg";
 import avatar from "../../assets/Images/Icons/testa.jpg";
 import qc1 from "../../assets/Images/Imgkhac/qc1.jpg";
 import qc2 from "../../assets/Images/Imgkhac/lq.jpg";
-
+import send from "../../assets/Images/Icons/send.svg";
 import axios from "axios";
 function Trangchu() {
   const navigate = useNavigate();
-  const handleClickProfile = () => {
+  const handleClick = () => {
     navigate("/trangcanhan");
-  };
-  const handleClickFriend = () => {
-    navigate("/friend");
   };
   const ClickSignOut = () => {
     navigate("/login");
   };
-const Clickhienkc = () => {
+  const Clickhienkc = () => {
     navigate("/mess");
   };
   const Clickhienprivacy = () => {
     navigate("/privacy");
   };
+  const quatcn = () => {
+   navigate("/finduse", {
+    state: { findchat: valfind.valuefind},
+  });
+}
+
+
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const defaultCoverSrc = cover;
   const defaultAvatarSrc = avatar;
-  const userId = localStorage.getItem("idUser"); // ID người dùng bạn đã cung cấp
+  const userId = localStorage.getItem("idUser")
+  const userId1 = 213004106418984;
+  //   const userId = 2698894998064136; // ID người dùng bạn đã cung cấp
+  // const userId1 = 4638422354641785;
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -85,19 +92,6 @@ const Clickhienkc = () => {
   }, [userId]);
 
   const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) {
-  //     setUser(JSON.parse(storedUser));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) {
-  //     setUser(JSON.parse(storedUser));
-  //   }
-  // }, []);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -138,16 +132,6 @@ const Clickhienkc = () => {
   const [dsBaiViet, setDsBaiViet] = useState([]);
   const [dsMesstc, setdsMesstc] = useState([]);
 
-  // useEffect(() => {
-  //   // Gọi API lấy danh sách bài viết từ database
-  //   fetch("/poststhu")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Dữ liệu bài viết:", data);
-  //       setDsBaiViet(data);
-  //     })
-  //     .catch((error) => console.error("Lỗi khi lấy bài viết:", error));
-  // }, []);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -189,87 +173,52 @@ const Clickhienkc = () => {
     }
   }, [userId]); // useEffect sẽ chạy lại khi userId thay đổi
 
+  const [dschatmess, setdschatmess] = useState([]);
+  const showchatwithfollowing = async (iduserd) => {
+    // const fetchProfileData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:8080/api/home/getuser`,
+        {
+          params: { userId: iduserd }, // truyền userId dưới dạng query param
+        }
+      );
+      setdschatmess(response.data);
+      console.log(response.data);
+    } catch (err) {
+      console.error("Error fetching profile data:", err);
+      setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
+    }
+    // };
+  };
+
   // -----TEST
   const [dstinchat, setdstinchat] = useState([]);
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `http://localhost:8080/api/home/hienchat`,
-          {
-            params: {
-              userId: userId,
-              userIdflo: 2646614742091262,
-            },
-          }
-        );
-        setdstinchat(response.data);
-        console.log(response.data);
-      } catch (err) {
-        console.error("Error fetching profile data:", err);
-        setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (userId) {
-      // Đảm bảo userId đã có giá trị
-      fetchProfileData();
+  const submitsaveid = async (iduserd) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:8080/api/home/hienchat`,
+        {
+          params: {
+            userId: userId,
+            userIdflo: iduserd, // lấy trực tiếp từ tham số
+          },
+        }
+      );
+      setdstinchat(response.data);
+      console.log(response.data);
+    } catch (err) {
+      console.error("Error fetching profile data:", err);
+      setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-  }, [userId]); // useEffect sẽ chạy lại khi userId thay đổi
-  // --------------
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8080/api/profile/${userId}`
-  //       );
-  //       // const response = await axios.get("http://localhost:8080/post"); // nhớ đúng URL backend bạn nhé
-  //       setDsBaiViet(response.data.posts); // response.data.posts là mảng bài viết
-  //     } catch (error) {
-  //       console.error("Lỗi khi lấy danh sách bài viết:", error);
-  //     }
-  //   };
-  //   fetchPosts();
-  // }, []);
+  };
 
-  // const handleDangBai = async () => {
-  //   if (!noidung.trim()) return;
-  //   // const linkanh=anhDaTai;
-  //   const baiviet = {
-  //     iduser: userId,
-  //     content: noidung,
-  //     imageUrl:anhDaTai
-  //   };
-  //   try {
-  //     const response = await fetch(`http://localhost:8080/api/home/postwritepic`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(baiviet),
-  //     });
-
-  //     const rawText = await response.text();
-  //     // console.log("Phản hồi từ backend:", rawText);
-  //     if (response.ok) {
-  //       try {
-  //         const newPost = JSON.parse(rawText);
-  //         // const newPost = await response.json();
-  //         // console.log("Bài viết mới từ server:", newPost);
-  //         setDsBaiViet([newPost, ...dsBaiViet]);
-  //         setNoidung("");
-  //         setHienModal(false);
-  //       } catch (jsonError) {
-  //         console.error("JSON không hợp lệ:", jsonError);
-  //       }
-  //     } else {
-  //       console.error("Server trả lỗi:", response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error("Lỗi khi đăng bài:", error);
-  //   }
-  // };
   const handleDangBai = async () => {
     if (!noidung.trim()) return;
     // const linkanh=anhDaTai;
@@ -305,106 +254,6 @@ const Clickhienkc = () => {
       console.error("Lỗi khi đăng bài:", error);
     }
   };
-  // const handleDangBai = async () => {
-  //   if (!noidung.trim()) return;
-  //   // const linkanh=anhDaTai;
-  //   if(anhDaTai==""){
-  //   const baiviet = {
-  //     iduser: userId,
-  //     content: noidung
-  //     // imageUrl:anhDaTai
-  //   };
-  //   try {
-  //     const response = await fetch(`http://localhost:8080/api/home/postwrite`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(baiviet),
-  //     });
-
-  //     const rawText = await response.text();
-  //     // console.log("Phản hồi từ backend:", rawText);
-  //     if (response.ok) {
-  //       try {
-  //         const newPost = JSON.parse(rawText);
-  //         // const newPost = await response.json();
-  //         // console.log("Bài viết mới từ server:", newPost);
-  //         setDsBaiViet([newPost, ...dsBaiViet]);
-  //         setNoidung("");
-  //         setHienModal(false);
-  //       } catch (jsonError) {
-  //         console.error("JSON không hợp lệ:", jsonError);
-  //       }
-  //     } else {
-  //       console.error("Server trả lỗi:", response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error("Lỗi khi đăng bài:", error);
-  //   }
-  // }else{
-  //     const baiviet2 = {
-  //       iduser: userId,
-  //       content: noidung,
-  //       imageUrl:anhDaTai
-  //     };
-  //     try {
-  //       const response = await fetch(`http://localhost:8080/api/home/postwritepic`, {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(baiviet2),
-  //       });
-
-  //       const rawText = await response.text();
-  //       // console.log("Phản hồi từ backend:", rawText);
-  //       if (response.ok) {
-  //         try {
-  //           const newPost = JSON.parse(rawText);
-  //           // const newPost = await response.json();
-  //           // console.log("Bài viết mới từ server:", newPost);
-  //           setDsBaiViet([newPost, ...dsBaiViet]);
-  //           setNoidung("");
-  //           setHienModal(false);
-  //         } catch (jsonError) {
-  //           console.error("JSON không hợp lệ:", jsonError);
-  //         }
-  //       } else {
-  //         console.error("Server trả lỗi:", response.status);
-  //       }
-  //     } catch (error) {
-  //       console.error("Lỗi khi đăng bài:", error);
-  //     }
-  //   }
-  // };
-
-  // const handleDangBai = async () => {
-  //   if (!noidung.trim()) return;
-  //   // const userbd = {
-  //   //   id: userId,
-
-  //   // };
-  //   const baiviet = {
-  //     iduser:userId,
-  //     content: noidung,
-  //   };
-
-  //   try {
-  //     fetch(`http://localhost:8080/api/home/postwrite`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(baiviet),
-  //     });
-
-  //     if (response.ok) {
-  //       const newPost = await response.json();
-  //       setDsBaiViet([newPost, ...dsBaiViet]);
-  //       setNoidung("");
-  //       setHienModal(false);
-  //     } else {
-  //       console.error("Server trả lỗi:", response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error("Lỗi khi đăng bài:", error);
-  //   }
-  // };
 
   const [anhDaTai, setAnhDaTai] = useState(null);
   const handlePaste = (event) => {
@@ -429,6 +278,27 @@ const Clickhienkc = () => {
     }
   }, [anhDaTai]); // Chạy mỗi khi anhDaTai thay đổi
 
+  const userchatusefollow = async (iduserd) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:8080/api/home/vietchat`,
+        {
+          params: {
+            userId: userId,
+            userIdflo: valuechat.iduserd,
+            content: chatfollowing.writechat,
+          },
+        }
+      );
+setdstinchat([...dstinchat, response.data]);
+    } catch (err) {
+      console.error("Error fetching profile data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const [privacy, setPrivacy] = useState("Công khai");
   const handleChange = (value) => {
     setPrivacy(value);
@@ -438,7 +308,18 @@ const Clickhienkc = () => {
     setPrivacy(value);
   };
   const userInfo = profileData?.userInfo || {};
-
+  const [tronang, settronang] = useState({
+    maus: "",
+  });
+  const [valuechat, setvaluechat] = useState({
+    iduserd: "213004106418984",
+  });
+  const [chatfollowing, setchatfollowing] = useState({
+    writechat: "",
+  });
+  const [valfind,setvalfind]= useState({
+    valuefind: "",
+  });
   return (
     <div className="HomeCenterGiuaFromDang">
       {showprivacyhome && (
@@ -685,36 +566,54 @@ const Clickhienkc = () => {
       <div className="Homebanner">
         <div className="search-container">
           <img src={face} alt="Facebook Logo" className="logo" />
-          <div className="search-box">
+          <div className="search-box" >
             <i>
               <img
                 src={kinh}
                 style={{ width: "15px", height: "15px", fill: "blue" }}
+                onClick={quatcn}
               />
             </i>
-            <input type="text" placeholder="Tìm kiếm trên Facebook" />
+            <input
+  type="text"
+  placeholder="Tìm kiếm trên Facebook"
+  value={valfind.valuefind}
+  onChange={(e) =>
+    setvalfind({
+      ...valfind,
+      valuefind: e.target.value,
+    })
+  }
+/>
+
+            {/* setchatfollowing({
+                          ...chatfollowing,
+                          writechat: e.target.value,
+                        }) */}
           </div>
         </div>
 
         <div className="Bannercenter">
           <ul>
-            <li onClick={() => {
-                  setHienModal(true);
-                  setshowprivacyhome(false);
-                  setprivacywrite(privacy); // cập nhật giá trị cuối cùng
-                  handleChangewrite(privacy);
-                }}>
+            <li
+              onClick={() => {
+                setHienModal(true);
+                setshowprivacyhome(false);
+                setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+                handleChangewrite(privacy);
+              }}
+            >
               <img src={home} />
             </li>
-            <li>
+            {/* <li>
               <img src={video} />
-            </li>
+            </li> */}
             {/* <li>
               <img src={market} />
             </li> */}
-            <li>
+            {/* <li>
               <img src={group} />
-            </li>
+            </li> */}
             {/* <li>
               <img src={game} />
             </li> */}
@@ -727,8 +626,7 @@ const Clickhienkc = () => {
               <img src={menu} />
             </li>
             {/* <li onClick={() => setshowmessage(true)}> */}
-                        <li onClick={Clickhienkc}>
-
+            <li onClick={Clickhienkc}>
               <img src={mess} />
             </li>
             <li>
@@ -756,7 +654,7 @@ const Clickhienkc = () => {
         <div className="HomeCenterTrai">
           <div className="HomeCenterTraiTren">
             <ul>
-              <li className="liavatar" onClick={handleClickProfile}>
+              <li className="liavatar" onClick={handleClick}>
                 <div className="centraiavatar">
                   {/* <img src={hthanh} /> */}
                   {/* src={userInfo.profileImageUrl || defaultAvatarSrc}  */}
@@ -769,11 +667,11 @@ const Clickhienkc = () => {
                   {userInfo.firstName} {userInfo.lastName}
                 </p>
               </li>
-              <li onClick={handleClickFriend}>
+              <li>
                 <div className="menu1"></div>
                 <p>Bạn bè</p>
               </li>
-              <li>
+              {/* <li>
                 <div className="menu2"></div>
                 <p>Kỷ niệm</p>
               </li>
@@ -789,8 +687,8 @@ const Clickhienkc = () => {
               <li>
                 <div className="menu5"></div>
                 <p>Video</p>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <div className="menu6"></div>
                 <p>Marketplace</p>
               </li>
@@ -806,7 +704,7 @@ const Clickhienkc = () => {
                   <img src={picarrow} className="leftcenterarrow" />
                 </div>
                 <p>Xem thêm</p>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
@@ -960,7 +858,10 @@ const Clickhienkc = () => {
               </div>
             )}
           </>
+        </div>
 
+        <div className="HomeCenterPhai">
+          {/* <h1>HELLO</h1> */}
           <>
             {showmessageuse && (
               <div className="screenmessuser">
@@ -971,18 +872,36 @@ const Clickhienkc = () => {
                 <div className="screenmesscoveruse">
                   <div className="screenmesscoverusetitle">
                     <ul>
-                      {dsMesstc.length > 0 ? (
-                        dsMesstc.map((post) => (
+                      <li
+                        key={
+                          dschatmess.id ||
+                          `default-${dschatmess.index || Math.random()}`
+                        }
+                      >
+                        <div className="screenmesscoveruseimg">
+                          <img
+                            src={dschatmess.linkanh || defaultAvatarSrc}
+                            alt=""
+                          />{" "}
+                        </div>
+                        <p>
+                          {dschatmess.lastName} {dschatmess.firstName}
+                        </p>
+                      </li>
+
+                      {/* {dschatmess.length > 0 ? (
+                        dschatmess.map((post) => (
                           <li
                             key={
                               post.id ||
                               `default-${post.index || Math.random()}`
                             }
+                             
                           >
                             <div className="screenmesscoveruseimg">
                               <img
                                 src={
-                                  userInfo.profileImageUrl || defaultAvatarSrc
+                                  post.linkanh || defaultAvatarSrc
                                 }
                                 alt=""
                               />{" "}
@@ -994,8 +913,17 @@ const Clickhienkc = () => {
                         ))
                       ) : (
                         <p>Chưa có bài viết nào.</p>
-                      )}
+                      )} */}
                     </ul>
+
+                    <img
+                      src={close}
+                      alt=""
+                      className="screenmesscoverusetitleclose"
+                      onClick={() => {
+                        setshowmessageuse(false);
+                      }}
+                    />
                   </div>
                   <div className="screenmesscoverusechat">
                     {/* <div className="screenmesscoverusechatfollowing">
@@ -1016,72 +944,87 @@ const Clickhienkc = () => {
                       </div>
                     </div> */}
 
-                    {dstinchat.length > 0 ? (
-                      dstinchat.map((post, index) => {
-                        // Kiểm tra nếu post.id = 1 và chọn nơi hiển thị content
-
-                        if (post.idUser === userId1) {
-                          console.log(post.idUser)
-                                                    console.log(userId)
-                          return (
-                            <>
-                              <div
-                                key={index || `default-${post.index || Math.random()}`}
-                                className="screenmesscoverusechatfollowing"
-                              >
-                                <div className="screenmesscoverusechatfollowingimg">
-                                  <img
-                                    src={
-                                      userInfo.profileImageUrl ||
-                                      defaultAvatarSrc
-                                    }
-                                    alt="User Avatar"
-                                  />
-                                </div>
-                                <div className="screenmesscoverusechatfollowingchat">
-                                  <p>
-                                    {post.content || "Nội dung không có sẵn"}
-                                  </p>
-                                </div>
+                    {dstinchat.map((post, index) => {
+                      if (post.idUser === valuechat.iduserd) {
+                        return (
+                          <>
+                            <div
+                              key={
+                                index ||
+                                `default-${post.index || Math.random()}`
+                              }
+                              className="screenmesscoverusechatfollowing"
+                            >
+                              <div className="screenmesscoverusechatfollowingimg">
+                                <img
+                                  src={
+                                    post.linkanh || defaultAvatarSrc
+                                  }
+                                  alt="User Avatar"
+                                />
                               </div>
-                            </>
-                          );
-                        } 
-                        else {
-                          return (
-                            <>
-                              <div
-                                key={index || `default-${post.index || Math.random()}`}
-                                className="screenmesscoverusechatfollower"
-                              >
-                                <div className="screenmesscoverusechatfollowerchat">
-                                  <p>
-                                    {post.content || "Nội dung không có sẵn"}
-                                  </p>
-                                </div>
+                              <div className="screenmesscoverusechatfollowingchat">
+                                <p>{post.content || "Nội dung không có sẵn"}</p>
                               </div>
-                            </>
-                          );
-                        }
+                            </div>
+                          </>
+                        );
+                      } else {
+                        return (
+                          <>
+                            <div
+                              key={
+                                index ||
+                                `default-${post.index || Math.random()}`
+                              }
+                              className="screenmesscoverusechatfollower"
+                            >
+                              <div className="screenmesscoverusechatfollowerchat">
+                                <p>{post.content || "Nội dung không có sẵn"}</p>
+                              </div>
+                            </div>
+                          </>
+                        );
                       }
-                    )
-                    ) : (
-                      <p>Chưa có bài viết nào.</p>
-                    )}
+                    })}
+                  </div>
+                  <div className="gachngangg"></div>
+                  <div className="screenmesscoverusewritechat">
+                    <input
+                      type="text"
+                      className="inputbox1"
+                      placeholder={"Aa"}
+                      // value={""}
+                      // onClick={() => setHienModal(true)}
+                      value={chatfollowing.writechat}
+                      onChange={(e) =>
+                        setchatfollowing({
+                          ...chatfollowing,
+                          writechat: e.target.value,
+                        })
+                      }
+                    />
+                    <img
+                      src={send}
+                      alt=""
+                      onClick={() => {
+                        // setHienModal(true);
+                        // setshowprivacyhome(false);
+                        // setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+                        // handleChangewrite(privacy);
+                        userchatusefollow(valuechat);
+                        // setchatfollowing({ iduserd: post.idus });
+                      }}
+                    />
                   </div>
                 </div>
               </div>
             )}
           </>
-        </div>
-
-        <div className="HomeCenterPhai">
-          {/* <h1>HELLO</h1> */}
-
           {isVisibleavatar && (
             <div className="khungpicavata">
               <div className="khungpicavatatren">
-                <div className="khungpicavatatrenavatar" onClick={handleClickProfile}>
+                <div className="khungpicavatatrenavatar" onClick={handleClick}>
                   <div className="khungpicavatatanh">
                     <img
                       // src={"/Images/Icons/testa.jpg"}
@@ -1222,15 +1165,21 @@ const Clickhienkc = () => {
                   {dsMesstc.length > 0 ? (
                     dsMesstc.map((post) => (
                       <li
-                        key={
-                          post.id || `default-${post.index || Math.random()}`
-                        }
+                        key={post.idus || `fallback-${index}`}
+                        // key={
+                        //    `default-${post.index || Math.random()}`
+                        // }
+
+                        onClick={() => {
+                          setvaluechat({ iduserd: post.idus });
+                          submitsaveid(post.idus),
+                            showchatwithfollowing(post.idus),
+                            setshowmessageuse(true);
+                        }}
+                        value={post.idus}
                       >
                         <div className="HomeCenterPhaiAdvertisementShowMessimg">
-                          <img
-                            src={userInfo.profileImageUrl || defaultAvatarSrc}
-                            alt=""
-                          />{" "}
+                          <img src={post.imageUrl || defaultAvatarSrc} alt="" />{" "}
                         </div>
                         <p>
                           {post.lastName} {post.firstName}

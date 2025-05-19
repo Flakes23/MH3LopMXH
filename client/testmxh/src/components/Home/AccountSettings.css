@@ -129,7 +129,7 @@
     cursor: pointer;
 }
 
-.modal-overlay {
+.modal-overlayy {
     position: fixed;
     top: 0;
     left: 0;
@@ -142,7 +142,7 @@
     z-index: 1000;
 }
 
-.modal {
+.modall {
     background: #fff;
     max-width: 400px;
     width: 90%;

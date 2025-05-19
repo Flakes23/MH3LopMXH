@@ -11,6 +11,7 @@ public class Message {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "content")
@@ -37,6 +38,10 @@ public class Message {
     @JoinColumn(name = "to_user_id", nullable = false)
     private User toUser;
 
+public Message() {
+	
+}
+    
     // Getters and Setters
     public Long getId() {
         return id;

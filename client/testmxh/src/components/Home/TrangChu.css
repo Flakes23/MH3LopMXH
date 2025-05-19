@@ -13,6 +13,7 @@ html, body, #root {
 .containerhome{
     width: 100%;
     height: 100%;
+    
 }
 
 .Homebanner{
@@ -361,7 +362,7 @@ height: 50px;
         /* KHUNG MO MENU */
  .khungpicavata{
     position: fixed;
-    z-index: 1000;
+    z-index: 3000;
     width: 370px;
     height: 410px;
     background-color: red;
@@ -476,24 +477,24 @@ height: 50px;
 
 /* BÀI ĐĂNG */
 .modal{
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    z-index: 2 !important;
     /* overflow: hidden; */
-    display: flex;
-    align-items: center; /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
+    display: flex !important;
+    align-items: center !important; /* Căn giữa theo chiều dọc */
+    justify-content: center !important; /* Căn giữa theo chiều ngang */
 }
 
 .modal_overlay{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 2;
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    z-index: 2 !important;
 }
 
 .modal_body{
@@ -1122,10 +1123,10 @@ color: black;
 
 .screenmessuser{
 position: fixed;
-    top: 0;
-    right: 0;
+    /* top: 0;
+    right: 0; */
     bottom: 0;
-    left: 0;
+    /* left: 0; */
     z-index: 2000;
     /* overflow: hidden; */
     display: flex;
@@ -1208,8 +1209,15 @@ width: 100px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
     height: 58px;
+    display: flex;
 }
-
+.screenmesscoverusetitle ul{
+    width: 300px!important;
+}
+.screenmesscoverusetitle .screenmesscoverusetitleclose{
+    width: 20px;
+    cursor: pointer;
+}
 .screenaccessibility{
     width: 370px;
     height: 410px;
@@ -1217,10 +1225,13 @@ width: 100px;
     /* margin: 0; */
     background: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-top: 5px;
+    /* margin-top: 5px; */
     margin-right: 20px;
     border-radius: 1%;
     overflow: hidden;
+
+        position: fixed;
+    z-index: 1000;
 }
 .screenmesscoverusechat{
     width: 100%;
@@ -1290,4 +1301,27 @@ margin-top: 3px;
     /* margin-bottom: 0; */
     line-height: 44px;
 
+}
+
+.gachngangg::before{
+    content: '';
+    width: 100%;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+    margin-top: 20px;
+}
+.screenmesscoverusewritechat .inputbox1 {
+    width: 270px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f0f2f5;
+    outline: none;
+        margin-top: 14px;
+    margin-left: 15px;
+}
+
+.screenmesscoverusewritechat img{
+    margin-left: 10px;
 }

@@ -1,0 +1,367 @@
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+nav{
+    height:70px;
+    width:100%;
+    padding: 0 2rem;
+    display:flex;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0px 1px 3px #ccc;
+    position:sticky;
+    top:0;
+    z-index:99;
+}
+
+nav .nav-left, nav .nav-right{
+    display:flex;
+    align-items: center;
+}
+
+nav .nav-left > img{
+    width:40px;
+}
+
+nav .nav-left > input{
+    height:40px;
+    padding:5px 10px;
+    border:none;
+    border-radius: 25px;
+    outline:none;
+    background-color: #eee;
+    margin-left: 10px;
+}
+
+nav .nav-middle{
+    display:flex;
+    align-items:flex-end;
+    padding-bottom: 5px;
+}
+
+nav .nav-middle a{
+    text-decoration: none;
+    color:#333;
+    padding:10px;
+    margin:0px 10px;
+}
+
+nav .nav-middle a.active{
+    color:royalblue;
+    position:relative;
+}
+
+nav .nav-middle a.active::after{
+    content:'';
+    width:100%;
+    height:3px;
+    position:absolute;
+    bottom:0;
+    left:0;
+    background:royalblue;
+}
+
+nav .nav-middle a > i{
+    font-size: 25px;
+}
+
+nav .nav-right .profile, .container .left-panel .profile{
+    background: url('./images/db.jpg');
+    height:30px;
+    width:30px;
+    background-size: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+nav .nav-right a{
+    text-decoration: none;
+    color:#333;
+    height:40px;
+    width:40px;
+    border-radius: 50%;
+    background:#eee;
+    display:grid;
+    place-items: center;
+    margin-left:1rem;
+}
+
+nav .nav-right a > i{
+    font-size:18px;
+}
+
+.container-fluidd{
+    width: 100%;
+    background:#ffffff;
+    display:flex;
+}
+
+
+
+.container-fluidd .left-panel, .container-fluidd .right-panell{
+    position: sticky;
+    top:70px;
+    width:300px;
+    height:calc(100vh - 70px);
+}
+
+.container-fluidd .left-panel{
+    border-right: 1px solid #ddd;
+    margin-top: 56px;
+}
+
+.container-fluidd .left-panel ul{
+    padding:10px 0px;
+}
+
+.container-fluidd .left-panel ul li{
+    list-style: none;
+    display: flex;
+    padding:.7rem 1rem;
+    align-items: center;
+    transition: .3s;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container-fluidd .left-panel ul li:hover{
+    background:#ddd;
+}
+
+.container-fluidd .left-panel ul li > p{
+    margin-left: 10px;
+}
+
+.container-fluidd .left-panel ul li > i{
+    font-size:20px;
+    color:slateblue;
+}
+
+
+
+.left-panel ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .left-panel ul li {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+  }
+  
+  .left-panel ul li i {
+    font-size: 20px; /* Icon to lên 1 tí cho đều */
+    min-width: 30px; /* Đặt width cố định để icon và chữ thẳng hàng */
+    text-align: center;
+  }
+  
+  .left-panel ul li span {
+    font-size: 20px;
+    margin-left: 8px;
+    font-weight: 600;
+  }
+
+  .icon-circle {
+    background-color: #e4e6eb; /* màu xám nhạt */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .icon-circle1 {
+    background-color: #0048ff; /* màu xám nhạt */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  /* Right Panel */
+.container-fluidd .right-panell {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f0f2f5;
+}
+
+.section {
+    margin-bottom: 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h3 {
+    font-size: 20px;
+    color: #050505;
+}
+
+.user-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.user-card {
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 12px;
+}
+
+.user-image {
+    width: 80px;
+    height: 80px;
+    background: #e4e6eb;
+    border-radius: 50%;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-info h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #050505;
+}
+
+.user-info p {
+    margin: 4px 0;
+    color: #65676b;
+    font-size: 14px;
+}
+
+.user-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.delete-btn, .accept-btn, .add-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: #e4e6eb;
+    color: #050505;
+}
+
+.accept-btn {
+    background: #1877f2;
+    color: white;
+}
+
+.delete-btn, .accept-btn {
+    flex: 1; /* Giúp 2 nút chia đều không gian */
+    width: 100px; /* Độ rộng cố định */
+    padding: 8px 12px; /* Điều chỉnh padding nếu cần */
+}
+
+
+.add-btn {
+    background: #1877f2;
+    color: white;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.see-all, .see-more {
+    background: none;
+    border: none;
+    color: #1877f2;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.see-more {
+    width: 100%;
+    margin-top: 16px;
+}
+
+.section-header h3 {
+    font-size: 20px;
+    color: #050505;
+    font-weight: bold; /* Thêm dòng này */
+}
+
+
+ .cardd {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+    width: 800px;
+    padding: 16px 20px;
+    display: flex;
+    /* align-items: center; */
+    gap: 16px;
+    height: 130px;
+        margin-left: 200px;
+margin-top: 20px;
+  }
+  .cardd .cardimg{
+width: 60px;
+height: 60px;
+margin-top: 10px;
+  }
+    .cardd .cardimg img{
+        width: 60px;
+height: 60px;
+border-radius: 50%;
+
+    }
+    .cardtitlenum1{
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 0;
+        margin-top: 15px;
+    }
+    .carddbtnadd{
+        width: 130px;
+    height: 45px;
+          background-color: #0b74e9;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+    margin-top: 20px;
+    }
+    .cardtitle{
+            width: 525px;
+
+    }

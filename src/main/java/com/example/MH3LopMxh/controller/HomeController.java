@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import com.example.MH3LopMxh.dto.MessageDTO;
 import com.example.MH3LopMxh.dto.PostDTO;
 import com.example.MH3LopMxh.dto.PostUserDTO;
 import com.example.MH3LopMxh.dto.RelationshipDTO;
+import com.example.MH3LopMxh.dto.UserMesageDTO;
 import com.example.MH3LopMxh.dto.UserFlowingDTO;
 import com.example.MH3LopMxh.model.Image;
 import com.example.MH3LopMxh.model.Message;
@@ -32,6 +35,7 @@ import com.example.MH3LopMxh.model.PostImage;
 import com.example.MH3LopMxh.model.PostUser;
 import com.example.MH3LopMxh.model.Relationship;
 import com.example.MH3LopMxh.model.User;
+import com.example.MH3LopMxh.model.UserAbout;
 import com.example.MH3LopMxh.model.UserFollow;
 import com.example.MH3LopMxh.model.UsersImage;
 import com.example.MH3LopMxh.repository.ImageRepository;
@@ -39,12 +43,14 @@ import com.example.MH3LopMxh.repository.MessageRepository;
 import com.example.MH3LopMxh.repository.PostImageRepository;
 import com.example.MH3LopMxh.repository.PostRepository;
 import com.example.MH3LopMxh.repository.RelationshipRepository;
+import com.example.MH3LopMxh.repository.UserAboutRepository;
 import com.example.MH3LopMxh.repository.UserFollowRepository;
 import com.example.MH3LopMxh.repository.UserRepository;
 import com.example.MH3LopMxh.repository.UsersImageRepository;
 import com.example.MH3LopMxh.service.HomeService;
 import com.example.MH3LopMxh.service.MessageService;
 import com.example.MH3LopMxh.service.PostService;
+import com.example.MH3LopMxh.service.UserService;
 
 
 @RestController
@@ -77,6 +83,12 @@ public class HomeController {
 	    
 	    @Autowired
 	    private RelationshipRepository relationshipRepository;
+	    
+	    @Autowired
+	    private UserService userService;
+	    
+	    @Autowired
+	    private UserAboutRepository useraboutrepository;
 //	   @PostMapping("/postwrite")
 //	   public PostUser createBaiViet(@RequestBody PostDTO postDto) {
 //		   Random random = new Random();
@@ -146,6 +158,23 @@ public class HomeController {
 //	       return post;
 //	   }
 
+	   @GetMapping("/getuser")
+	   public UserMesageDTO haveonefriend(@RequestParam long userId) {
+           Optional<User> optionalUser = userRepository.findById(userId);
+           User usertmp = optionalUser.get();
+           UserMesageDTO userdto=new UserMesageDTO();
+           userdto.setFirstName(usertmp.getFirstName());
+           userdto.setLastName(usertmp.getLastName());
+//           userdto.setLinkanh(usertmp.get)
+       	Optional<UsersImage> profileImage1 = usersImageRepository.findByUser(usertmp);
+       	if (profileImage1.isPresent()) {
+            ImageDTO imageDTO1 = new ImageDTO();
+            imageDTO1.setImageUrl(profileImage1.get().getImage().getUrlImage());
+            userdto.setLinkanh(imageDTO1.getImageUrl());
+        }
+           return userdto;
+	   }
+	   
 	   @GetMapping("/messfri")
 	   public List<UserFlowingDTO> havemessfriend(@RequestParam long userId) {
 		   List<UserFollow> dsuser = ufr.findByFollower_IdUser(userId);
@@ -155,6 +184,7 @@ public class HomeController {
 	        	Long id=dsuser.get(i).getFollowing().getIdUser(); 
 	            Optional<User> optionalUser = userRepository.findById(id);
 	            User user = optionalUser.get();
+	            utmp.setIdus(user.getIdUser());
 	            utmp.setFirstName(user.getFirstName());
 	            utmp.setLastName(user.getLastName());
 	        	Optional<UsersImage> profileImage = usersImageRepository.findByUser(user);
@@ -170,29 +200,12 @@ public class HomeController {
 	        
 	       return dsuldto;
 	   }
-
-
-//	   @GetMapping("/hienchat")
-//	   public List<Message> havemessfriend(@RequestParam long userId,@RequestParam long userIdflo) {
-//           Optional<User> optionalUser1 = userRepository.findById(userId);
-//           User user1 = optionalUser1.get();
-//           Optional<User> optionalUser2 = userRepository.findById(userIdflo);
-//           User user2 = optionalUser2.get();
-//		   Relationship rltmp=new Relationship();
-//		   rltmp.setUserOne(user1);
-//		   rltmp.setUserTwo(user2);
-//		   rltmp.setId(1L);
-//		   List<Message> dsmess=messageRepository.findMessagesByRelationshipId(rltmp.getId());
-//		return dsmess;
-//	   }
-	   
 	   
 	   @GetMapping("/hienchat")
 	   public List<MessageDTO> havemessfriend(@RequestParam long userId, @RequestParam long userIdflo) {
 	       // Lấy người dùng từ cơ sở dữ liệu
 	       Optional<User> optionalUser1 = userRepository.findById(userId);
 	       Optional<User> optionalUser2 = userRepository.findById(userIdflo);
-
 	       if (!optionalUser1.isPresent() || !optionalUser2.isPresent()) {
 	           // Nếu không tìm thấy người dùng, trả về danh sách rỗng hoặc xử lý lỗi theo cách khác
 	           return new ArrayList<>();
@@ -207,7 +220,8 @@ public class HomeController {
 	       }
 	       Relationship relationship = relationshipOpt.get();
 	       // Lấy danh sách tin nhắn dựa trên mối quan hệ
-	       List<Message> messages = messageRepository.findByRelationshipId(relationship.getId());
+	       List<Message> messages = messageRepository.findMessagesBetweenUsers(userId,userIdflo);
+       	Optional<UsersImage> profileImage = usersImageRepository.findByUser(user2);
 	       // Chuyển các tin nhắn sang MessageDTO
 	       List<MessageDTO> messageDTOList = new ArrayList<>();
 	       for (Message message : messages) {
@@ -222,9 +236,82 @@ public class HomeController {
 	           relationshipDTO.setId(relationship.getId());
 	           relationshipDTO.setStatus(relationship.getStatus().getStatus()); // Cập nhật theo thuộc tính của Relationship
 	           messageDTO.setRelationship(relationshipDTO);
+	           messageDTO.setLinkanh(profileImage.get().getImage().getUrlImage());
+
 	           messageDTOList.add(messageDTO);
 	       }
 	       return messageDTOList;
 	   }
+	   
+	   @PostMapping("/doimk")
+	   public ResponseEntity<?> Doimktc(@RequestParam long userId, @RequestParam String mk,@RequestParam String mknew,@RequestParam String mknewagain) {
+		   if(!mknew.equals(mknewagain)) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Không thể thay đổi mật khẩu");
+		   }
+		   else {
+		   boolean success = userService.changePassword(userId, mk, mknew);
+	        if (success) {
+	            return ResponseEntity.ok("Mật khẩu đã được thay đổi");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Không thể thay đổi mật khẩu");
+	        }
+		   }
+	   }
 
+	   @GetMapping("/vietchat")
+	   	public MessageDTO Chatmess(@RequestParam long userId, @RequestParam long userIdflo,@RequestParam String content){
+		   MessageDTO messtmpdto=new MessageDTO(); 
+		   LocalDateTime now = LocalDateTime.now();
+		   Optional<User> optionalUser1 = userRepository.findById(userId);
+		   Optional<User> optionalUser2 = userRepository.findById(userIdflo);
+	       User user1 = optionalUser1.get();
+	       User user2 = optionalUser2.get();
+	       // Lấy mối quan hệ giữa 2 người dùng
+	       Optional<Relationship> relationshipOpt = relationshipRepository.findByUserOneAndUserTwo(user1, user2);
+	       if (!relationshipOpt.isPresent()) {
+	           return  null;
+	       }
+	       Relationship relationship = relationshipOpt.get();
+	       Message messdto =new Message();
+//	       messdto.setId(6L);
+	       messdto.setFromUser(user1);
+	       messdto.setToUser(user2);
+	       messdto.setCreateAt(now);
+	       messdto.setContent(content);
+	       messdto.setRelationship(relationship);
+	       messageRepository.save(messdto);
+	       
+	       messtmpdto.setId(messdto.getId());
+	       messtmpdto.setCreateAt(now);
+	       messtmpdto.setContent(content);
+	       messtmpdto.setIdUser(userId);
+	       
+           return messtmpdto;
+	   }
+	   
+	   @GetMapping("/layallnd")
+	   List<UserMesageDTO> Haveallfr() {
+		   List<UserMesageDTO> dsusedto=new ArrayList<UserMesageDTO>();
+		   List<User> dsuse=userRepository.findAll();
+		   for (User users : dsuse) {
+			   UserMesageDTO usedto=new UserMesageDTO();
+		       	Optional<UsersImage> profileImage = usersImageRepository.findByUser(users);
+		       	if (profileImage.isPresent()) {
+		            usedto.setLinkanh(profileImage.get().getImage().getUrlImage());
+		        } else {
+		            usedto.setLinkanh(null); // hoặc set một ảnh mặc định nếu bạn muốn
+		        }		       	usedto.setFirstName(users.getFirstName());
+		       	usedto.setLastName(users.getLastName());
+		       	List<UserAbout> ab=useraboutrepository.findByUser(users);
+		       	if (ab != null && ab.size() > 1) {
+		       	    usedto.setPhuttin(ab.get(1).getDescription());
+		       	} else if (ab != null && !ab.isEmpty()) {
+		       	    usedto.setPhuttin(ab.get(0).getDescription());
+		       	} else {
+		       	    usedto.setPhuttin("Sống tại Hồ Chí Minh");
+		       	}
+		       	dsusedto.add(usedto);
+		   }
+		   return dsusedto;
+	   }
 }

@@ -89,7 +89,8 @@ html, body, #root {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
+      margin-top: 8px;
     position: relative;
   padding-right: 40px;
 }
@@ -209,12 +210,15 @@ html, body, #root {
   display: flex; margin-bottom: 12px;
 }
 .message .msg-content {
-  background: #fff; padding: 8px 12px;
+  background: #fff; padding: 12px 12px;
   border-radius: 18px; max-width: 60%; position: relative;
 }
 .message .msg-content span {
-  position: absolute; bottom: 4px; right: 8px;
-  font-size: 11px; color: #65676b;
+      position: absolute;
+    bottom: 2px;
+    right: 8px;
+    font-size: 11px;
+    color: black;
 }
 .message.user {
   justify-content: flex-end;
@@ -284,4 +288,30 @@ html, body, #root {
 .acc-body {
   padding: 8px 0;
   font-size: 13px; color: #65676b;
+}
+.user-avatar img{
+  width: 56px;
+  height: 56px;
+  border-radius: 50% ;
+}
+.avatar-large img{
+      border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+.sidebar-avatar img{
+      width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.screenmesscoverusechatfollowingimg{
+  height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+.screenmesscoverusechatfollowingimg img{
+ height: 50px;
+    width: 50px;
+        border-radius: 50%;
+
 }

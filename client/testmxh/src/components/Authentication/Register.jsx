@@ -1,5 +1,5 @@
 "use client"
-
+import  "./Login.css"
 import { useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./Register.css"
