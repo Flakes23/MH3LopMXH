@@ -369,6 +369,57 @@ body {
   border-radius: 4px 4px 0 0;
 }
 
+.friend-list {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.friend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 cột cố định */
+  gap: 12px 20px; /* khoảng cách giữa hàng và cột */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friend-card {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+.friend-card:hover {
+  background-color: #f0f2f5;
+}
+
+.friend-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px #e4e6eb;
+}
+
+.friend-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #050505;
+  margin: 0;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Thêm vào file Profile.css */
 .loading-container {
   display: flex;

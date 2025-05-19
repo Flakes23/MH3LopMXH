@@ -7,13 +7,17 @@ import { useEffect, useState } from "react"
 import "./Friend.css"
 import Navbar from "../impl/Navbar"
 import axios from "axios"
+import { useParams } from "react-router-dom"
 import defaultAvatar from "../../assets/Images/default-avatar.jpg"
 
 function Friend() {
   const navigate = useNavigate();
   const [requests, setRequests] = useState([])
   const [suggested, setSuggested] = useState([])
-  const userId = localStorage.getItem("idUser")
+  const { userIdParams } = useParams()
+  const currentUserId = localStorage.getItem("idUser")
+  const userId = userIdParams || currentUserId
+  const isOwner = userId === currentUserId
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,6 +123,7 @@ function Friend() {
                     <img
                       src={user.avatarUrl && user.avatarUrl !== "null" ? user.avatarUrl : defaultAvatar}
                       alt="avatar"
+                      onClick={() => navigate(`/trangcanhan/${user.idUser}`)}
                     />
                   </div>
                   <div className="user-info">
@@ -151,6 +156,8 @@ function Friend() {
                     <img
                       src={user.avatarUrl && user.avatarUrl !== "null" ? user.avatarUrl : defaultAvatar}
                       alt="avatar"
+                      onClick={() => navigate(`/trangcanhan/${user.idUser}`)}
+                      style={{ cursor: "pointer" }}
                     />
                   </div>
                   <div className="user-info">

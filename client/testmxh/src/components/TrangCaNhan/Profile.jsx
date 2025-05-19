@@ -11,8 +11,14 @@ import axios from "axios"
 import Post from "../impl/PostComment"
 import EditProfileModal from "./EditProfileModal"
 import { Pencil, Camera } from "lucide-react"
+import { useParams } from "react-router-dom"
+
 
 const Profile = () => {
+  const { userId } = useParams()
+  const currentUserId = localStorage.getItem("idUser")
+  const profileIdToLoad = userId || currentUserId
+  const isOwner = profileIdToLoad === currentUserId
   const [profileData, setProfileData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -22,15 +28,14 @@ const Profile = () => {
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState(null)
   const [selectedCoverFile, setSelectedCoverFile] = useState(null)
   const [coverPreviewUrl, setcoverPreviewUrl] = useState(null)
-
-  const userId = localStorage.getItem("idUser")
+  const [activeTab, setActiveTab] = useState("posts");
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         setLoading(true)
         // Gọi API để lấy dữ liệu profile
-        const response = await axios.get(`http://localhost:8080/api/profile/${userId}`)
+        const response = await axios.get(`http://localhost:8080/api/profile/${profileIdToLoad}`)
         setProfileData(response.data)
         setLoading(false)
       } catch (err) {
@@ -252,10 +257,14 @@ const Profile = () => {
                 aria-label="Ảnh bìa cá nhân"
               />
               <div className="edit-buttons-container">
-                <button className="edit-cover-btn" onClick={triggerCoverInput}>
-                  <Camera className="h-4 w-4 mr-2" />
-                  Chỉnh sửa ảnh bìa
-                </button>
+                {
+                  isOwner && (
+                    <button className="edit-cover-btn" onClick={triggerCoverInput}>
+                      <Camera className="h-4 w-4 mr-2" />
+                      Chỉnh sửa ảnh bìa
+                    </button>
+                  )
+                }
                 <input
                   type="file"
                   id="cover-input"
@@ -281,10 +290,12 @@ const Profile = () => {
                 <h1>
                   {userInfo.firstName} {userInfo.lastName}
                 </h1>
-                <button className="edit-profile-btn" onClick={() => setIsEditProfileModalOpen(true)}>
-                  <Pencil className="h-4 w-4 mr-2" />
-                   Chỉnh sửa thông tin cá nhân
-                </button>
+                {isOwner && (
+                  <button className="edit-profile-btn" onClick={() => setIsEditProfileModalOpen(true)}>
+                    <Pencil className="h-4 w-4 mr-2" />
+                    Chỉnh sửa thông tin cá nhân
+                  </button>
+                )}
               </div>
               <p>{profileData?.totalFriends || 0} người bạn</p>
               <div>
@@ -306,40 +317,100 @@ const Profile = () => {
             </div>
 
             <div className="actions-menubar">
-              <a href="#" className="active">
+              <a
+                href="#"
+                className={activeTab === "posts" ? "active" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab("posts");
+                }}
+              >
                 Bài viết
               </a>
-              <a href="#">Bạn bè ({profileData?.totalFriends || 0})</a>
-              <a href="#">Hình ảnh ({profileData?.totalPhotos || 0})</a>
+              <a
+                href="#"
+                className={activeTab === "friends" ? "active" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab("friends");
+                }}
+              >
+                Bạn bè ({profileData?.totalFriends || 0})
+              </a>
+              <a
+                href="#"
+                className={activeTab === "photos" ? "active" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab("photos");
+                }}
+              >
+                Hình ảnh ({profileData?.totalPhotos || 0})
+              </a>
             </div>
           </div>
         </div>
-
-        <div className="profile-container">
-          <div className="create-profile-posts">
-            <div className="new-posts">
-              <span className="profile"></span>
-              <input type="text" placeholder="Bạn đang nghĩ gì?" />
-            </div>
-          </div>
-
-          <div className="profile-posts">
-            {posts.length > 0 ? (
-              posts.map((post) => (
-                <Post
-                  key={post.id}
-                  post={post}
-                  currentUserAvatar={userInfo.profileImageUrl || defaultAvatarSrc}
-                  onAddComment={handleAddComment}
-                />
-              ))
-            ) : (
-              <div className="no-posts-message">
-                <p>Chưa có bài viết nào.</p>
-              </div>
+        {activeTab === "posts" && (
+          <div className="profile-container">
+            {isOwner && (
+                <div className="create-profile-posts">
+                  <div className="new-posts">
+                    <span className="profile"></span>
+                    <input type="text" placeholder="Bạn đang nghĩ gì?" />
+                  </div>
+                </div>
             )}
+            <div className="profile-posts">
+              {posts.length > 0 ? (
+                posts.map((post) => (
+                  <Post
+                    key={post.id}
+                    post={post}
+                    currentUserAvatar={userInfo.profileImageUrl || defaultAvatarSrc}
+                    onAddComment={handleAddComment}
+                  />
+                ))
+              ) : (
+                <div className="no-posts-message">
+                  <p>Chưa có bài viết nào.</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
+
+        {activeTab === "friends" && (
+          <div className="profile-container">
+            <div className="friend-list">
+              <h3 className="mb-3">Bạn bè</h3>
+              {profileData?.friends?.length > 0 ? (
+                <ul className="friend-grid">
+                  {profileData.friends.map((friend) => (
+                    <li key={friend.id} className="friend-card" onClick={() => window.location.href = `/trangcanhan/${friend.id}`}>
+                      <img
+                        src={friend.profileImageUrl || defaultAvatarSrc}
+                        alt={friend.username}
+                        className="friend-avatar"
+                      />
+                      <p className="friend-name">{friend.firstName} {friend.lastName}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>Không có bạn bè nào.</p>
+              )}
+            </div>
+          </div>
+        )}
+
+
+        {activeTab === "photos" && (
+          <div className="profile-container">
+            <div className="photo-list">
+              <p>Chức năng hình ảnh đang được phát triển...</p>
+            </div>
+          </div>
+        )}
       </div>
 
       {isVisibleavatar && (

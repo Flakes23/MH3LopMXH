@@ -23,7 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<Trangchu />} />
-          <Route path="/trangcanhan" element={<Trangcanhan />} />
+          <Route path="/trangcanhan/:userId?" element={<Trangcanhan />} />
           <Route path="/mess" element={<Mess />} />
           <Route path="/privacy" element={<Caidat />} />
           <Route path="/friend" element={<Friend />} />
