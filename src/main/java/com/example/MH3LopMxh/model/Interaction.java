@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 public class Interaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_interaction")
     private Long idInteraction;
 

@@ -495,3 +495,508 @@ body {
   display: flex;
   gap: 10px;
 }
+
+.post-box {
+    margin-top: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.post-box .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.post-header .avatarhomewriter {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.post-header .input-box {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f0f2f5;
+    outline: none;
+}
+.post-box .actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+.post-box .actions .action-btn {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #606770;
+    cursor: pointer;
+}
+.post-box .actions .action-btn img {
+    width: 20px;
+    margin-right: 5px;
+}
+
+.modal{
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    z-index: 2 !important;
+    /* overflow: hidden; */
+    display: flex !important;
+    align-items: center !important; /* Căn giữa theo chiều dọc */
+    justify-content: center !important; /* Căn giữa theo chiều ngang */
+}
+
+.modal_overlay{
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    z-index: 2 !important;
+}
+
+.modal_body{
+    width: 503px;
+    height: 428px;
+    /* background-color: red; */
+    background-color: white;
+    position: relative;
+    z-index: 3;
+    border-radius: 10px;
+    overflow: hidden;
+
+    max-height: 80vh; /* Giới hạn chiều cao tối đa là 80% chiều cao màn hình */
+    overflow-y: auto; /* Tạo thanh cuộn khi nội dung quá dài */
+    transition: max-height 0.3s ease-in-out; /* Hiệu ứng mở rộng */
+}
+
+.modal-title{
+    height: 60px;
+    background-color: #f8f9fb;
+    display: flex;
+    /* justify-content: center; */
+}
+.modal-title p{
+    margin: 0 ;
+    line-height: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 100px;
+}
+.modal-titlechinh{
+     height: 60px;
+    background-color: #f8f9fb;
+    display: flex;
+}
+.modal-titlechinh p{
+    margin: 0;
+    line-height: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 180px;
+}
+.modaltitlebackchinh{
+    margin-top: 12px;
+    margin-left: 150px;
+    width: 36px;
+    height: 36px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+    cursor: pointer;
+}
+.modaltitlebackchinh img{
+        margin-top: 4px;
+    margin-left: 5px;
+}
+.gachngang::before{
+    content: '';
+    width: 100%;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+    margin-top: 1px;
+}
+.modalinforuse{
+    height: 90px;
+    background-color: white;
+    display: flex;
+}
+.picavatatcn{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+.modalinforuseahaichucnang{
+    margin-top: 12px;
+    margin-left: 10px;
+}
+.modalinforuseahaichucnang p{
+    margin: 0;
+}
+.modalinforuseahaichucnang .cong-khai-btn{
+    margin-top: 3px;
+}
+.cong-khai-btn {
+    background-color: #f0f2f5; /* Màu nền xám nhạt */
+    border: none;
+    border-radius: 10px; /* Góc bo tròn */
+    padding: 4px 7px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cong-khai-btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.dropdown-arrow {
+    margin-left: 5px;
+}
+
+.modaladdpostcover{
+    height: 70px;
+    background: white;
+}
+.modaladdpost{
+    width: 470px;
+    height: 50px;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 16px;
+    /* margin-top: 10px; */
+    display: flex;
+}
+.modaladdpostcover .modalpostmenu ul{
+    display: flex;
+    list-style: none;
+}
+.modaladdpostcover .modalpostmenu{
+    margin-left: 30px;
+}
+.modaladdpostcover .modalpostmenu li{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.modaladdpostcover .modaladdpost p{
+    margin-left: 10px;
+    margin-top: 10px;
+    /* margin:0; */
+}
+
+.modalbamdangcover{
+    height: 50px;
+    background: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.modalbamdangcover button{
+    /* margin-top: 20px; */
+    width: 470px;
+    height: 36px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    background-color: blue;
+    padding: 0;
+}
+
+ /* BÀI VIẾT */
+ .postitem{
+    margin-top: 20px;
+    width: 668px;
+    height: 150px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+ }
+ .postitemup{
+    height: 40px;
+    width: 40px;
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+ }
+ .postitem .postitemup .avatarpostitemup{
+    position:relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* margin-top: 10px;
+    margin-left: 10px; */
+}
+.postitemore{
+    width: 20px;
+    height: 40px;
+}
+.postitemore img{
+    width: 20px;
+    height: 30px;
+    cursor: pointer;
+}
+.postitemupright{
+    width: 570px;
+    height: 40px;
+    margin-left: 10px;
+}
+.postitemupright p{
+    padding: 0;
+    margin: 0;
+    width: 590px;
+    height: 20px;
+    /* background-color: red; */
+}
+.postitemupright .postname{
+    font-weight: 600;
+}
+.postinput{
+    height: 50px;
+    margin-top: 10px;
+}
+.postinput p{
+    margin-left: 12px;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.postemotion{
+    height: 36px;
+    width: 100%;
+    background-color: white;
+    display: flex;
+}
+.postemotionlike{
+    width: 33.33%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.postemotioncmt{
+    width: 33.33%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.postemotionshare{
+    width: 33.33%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.postemotionlike img{
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+}
+.postemotionlike p{
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.postemotioncmt img{
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+}
+.postemotioncmt p{
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.postemotionshare img{
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+}
+.postemotionshare p{
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.gachngang1::before{
+    content: '';
+    width: 96%;
+    display: block;
+    height: 1px;
+    background-color: #DDDDDD;
+    margin-left: 12px;
+    margin-bottom: 1px;
+}
+.postemotionlike:hover{
+    background-color: #DDDDDD;
+}
+.postemotionshare:hover{
+    background-color: #DDDDDD;
+}.postemotioncmt:hover{
+    background-color: #DDDDDD;
+}
+
+.postitemchucnangcover{
+    width: 100px;
+    height: 100px;
+}
+
+.postitemchucnangbody{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    
+}
+.modaluserwrite{
+    margin: 12px;
+}
+.modalprivacy{
+    width: 503px;
+    height: 515px;
+    /* background-color: red; */
+    background-color: white;
+    position: relative;
+    z-index: 3;
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 80vh;
+    overflow-y: auto;
+    transition: max-height 0.3s ease-in-out;
+}
+.modalprivacy .modalintroduce .modalintroducetitleup .titleup1{
+    margin-top: 15px;
+    margin-left: 16px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.modalprivacy .modalintroduce .modalintroducetitleup .titleup2{
+    margin-left: 15px;
+    margin-bottom: 0;
+    color: #84878b;
+
+}
+.modalprivacy .modalintroduce .modalintroducetitleup .titleup3{
+    margin-left: 15px;
+    margin-bottom: 0;
+    color: #84878b;
+
+}
+.modalprivacy .modalintroduce .modalintroducetitledown{
+    margin-top: 15px;
+    margin-left: 15px;
+    color: #84878b;
+
+}
+.modalprivacy .modalintroduce .modalintroducetitledown .modalintroducetitledowncover{
+    display: flex;
+    margin-bottom: 0;
+    height: 20px;
+}
+.modalprivacy .modalintroduce .modalintroducetitledown .titledowntmp{
+    margin: 0;
+    font-weight: 600;
+    color: #84878b;
+}
+.modalprivacy .modalintroduce .modalintroducetitledown .titledown1{
+    margin-bottom: 0;
+    color: #84878b;
+}
+.modalmenuprivate .menuprivateleft .menuprivateicons{
+    margin-top: 6px;
+    margin-left: 9px;
+    width: 60px;
+    height: 60px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+}
+.modalmenuprivate .menuprivateleft .menuprivateicons .menuprivateicon{
+    margin-left: 17px;
+    margin-top: 16px;
+}
+.modalmenuprivate ul{
+    padding-left: 0;
+}
+.modalmenuprivate ul li{
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    cursor: pointer;
+}
+.modalmenuprivate ul li .menuprivatewrite{
+    width: 266px;
+    margin-top: 10px;
+    margin-left: 14px;
+}
+.modalmenuprivate ul li .menuprivatewrite .menuprivatewriteup{
+    margin-bottom: 0;
+}
+.modalmenuprivate ul li .menuprivatewrite .menuprivatewritedown{
+    margin-bottom: 0;
+}
+.modalmenuprivate ul li .menuprivatetick{
+    margin-left: 89px;
+    margin-top: 20px;
+    height: 20px;
+}
+input[type="radio"] {
+    transform: scale(1.6);
+    /* margin-right: 15px; */
+  }
+  .modalmenuprivate ul li:hover{
+        background-color: #f0f2f5;
+  }
+
+.modaltitleback{
+    margin-top: 12px;
+    margin-left: 12px;
+    width: 36px;
+    height: 36px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+    cursor: pointer;
+}
+.modaltitleback img{
+    margin-top: 4px;
+    margin-left: 5px;
+}
+
+.modalmenuprivatebutton{
+    display: flex;
+    justify-content: end;
+}
+.buttonhuy{
+    height: 24px;
+    margin-top: 5px;
+    margin-right: 24px;
+    cursor: pointer;
+}
+.buttonhuy p{
+    color: blue;
+}
+.buttonfinish button{
+    padding-right: 40px;
+    padding-left: 40px;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    /* border-radius: 20px; */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+/* ------- */

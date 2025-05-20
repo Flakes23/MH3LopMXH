@@ -157,7 +157,7 @@ public class ProfileService {
         return dto;
     }
 
-    private PostDTO convertToPostDTO(Post post) {
+    public PostDTO convertToPostDTO(Post post) {
         PostDTO dto = new PostDTO();
         dto.setId(post.getIdPost());
         dto.setContent(post.getContent());

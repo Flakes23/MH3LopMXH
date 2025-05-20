@@ -10,6 +10,13 @@ import avatar from "../../assets/Images/default-avatar.jpg"
 import axios from "axios"
 import Post from "../impl/PostComment"
 import EditProfileModal from "./EditProfileModal"
+import videoo from "../../assets/images/Icons/video.png";
+import abum from "../../assets/images/Icons/abum.png";
+import camxuc from "../../assets/images/Icons/camxuc.png";
+import arrowleft from "../../assets/images/Icons/arrowleft.svg";
+import earthicon from "../../assets/images/Icons/earth.svg";
+import fricon from "../../assets/images/Icons/friendicon.svg";
+import lock from "../../assets/images/Icons/lockicon.svg";
 import { Pencil, Camera } from "lucide-react"
 import { useParams } from "react-router-dom"
 
@@ -17,6 +24,7 @@ import { useParams } from "react-router-dom"
 const Profile = () => {
   const { userId } = useParams()
   const currentUserId = localStorage.getItem("idUser")
+  const [privacy, setPrivacy] = useState("Công khai");
   const profileIdToLoad = userId || currentUserId
   const isOwner = profileIdToLoad === currentUserId
   const [profileData, setProfileData] = useState(null)
@@ -28,7 +36,18 @@ const Profile = () => {
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState(null)
   const [selectedCoverFile, setSelectedCoverFile] = useState(null)
   const [coverPreviewUrl, setcoverPreviewUrl] = useState(null)
+  const [hienModal, setHienModal] = useState(false);
   const [activeTab, setActiveTab] = useState("posts");
+// tan
+  const [showprivacyhome, setshowprivacyhome] = useState(false);
+  const [privacywrite, setprivacywrite] = useState("Công khai");
+  const handleChangewrite = (value) => {
+    setPrivacy(value);
+  };
+  const handleChange = (value) => {
+    setPrivacy(value);
+  };
+// tan
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -353,12 +372,38 @@ const Profile = () => {
         {activeTab === "posts" && (
           <div className="profile-container">
             {isOwner && (
-                <div className="create-profile-posts">
-                  <div className="new-posts">
-                    <span className="profile"></span>
-                    <input type="text" placeholder="Bạn đang nghĩ gì?" />
+              <div className="post-box">
+                <div className="post-header">
+                  <img
+                    src={userInfo.profileImageUrl || defaultAvatarSrc}
+                    className="avatarhomewriter"
+                  />
+                  <input
+                    type="text"
+                    className="input-box"
+                    placeholder={
+                      userInfo
+                        ? `${userInfo.firstName} ${userInfo.lastName} ơi, bạn đang nghĩ gì thế?`
+                        : "Đang tải..."
+                    }
+                    onClick={() => setHienModal(true)}
+                  />
+                </div>
+                <div className="actions">
+                  <div className="action-btn">
+                    <img src={videoo} />
+                    Video trực tiếp
+                  </div>
+                  <div className="action-btn">
+                    <img src={abum} />
+                    Ảnh/video
+                  </div>
+                  <div className="action-btn">
+                    <img src={camxuc} />
+                    Cảm xúc/hoạt động
                   </div>
                 </div>
+              </div>
             )}
             <div className="profile-posts">
               {posts.length > 0 ? (
@@ -458,6 +503,138 @@ const Profile = () => {
         userInfo={profileData}
         onProfileUpdate={handleProfileUpdate}
       />
+      {hienModal && (
+      <div className="modal">
+        <div
+          className="modal_overlay"
+          onClick={() => {
+            setHienModal(false); // đóng modal hiện tại
+            setshowprivacyhome(false); // mở modal mới
+          }}
+        ></div>
+        <div className="modalprivacy">
+          <div className="modal-title">
+            <div
+              className="modaltitleback"
+              onClick={() => {
+                setHienModal(true);
+                setshowprivacyhome(false);
+              }}
+            >
+              <img src={arrowleft} alt="" />
+            </div>
+            <p>Đối tượng của bài viết</p>
+          </div>
+          <div className="modalintroduce">
+            <div className="modalintroducetitleup">
+              <p className="titleup1">Ai có thể xem bài viết của bạn</p>
+              <p className="titleup2">
+                Bài viết của bạn sẽ hiển thị trên Bảng feed, trang cá nhân và
+              </p>
+              <p className="titleup3">trong kết quả tìm kiếm.</p>
+            </div>
+            <div className="modalintroducetitledown">
+              <div className="modalintroducetitledowncover">
+                <p className="titledown1">Tuy đối tượng mặc định là</p>
+                <p className="titledowntmp">&nbsp;{privacy}</p>
+                <p>, nhưng bạn có thể thay đổi</p>
+              </div>
+              <p className="titledown2">đối tượng của riêng bài viết này.</p>
+            </div>
+          </div>
+          <div className="modalmenuprivate">
+            <ul>
+              <li>
+                <div className="menuprivateleft">
+                  <div className="menuprivateicons">
+                    <img src={earthicon} alt="" className="menuprivateicon" />
+                  </div>
+                </div>
+                <div className="menuprivatewrite">
+                  <p className="menuprivatewriteup">Công khai</p>
+                  <p className="menuprivatewritedown">
+                    Bất kỳ ai ở trên hoặc ngoài Facebook
+                  </p>
+                </div>
+                <label className="menuprivatetick">
+                  {/* <div classname="menuprivatetick"> */}
+                  <input
+                    type="radio"
+                    checked={privacy === "Công khai"}
+                    onChange={() => handleChange("Công khai")}
+                  />
+                  {/* </div> */}
+                </label>
+              </li>
+              <li>
+                <div className="menuprivateleft">
+                  <div className="menuprivateicons">
+                    <img src={fricon} alt="" className="menuprivateicon" />
+                  </div>
+                </div>
+                <div className="menuprivatewrite">
+                  <p className="menuprivatewriteup">Bạn bè</p>
+                  <p className="menuprivatewritedown">
+                    Bạn bè của bạn trên facebook
+                  </p>
+                </div>
+                <label className="menuprivatetick">
+                  <input
+                    type="radio"
+                    name="privacy"
+                    checked={privacy === "Bạn bè"}
+                    onChange={() => handleChange("Bạn bè")}
+                  />
+                </label>
+              </li>
+              <li>
+                <div className="menuprivateleft">
+                  <div className="menuprivateicons">
+                    <img src={lock} alt="" className="menuprivateicon" />
+                  </div>
+                </div>
+                <div className="menuprivatewrite">
+                  <p className="menuprivatewriteup">Chỉ mình tôi</p>
+                  <p className="menuprivatewritedown">
+                    Bất kỳ ai ở trên hoặc ngoài Facebook
+                  </p>
+                </div>
+                <label className="menuprivatetick">
+                  <input
+                    type="radio"
+                    name="privacy"
+                    checked={privacy === "Chỉ mình tôi"}
+                    onChange={() => handleChange("Chỉ mình tôi")}
+                  />
+                </label>
+              </li>
+            </ul>
+          </div>
+          <div className="modalmenuprivatebutton">
+            <div
+              className="buttonhuy"
+              onClick={() => {
+                setHienModal(true);
+                setshowprivacyhome(false);
+              }}
+            >
+              <p>Hủy</p>
+            </div>
+            <div
+              className="buttonfinish"
+              onClick={() => {
+                setHienModal(true);
+                setshowprivacyhome(false);
+                setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+                handleChangewrite(privacy);
+              }}
+            >
+              <button>Xong</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      )}
     </>
   )
 }

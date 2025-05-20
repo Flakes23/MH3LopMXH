@@ -1,5 +1,6 @@
 package com.example.MH3LopMxh.service;
 
+import com.example.MH3LopMxh.dto.PostDTO;
 import com.example.MH3LopMxh.model.Interact;
 import com.example.MH3LopMxh.model.Interaction;
 import com.example.MH3LopMxh.model.Post;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -50,8 +53,15 @@ public class InteractionService {
             
             if (optionalInteraction.isPresent()) {
                 Interaction interaction = optionalInteraction.get();
-                interaction.setInteract(interact);
-                return interactionRepository.save(interaction);
+                if (interaction.getInteract().getIdInteract().equals(interactId)) {
+                    // Cùng loại cảm xúc → xóa (bỏ cảm xúc)
+                    interactionRepository.delete(interaction);
+                    return null; // hoặc throw custom "removed" nếu cần
+                } else {
+                    // Khác loại → cập nhật
+                    interaction.setInteract(interact);
+                    return interactionRepository.save(interaction);
+                }
             } else {
                 Interaction interaction = new Interaction();
                 interaction.setPost(post);
@@ -85,5 +95,25 @@ public class InteractionService {
     
     public Long countInteractionsByPostIdAndInteractId(Long postId, Long interactId) {
         return interactionRepository.countByPostIdAndInteractId(postId, interactId);
+    }
+    public Map<String, Long> getReactionStatistics(Long postId) {
+        List<Interaction> interactions = getInteractionsByPostId(postId);
+        Map<String, Long> stats = new HashMap<>();
+
+        for (Interaction i : interactions) {
+            String type = i.getInteract().getInteractType();
+            stats.put(type, stats.getOrDefault(type, 0L) + 1);
+        }
+
+        return stats;
+    }
+    public Long getUserReaction(Long postId, Long userId) {
+        return interactionRepository
+                .findByPostAndUser(
+                        postRepository.findById(postId).get(),
+                        userRepository.findById(userId).get()
+                )
+                .map(i -> i.getInteract().getIdInteract())
+                .orElse(null);
     }
 }
