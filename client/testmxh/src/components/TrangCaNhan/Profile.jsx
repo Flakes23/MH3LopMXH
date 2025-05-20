@@ -25,6 +25,7 @@ import caidat from "../../assets/images/Icons/caidat.svg";
 import arrowright from "../../assets/images/Icons/arrowright.svg";
 import help from "../../assets/images/Icons/help.svg";
 import moon from "../../assets/images/Icons/moon.svg";
+import upicon from "../../assets/images/Icons/tanh.png";
 import { Pencil, Camera } from "lucide-react"
 import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
@@ -55,6 +56,7 @@ const Profile = () => {
   const [selectedCoverFile, setSelectedCoverFile] = useState(null)
   const [coverPreviewUrl, setcoverPreviewUrl] = useState(null)
   const [hienModal, setHienModal] = useState(false);
+  const [noidung, setNoidung] = useState("");
   const [activeTab, setActiveTab] = useState("posts");
 // tan
   const [showprivacyhome, setshowprivacyhome] = useState(false);
@@ -85,6 +87,77 @@ const Profile = () => {
       state: { findchat: valfind.valuefind},
     });
   }
+  const [anhDaTai, setAnhDaTai] = useState(null);
+  const triggerImageInput = () => {
+    document.getElementById("image-input").click()
+  }
+  const handleImageChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      setSelectedImageFile(file);
+      setimagePreviewUrl(URL.createObjectURL(file));
+    }
+  }
+  const [imagePreviewUrl, setimagePreviewUrl] = useState(null)
+  const [selectedImageFile, setSelectedImageFile] = useState(null)
+  const handlePaste = (event) => {
+    const items = (event.clipboardData || event.originalEvent.clipboardData)
+      .items;
+    for (let item of items) {
+      if (item.type.indexOf("image") !== -1) {
+        const file = item.getAsFile();
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setAnhDaTai(e.target.result); // Lưu URL ảnh để hiển thị
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    // console.log(anhDaTai)
+  };
+    const handleDangBai = async () => {
+  if (!noidung.trim()) return;
+
+  const baiviet = {
+    iduser: userId,
+    content: noidung,
+  };
+
+  const formData = new FormData();
+  formData.append("postDto", new Blob([JSON.stringify(baiviet)], { type: "application/json" }));
+  console.log("formData", formData);
+  
+  // Nếu có file ảnh thì thêm vào
+  if (selectedImageFile) {
+    formData.append("image", selectedImageFile);
+  }
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/home/postwrite`, {
+      method: "POST",
+      body: formData, // KHÔNG set Content-Type — trình duyệt sẽ tự động thêm boundary cho multipart/form-data
+    });
+
+    const rawText = await response.text();
+
+    if (response.ok) {
+      try {
+        const newPost = JSON.parse(rawText);
+        setDsBaiViet([newPost, ...dsBaiViet]);
+        setNoidung("");
+        setSelectedImageFile(null);
+        setHienModal(false);
+        location.reload();
+      } catch (jsonError) {
+        console.error("Lỗi khi parse JSON:", jsonError);
+      }
+    } else {
+      console.error("Lỗi từ server:", response.status);
+    }
+  } catch (error) {
+    console.error("Lỗi khi đăng bài:", error);
+  }
+};
 // tan
 
   useEffect(() => {
@@ -704,137 +777,110 @@ const [isVisibleavatarr, setIsVisibleavatarr] = useState(false);
         onProfileUpdate={handleProfileUpdate}
       />
       {hienModal && (
-      <div className="modal">
-        <div
-          className="modal_overlay"
-          onClick={() => {
-            setHienModal(false); // đóng modal hiện tại
-            setshowprivacyhome(false); // mở modal mới
-          }}
-        ></div>
-        <div className="modalprivacy">
-          <div className="modal-title">
-            <div
-              className="modaltitleback"
-              onClick={() => {
-                setHienModal(true);
-                setshowprivacyhome(false);
-              }}
-            >
-              <img src={arrowleft} alt="" />
-            </div>
-            <p>Đối tượng của bài viết</p>
-          </div>
-          <div className="modalintroduce">
-            <div className="modalintroducetitleup">
-              <p className="titleup1">Ai có thể xem bài viết của bạn</p>
-              <p className="titleup2">
-                Bài viết của bạn sẽ hiển thị trên Bảng feed, trang cá nhân và
-              </p>
-              <p className="titleup3">trong kết quả tìm kiếm.</p>
-            </div>
-            <div className="modalintroducetitledown">
-              <div className="modalintroducetitledowncover">
-                <p className="titledown1">Tuy đối tượng mặc định là</p>
-                <p className="titledowntmp">&nbsp;{privacy}</p>
-                <p>, nhưng bạn có thể thay đổi</p>
+              <div className="modal">
+                <div
+                  className="modal_overlay"
+                  onClick={() => setHienModal(false)}
+                ></div>
+                {/* -------- */}
+      
+                {/* ------------- */}
+                <div className="modal_body" onClick={(e) => e.stopPropagation()}>
+                  <div className="modal-titlechinh">
+                    <p>Tạo bài viết</p>
+                    <div
+                      className="modaltitlebackchinh"
+                      onClick={() => setHienModal(false)}
+                    >
+                      <img src={close} alt="" />
+                    </div>
+                  </div>
+      
+                  <div className="gachngang"></div>
+      
+                  <div className="modalinforuse">
+                    <div className="modalinforuseavatar">
+                      <img
+                        // src={`/Images/Imgbia/${user?.tenanhdaidien || "default.png"}`}
+                        // src={hthanh}
+                        src={userInfo.profileImageUrl || defaultAvatarSrc}
+                        className="picavatatcn"
+                        alt="Ảnh bìa"
+                      />
+                    </div>
+                    <div className="modalinforuseahaichucnang">
+                      <p>
+                        {userInfo.firstName} {userInfo.lastName}
+                      </p>
+                      <button
+                        className="cong-khai-btn"
+                        onClick={() => {
+                          setHienModal(false); // đóng modal hiện tại
+                          setshowprivacyhome(true); // mở modal mới
+                        }}
+                      >
+                        {/* <img src={`/Images/Icons/earth.svg`} alt="" /> */}
+                        <img src={earthicon} alt="" />
+                        <p>&nbsp;{privacywrite}</p>
+                        <span className="dropdown-arrow">▼</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="modaluserwrite">
+                    <textarea
+                      style={{
+                        resize: "none",
+                        outline: "none",
+                        borderColor: "white",
+                      }}
+                      rows="5"
+                      cols="66"
+                      name="comment"
+                      placeholder={
+                        userInfo
+                          ? `${userInfo.firstName} ${userInfo.lastName} ơi, bạn đang nghĩ gì thế?`
+                          : "Đang tải..."
+                      }
+                      value={noidung}
+                      onChange={(e) => setNoidung(e.target.value)}
+                      onPaste={handlePaste}
+                    ></textarea>
+                    {anhDaTai && (
+                      <img
+                        src={anhDaTai}
+                        alt="Ảnh đã dán"
+                        style={{ width: "490px", height: "300px" }}
+                      />
+                    )}
+                  </div>
+      
+                  <div className="modaladdpostcover">
+                    <div className="modaladdpost">
+                      <p>Thêm vào bài viết của bạn</p>
+                      <div className="modalpostmenu">
+                        <ul>
+                          <li onClick={triggerImageInput}>
+                            <img src={upicon} alt="" />
+                            <input
+                              type="file"
+                              id="image-input"
+                              accept="image/*"
+                              onChange={handleImageChange}
+                              style={{ display: "none" }}
+                            />
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <img src={imagePreviewUrl} alt="" className="imagepreview" />
+      
+                  <div className="modalbamdangcover">
+                    <button onClick={handleDangBai}>Đăng</button>
+                  </div>
+                </div>
               </div>
-              <p className="titledown2">đối tượng của riêng bài viết này.</p>
-            </div>
-          </div>
-          <div className="modalmenuprivate">
-            <ul>
-              <li>
-                <div className="menuprivateleft">
-                  <div className="menuprivateicons">
-                    <img src={earthicon} alt="" className="menuprivateicon" />
-                  </div>
-                </div>
-                <div className="menuprivatewrite">
-                  <p className="menuprivatewriteup">Công khai</p>
-                  <p className="menuprivatewritedown">
-                    Bất kỳ ai ở trên hoặc ngoài Facebook
-                  </p>
-                </div>
-                <label className="menuprivatetick">
-                  {/* <div classname="menuprivatetick"> */}
-                  <input
-                    type="radio"
-                    checked={privacy === "Công khai"}
-                    onChange={() => handleChange("Công khai")}
-                  />
-                  {/* </div> */}
-                </label>
-              </li>
-              <li>
-                <div className="menuprivateleft">
-                  <div className="menuprivateicons">
-                    <img src={fricon} alt="" className="menuprivateicon" />
-                  </div>
-                </div>
-                <div className="menuprivatewrite">
-                  <p className="menuprivatewriteup">Bạn bè</p>
-                  <p className="menuprivatewritedown">
-                    Bạn bè của bạn trên facebook
-                  </p>
-                </div>
-                <label className="menuprivatetick">
-                  <input
-                    type="radio"
-                    name="privacy"
-                    checked={privacy === "Bạn bè"}
-                    onChange={() => handleChange("Bạn bè")}
-                  />
-                </label>
-              </li>
-              <li>
-                <div className="menuprivateleft">
-                  <div className="menuprivateicons">
-                    <img src={lock} alt="" className="menuprivateicon" />
-                  </div>
-                </div>
-                <div className="menuprivatewrite">
-                  <p className="menuprivatewriteup">Chỉ mình tôi</p>
-                  <p className="menuprivatewritedown">
-                    Bất kỳ ai ở trên hoặc ngoài Facebook
-                  </p>
-                </div>
-                <label className="menuprivatetick">
-                  <input
-                    type="radio"
-                    name="privacy"
-                    checked={privacy === "Chỉ mình tôi"}
-                    onChange={() => handleChange("Chỉ mình tôi")}
-                  />
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div className="modalmenuprivatebutton">
-            <div
-              className="buttonhuy"
-              onClick={() => {
-                setHienModal(true);
-                setshowprivacyhome(false);
-              }}
-            >
-              <p>Hủy</p>
-            </div>
-            <div
-              className="buttonfinish"
-              onClick={() => {
-                setHienModal(true);
-                setshowprivacyhome(false);
-                setprivacywrite(privacy); // cập nhật giá trị cuối cùng
-                handleChangewrite(privacy);
-              }}
-            >
-              <button>Xong</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      )}
+            )}
     </>
   )
 }

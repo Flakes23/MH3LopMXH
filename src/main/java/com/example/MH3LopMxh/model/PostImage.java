@@ -9,6 +9,7 @@ public class PostImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
     @OneToOne
@@ -16,7 +17,7 @@ public class PostImage {
     private Post post;
 
     @OneToOne
-    @JoinColumn(name = "id", unique = true)
+    @JoinColumn(name = "id_image", unique = true)
     private Image image;
 
     public PostImage() {
