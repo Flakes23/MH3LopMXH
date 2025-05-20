@@ -3,10 +3,47 @@ import "./Messchat.css";
 
 import Navbar from "../impl/Navbar";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import face from "../../assets/Images/Icons/face.png";
+import kinh from "../../assets/Images/Icons/kinh.svg";
+import home from "../../assets/Images/Icons/home.svg";
+import video from "../../assets/Images/Icons/video.svg";
+import market from "../../assets/Images/Icons/market.svg";
+import group from "../../assets/Images/Icons/group.svg";
+import game from "../../assets/Images/Icons/game.svg";
+import menu from "../../assets/Images/Icons/menu.svg";
+import mess from "../../assets/Images/Icons/mess.svg";
+import bell from "../../assets/Images/Icons/bell.svg";
+import testa from "../../assets/Images/Icons/testa.jpg";
+import picarrow from "../../assets/Images/Icons/picarrow.svg";
+import caidat from "../../assets/images/Icons/caidat.svg";
+import arrowright from "../../assets/images/Icons/arrowright.svg";
+import help from "../../assets/images/Icons/help.svg";
+import moon from "../../assets/images/Icons/moon.svg";
+import mark from "../../assets/images/Icons/mark.svg";
+import closeface from "../../assets/images/Icons/enter.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+
 function Messchat() {
+  const Clickhienkc = () => {
+    navigate("/mess");
+    window.location.reload();
+
+  };
+  const ClickHome = () => {
+    navigate("/home");
+  };
+  const handleClick = () => {
+    navigate("/trangcanhan");
+  };
+  const ClickSignOut = () => {
+    navigate("/login");
+  };
+  const Clickhienprivacy = () => {
+    navigate("/privacy");
+  };
       const [dschatmess, setdschatmess] = useState([]);
 
     const navigate = useNavigate();
@@ -20,6 +57,7 @@ function Messchat() {
 
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -263,10 +301,104 @@ setdstinchat([...dstinchat, response.data]);
     }
     // };
   };
+    const [isVisibleavatar, setIsVisibleavatar] = useState(false);
+  const hienkhunganh = () => {
+    setIsVisibleavatar(!isVisibleavatar);
+  };
+
+    const userInfo = profileData?.userInfo || {};
+
   return (
     <div className="messenger-page">
-      <Navbar />
+      {/* <Navbar /> */}
+<div className="Homebanner">
+        <div className="search-container">
+          <img src={face} alt="Facebook Logo" className="logo" />
+          <div className="search-box">
+            <i>
+              <img
+                src={kinh}
+                style={{ width: "15px", height: "15px", fill: "blue" }}
+                onClick={quatcn}
+              />
+            </i>
+            <input
+              type="text"
+              placeholder="Tìm kiếm trên Facebook"
+              value={valfind.valuefind}
+              onChange={(e) =>
+                setvalfind({
+                  ...valfind,
+                  valuefind: e.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
 
+        <div className="Bannercenter">
+          <ul>
+            <li
+              onClick={() => {
+                // setHienModal(true);
+                // setshowprivacyhome(false);
+                // setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+
+                // handleChangewrite(privacy);
+
+                ClickHome();
+              }}
+            >
+              <img
+                src={home}
+                // onClick={ClickHome}
+              />
+            </li>
+            {/* <li>
+                  <img src={video} />
+                </li> */}
+            {/* <li>
+                  <img src={market} />
+                </li> */}
+            {/* <li>
+                  <img src={group} />
+                </li> */}
+            {/* <li>
+                  <img src={game} />
+                </li> */}
+          </ul>
+        </div>
+
+        <div className="Bannerright">
+          <ul>
+            {/* <li>
+              <img src={menu} />
+            </li> */}
+            {/* <li onClick={() => setshowmessage(true)}> */}
+            <li onClick={Clickhienkc}>
+              <img src={mess} />
+            </li>
+            {/* <li>
+              <img src={bell} />
+            </li> */}
+            {/* <li>
+                <img src={testa} />
+                </li> */}
+          </ul>
+          <div className="Bannerrightanh">
+            <img
+              // src={"/Images/Icons/testa.jpg"}
+              // src={hthanh}
+              src={userInfo.profileImageUrl}
+              className="picavata"
+              onClick={hienkhunganh}
+            />
+            <div className="Bannerrightanhduoi">
+              <img src={picarrow} className="picavatedown" />
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="mes-container">
         {/* Left Panel */}
         <div className="left-panel">
@@ -468,6 +600,49 @@ setdstinchat([...dstinchat, response.data]);
 
         {/* Right Panel (info sidebar) */}
         <div className="right-panel">
+          {isVisibleavatar && (
+            <div className="khungpicavata">
+              <div className="khungpicavatatren">
+                <div className="khungpicavatatrenavatar" onClick={handleClick}>
+                  <div className="khungpicavatatanh">
+                    <img
+                      // src={"/Images/Icons/testa.jpg"}
+                      // src={hthanh}
+                      src={userInfo.profileImageUrl || defaultAvatarSrc}
+                      style={{ width: 38, height: 38, borderRadius: "50%" }}
+                    />
+                    <p>
+                      {userInfo.firstName} {userInfo.lastName}
+                    </p>
+                  </div>
+                </div>
+                <div className="khungpicavatatrentatcatrang">
+                  <button>Xem tất cả trang cá nhân</button>
+                </div>
+              </div>
+
+              <div className="khungpicavataduoi">
+                <ul>
+                  <li onClick={Clickhienprivacy}>
+                    <div className="coverkhungpicavataduoi">
+                      <img src={caidat} />
+                    </div>
+                    <p>Cài đặt và quyền riêng tư</p>
+                    <img src={arrowright} className="settingarrow" />
+                  </li>
+                  <li onClick={ClickSignOut}>
+                    <div className="coverkhungpicavataduoi">
+                      <img
+                        src={closeface}
+                        style={{ width: "18px", height: "18px" }}
+                      />
+                    </div>
+                    <p>Đăng xuất</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
           <div className="sidebar-avatar" >
             <img
                             src={dschatmess.linkanh}

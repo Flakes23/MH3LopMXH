@@ -101,6 +101,7 @@
     margin-top: 2px;
 }
 .Bannerright ul li{
+    cursor: pointer;
     /* padding: 10px; */
     list-style: none;
     width: 40px;

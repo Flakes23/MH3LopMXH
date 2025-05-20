@@ -17,11 +17,29 @@ import arrowleft from "../../assets/images/Icons/arrowleft.svg";
 import earthicon from "../../assets/images/Icons/earth.svg";
 import fricon from "../../assets/images/Icons/friendicon.svg";
 import lock from "../../assets/images/Icons/lockicon.svg";
+import face from "../../assets/Images/Icons/face.png";
+import kinh from "../../assets/Images/Icons/kinh.svg";
+import home from "../../assets/Images/Icons/home.svg";
+import picarrow from "../../assets/Images/Icons/picarrow.svg";
+import caidat from "../../assets/images/Icons/caidat.svg";
+import arrowright from "../../assets/images/Icons/arrowright.svg";
+import help from "../../assets/images/Icons/help.svg";
+import moon from "../../assets/images/Icons/moon.svg";
 import { Pencil, Camera } from "lucide-react"
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import menu from "../../assets/images/Icons/menu.svg";
+import mess from "../../assets/images/Icons/mess.svg";
+import bell from "../../assets/images/Icons/bell.svg";
+import mark from "../../assets/images/Icons/mark.svg";
+import closeface from "../../assets/images/Icons/enter.png";
+
+// import axios from "axios";
 
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   const { userId } = useParams()
   const currentUserId = localStorage.getItem("idUser")
   const [privacy, setPrivacy] = useState("Công khai");
@@ -47,6 +65,26 @@ const Profile = () => {
   const handleChange = (value) => {
     setPrivacy(value);
   };
+ const ClickSignOut = () => {
+    navigate("/login");
+  };
+ const Clickhienkc = () => {
+    navigate("/mess");
+  };
+  const Clickhienprivacy = () => {
+    navigate("/privacy");
+  };
+  const handleClick = () => {
+    navigate("/trangcanhan");
+  };
+   const ClickHome = () => {
+    navigate("/home");
+  };
+  const quatcn = () => {
+    navigate("/finduse", {
+      state: { findchat: valfind.valuefind},
+    });
+  }
 // tan
 
   useEffect(() => {
@@ -219,7 +257,13 @@ const Profile = () => {
 
 
 
-
+  const [valfind,setvalfind]= useState({
+    valuefind: "",
+  });
+const [isVisibleavatarr, setIsVisibleavatarr] = useState(false);
+  const hienkhunganhh = () => {
+    setIsVisibleavatarr(!isVisibleavatarr);
+  };
   // Fallback data khi API chưa trả về kết quả
   const defaultCoverSrc = cover
   const defaultAvatarSrc = avatar
@@ -261,12 +305,168 @@ const Profile = () => {
   const photos = profileData?.photos || []
   const aboutInfo = profileData?.aboutInfo || []
 
+
   return (
     <>
       <div className="app-root">
-        <Navbar />
+        {/* <Navbar /> */}
+        <div className="Homebanner">
+                <div className="search-container">
+                  <img src={face} alt="Facebook Logo" className="logo" />
+                  <div className="search-box">
+                    <i>
+                      <img
+                        src={kinh}
+                        style={{ width: "15px", height: "15px", fill: "blue" }}
+                        onClick={quatcn}
+                      />
+                    </i>
+                    <input
+                      type="text"
+                      placeholder="Tìm kiếm trên Facebook"
+                      value={valfind.valuefind}
+                      onChange={(e) =>
+                        setvalfind({
+                          ...valfind,
+                          valuefind: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+        
+                <div className="Bannercenter">
+                  <ul>
+                    <li
+                      onClick={() => {
+                        ClickHome();
+                      }}
+                    >
+                      <img
+                        src={home}
+                        // onClick={ClickHome}
+                      />
+                    </li>
+                    {/* <li>
+                          <img src={video} />
+                        </li> */}
+                    {/* <li>
+                          <img src={market} />
+                        </li> */}
+                    {/* <li>
+                          <img src={group} />
+                        </li> */}
+                    {/* <li>
+                          <img src={game} />
+                        </li> */}
+                  </ul>
+                </div>
+        
+                <div className="Bannerright">
+                  <ul>
+                    {/* <li>
+                      <img src={menu} />
+                    </li> */}
+                    {/* <li onClick={() => setshowmessage(true)}> */}
+                    <li onClick={Clickhienkc}>
+                      <img src={mess} />
+                    </li>
+                    {/* <li>
+                      <img src={bell} />
+                    </li> */}
+                    {/* <li>
+                        <img src={testa} />
+                        </li> */}
+                  </ul>
+                  <div className="Bannerrightanh">
+                    <img
+                      // src={"/Images/Icons/testa.jpg"}
+                      // src={hthanh}
+                      src={userInfo.profileImageUrl}
+                      className="picavata"
+                      onClick={hienkhunganhh}
+                    />
+                    <div className="Bannerrightanhduoi">
+                      <img src={picarrow} className="picavatedown" />
+                    </div>
+                  </div>
+                </div>
+              </div>
         <div className="profile-bgTop">
           <div className="profile-containerTop">
+             {isVisibleavatarr && (
+            <div className="khungpicavata">
+              <div className="khungpicavatatren">
+                <div className="khungpicavatatrenavatar" onClick={handleClick}>
+                  <div className="khungpicavatatanh">
+                    <img
+                      src={userInfo.profileImageUrl || defaultAvatarSrc}
+                      style={{ width: 38, height: 38, borderRadius: "50%" }}
+                    />
+                    <p>
+                      {userInfo.firstName} {userInfo.lastName}
+                    </p>
+                  </div>
+                </div>
+                <div className="khungpicavatatrentatcatrang">
+                  <button>Xem tất cả trang cá nhân</button>
+                </div>
+              </div>
+
+              <div className="khungpicavataduoi">
+                <ul>
+                  <li onClick={Clickhienprivacy}>
+                    <div className="coverkhungpicavataduoi">
+                      <img src={caidat} />
+                    </div>
+                    <p>Cài đặt và quyền riêng tư</p>
+                    <img src={arrowright} className="settingarrow" />
+                  </li>
+                  <li>
+                    <div className="coverkhungpicavataduoi">
+                      <img src={help} />
+                    </div>
+                    <p>Trợ giúp và hỗ trợ</p>
+                    <img src={arrowright} className="settingarrow" />
+                  </li>
+                  <li
+                    onClick={() => {
+                      setIsVisibleavatarr(false);
+                      setshowtronang(true);
+                    }}
+                  >
+                    <div className="coverkhungpicavataduoi">
+                      <img src={moon} />
+                    </div>
+                    <p>Màn hình & trợ năng</p>
+                    <img src={arrowright} className="settingarrow" />
+                  </li>
+                  <li>
+                    <div className="coverkhungpicavataduoi">
+                      <img src={mark} />
+                    </div>
+                    <div className="coverkhungpicavataduoip">
+                      <p>Đóng góp ý kiến</p>
+                      <p>CRT B</p>
+                    </div>
+                    {/* <p>Đóng góp ý kiến</p>                    */}
+                    {/* <p>CRT+B</p> */}
+                    <img src={arrowright} className="settingarrow" />
+                  </li>
+                  <li onClick={ClickSignOut}>
+                    <div className="coverkhungpicavataduoi">
+                      <img
+                        src={closeface}
+                        style={{ width: "18px", height: "18px" }}
+                      />
+                    </div>
+                    <p>Đăng xuất</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+
             <div className="profile-header">
               <div
                 className="cover-photo"
@@ -301,7 +501,7 @@ const Profile = () => {
                 className="avatar"
                 src={userInfo.profileImageUrl || defaultAvatarSrc}
                 alt="Avatar cá nhân"
-                onClick={hienkhunganh}
+                onClick={hienkhunganhh}
               />
             </div>
             <div className="profile-info">

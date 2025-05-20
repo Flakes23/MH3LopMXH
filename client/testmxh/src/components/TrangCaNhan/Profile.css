@@ -999,4 +999,120 @@ input[type="radio"] {
     margin-right: 20px;
 }
 
+
+ .khungpicavata{
+    position: fixed;
+    margin-left: 600px;
+    z-index: 3000;
+    width: 370px;
+    height: 410px;
+    background-color: red;
+    /* margin:0; */
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* margin-top:5px; */
+    margin-right:20px;
+    border-radius: 1%;
+    overflow: hidden;
+ }
+ .khungpicavatatren{
+    margin-top: 10px;
+    margin-left: 25px;
+    width: 320px;
+    height: 124px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+    border: 1px solid #e0e0e0; 
+    border-radius: 2%;
+
+ }
+ .khungpicavatatanh{
+    display: flex;
+    width: 250px;
+    margin-left: 15px;
+    margin-top: 10px;
+ }
+ .khungpicavatatanh p{
+    margin-top: 0;
+    margin-bottom: 0;
+    left: 10px;
+    margin-left: 10px;
+    font-weight: 500;
+    line-height: 40px;
+    padding: 0px;
+ }
+ .khungpicavatatrenavatar::after{
+    content: '';
+    margin-left: 17px;
+    width: 285px;
+    display: block;
+    height: 2px;
+    background-color: #DDDDDD;
+    margin-top: 6px;
+    /* transform-origin: right; */
+    cursor: pointer;
+}
+.khungpicavatatrentatcatrang{
+    width: 100%;
+    height: 51px;
+    margin-top: 12px;
+}
+/* .khungpicavatatrentatcatrang::after{
+    content: '';
+    margin-left: 17px;
+    width: 285px;
+    display: block;
+    height: 2px;
+    background-color: #DDDDDD;
+    margin-top: 6px;
+} */
+.khungpicavatatrentatcatrang button{
+    margin-left: 20px;
+    width: 280px;
+    background-color: #e2e5e9;
+}
+.khungpicavataduoi ul {
+    list-style: none;
+    padding-left: 17px;
+}
+.khungpicavataduoi ul li{
+    display: flex;
+    height: 48px;
+    width: 96%;
+    cursor: pointer;
+}
+.khungpicavataduoi ul li:hover{
+    background-color: #DDDDDD;
+}
+.khungpicavataduoi ul li .coverkhungpicavataduoi{
+    margin-top: 6px;
+    margin-left: 9px;
+    width: 36px;
+    height: 36px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: #e2e5e9;
+}
+.khungpicavataduoi ul li img{
+    margin-left: 9px;
+    margin-top: 9px;
+
+}
+.khungpicavataduoi ul li p{
+    margin: 0;
+    height: 23px;
+    width: 180px;
+    margin-top: 11px;
+    margin-left: 10px;
+}
+.khungpicavataduoi ul li .settingarrow{
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    margin-left: 74px;
+    margin-top: 9px;
+}
+.khungpicavataduoi ul li .coverkhungpicavataduoip p{
+    margin-top: 0;
+}
 /* ------- */

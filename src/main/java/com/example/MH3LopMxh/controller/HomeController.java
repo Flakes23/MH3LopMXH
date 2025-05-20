@@ -310,6 +310,7 @@ public class HomeController {
 		       	} else {
 		       	    usedto.setPhuttin("Sống tại Hồ Chí Minh");
 		       	}
+		       	usedto.setIdnd(users.getIdUser());
 		       	dsusedto.add(usedto);
 		   }
 		   return dsusedto;

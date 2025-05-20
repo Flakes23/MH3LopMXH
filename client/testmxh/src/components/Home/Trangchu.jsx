@@ -41,7 +41,6 @@ import avatar from "../../assets/Images/Icons/testa.jpg";
 import qc1 from "../../assets/Images/Imgkhac/qc1.jpg";
 import qc2 from "../../assets/Images/Imgkhac/lq.jpg";
 import send from "../../assets/Images/Icons/send.svg";
-import Post from "../impl/PostComment"
 import axios from "axios";
 function Trangchu() {
   const navigate = useNavigate();
@@ -51,69 +50,23 @@ function Trangchu() {
   const ClickSignOut = () => {
     navigate("/login");
   };
+    const showfri = () => {
+    navigate("/friend");
+  };
   const Clickhienkc = () => {
     navigate("/mess");
   };
   const Clickhienprivacy = () => {
     navigate("/privacy");
   };
-  const Clickbanbe= () => {
-    navigate("/friend");
-  };
   const quatcn = () => {
-    navigate("/finduse", {
-      state: { findchat: valfind.valuefind},
-    });
-  }
-  const handleAddComment = async (postId, commentText) => {
-    try {
-      const userId = localStorage.getItem("idUser")
-
-      if (!userId) {
-        alert("Bạn cần đăng nhập để bình luận")
-        return
-      }
-
-      // Gọi API để thêm bình luận
-      const response = await axios.post(
-        `http://localhost:8080/api/comments/post/${postId}`,
-        {
-          content: commentText,
-          user: { id: userId }
-        },
-        {
-          headers: { Authorization: userId },
-        }
-      );
-
-      // Cập nhật state để hiển thị bình luận mới
-      if (response.data) {
-        // Tìm bài đăng cần cập nhật
-        const updatedPosts = profileData.posts.map((post) => {
-          if (post.id === postId) {
-            // Thêm bình luận mới vào danh sách
-            const updatedCommentList = [...(post.commentList || []), response.data]
-            return {
-              ...post,
-              commentList: updatedCommentList,
-              comments: (post.comments || 0) + 1,
-            }
-          }
-          return post
-        })
-
-        // Cập nhật state
-        setProfileData({
-          ...profileData,
-          posts: updatedPosts,
-        })
-      }
-    } catch (err) {
-      console.error("Error adding comment:", err)
-      alert("Không thể thêm bình luận. Vui lòng thử lại sau.")
-    }
-  }
-
+   navigate("/finduse", {
+    state: { findchat: valfind.valuefind},
+  });
+}
+ const ClickHome = () => {
+    navigate("/home");
+  };
 
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -188,9 +141,10 @@ function Trangchu() {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/posts/getallpost`
+          `http://localhost:8080/api/profile/${userId}`
         );
-        setDsBaiViet(response.data);
+        // const response = await axios.get("http://localhost:8080/post"); // nhớ đúng URL backend bạn nhé
+        setDsBaiViet(response.data.posts); // response.data.posts là mảng bài viết
       } catch (error) {
         console.error("Lỗi khi lấy danh sách bài viết:", error);
       }
@@ -648,10 +602,12 @@ setdstinchat([...dstinchat, response.data]);
           <ul>
             <li
               onClick={() => {
-                setHienModal(true);
-                setshowprivacyhome(false);
-                setprivacywrite(privacy); // cập nhật giá trị cuối cùng
-                handleChangewrite(privacy);
+                // setHienModal(true);
+                // setshowprivacyhome(false);
+                // setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+                // handleChangewrite(privacy);
+                                ClickHome();
+
               }}
             >
               <img src={home} />
@@ -673,16 +629,16 @@ setdstinchat([...dstinchat, response.data]);
 
         <div className="Bannerright">
           <ul>
-            <li>
+            {/* <li>
               <img src={menu} />
-            </li>
+            </li> */}
             {/* <li onClick={() => setshowmessage(true)}> */}
             <li onClick={Clickhienkc}>
               <img src={mess} />
             </li>
-            <li>
+            {/* <li>
               <img src={bell} />
-            </li>
+            </li> */}
             {/* <li>
             <img src={testa} />
             </li> */}
@@ -718,7 +674,7 @@ setdstinchat([...dstinchat, response.data]);
                   {userInfo.firstName} {userInfo.lastName}
                 </p>
               </li>
-              <li onClick={Clickbanbe}>
+              <li onClick={showfri}>
                 <div className="menu1"></div>
                 <p>Bạn bè</p>
               </li>
@@ -764,6 +720,8 @@ setdstinchat([...dstinchat, response.data]);
           <div className="post-box">
             <div className="post-header">
               <img
+                // src={"/Images/Icons/testa.jpg"}
+                // src={hthanh}
                 src={userInfo.profileImageUrl || defaultAvatarSrc}
                 className="avatarhomewriter"
               />
@@ -793,22 +751,84 @@ setdstinchat([...dstinchat, response.data]);
               </div>
             </div>
           </div>
-          <div className="profile-posts">
-              {dsBaiViet.length > 0 ? (
-                dsBaiViet.map((dsBaiViet) => (
-                  <Post
-                    key={dsBaiViet.idPost}
-                    post={dsBaiViet}
-                    currentUserAvatar={userInfo.profileImageUrl || defaultAvatarSrc}
-                    onAddComment={handleAddComment}
-                  />
-                ))
-              ) : (
-                <div className="no-posts-message">
-                  <p>Chưa có bài viết nào.</p>
+          <div className="postall">
+            {dsBaiViet.length > 0 ? (
+              dsBaiViet.map((post) => (
+                <div
+                  key={post.idPost || `default-${post.index || Math.random()}`}
+                  className="postitem"
+                >
+                  <div className="postitemup">
+                    <img
+                      src={userInfo.profileImageUrl}
+                      className="avatarpostitemup"
+                    />
+                    <div className="postitemupright">
+                      <p className="postname">
+                        {/* {post.user
+                          ? `${post.user.firstName} ${post.user.lastName}`
+                          : "Unknown User"} */}
+                        {userInfo.firstName} {userInfo.lastName}
+                      </p>
+                      <p className="postdate">
+                        {/* {new Date(post.createAt).toLocaleDateString("vi-VN")} */}
+                        {(() => {
+                          const now = new Date();
+                          const postDate = new Date(post.createAt);
+                          const diffMs = now - postDate;
+                          const diffSeconds = Math.floor(diffMs / 1000);
+                          const diffMinutes = Math.floor(diffSeconds / 60);
+                          const diffHours = Math.floor(diffMinutes / 60);
+                          const diffDays = Math.floor(diffHours / 24);
+                          if (diffDays > 0) {
+                            return `${diffDays} ngày trước`;
+                          } else if (diffHours > 0) {
+                            return `${diffHours} giờ trước`;
+                          } else if (diffMinutes > 0) {
+                            return `${diffMinutes} phút trước`;
+                          } else {
+                            return `Vừa xong`;
+                          }
+                        })()}
+                      </p>
+                    </div>
+                    <div className="postitemore">
+                      <img
+                        src={`/Images/Icons/more.svg`}
+                        alt=""
+                        onClick={() => setHienTest(true)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="postinput">
+                    <p>{post.content}</p>
+                  </div>
+
+                  <div className="gachngang1"></div>
+
+                  <div className="postemotion">
+                    <div className="postemotionlike">
+                      <img src={`/Images/Icons/like.svg`} alt="" />
+                      <p>Thích</p>
+                    </div>
+
+                    <div className="postemotioncmt">
+                      <img src={`/Images/Icons/cmt.svg`} alt="" />
+                      <p>Bình luận</p>
+                    </div>
+
+                    <div className="postemotionshare">
+                      <img src={`/Images/Icons/share.svg`} alt="" />
+                      <p>Chia sẻ</p>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+              ))
+            ) : (
+              <p>Chưa có bài viết nào.</p>
+            )}
+          </div>
 
           <>
             {showmessage && (
@@ -866,7 +886,7 @@ setdstinchat([...dstinchat, response.data]);
                         }
                       >
                         <div className="screenmesscoveruseimg">
-                          <img
+                          <img className="screenmesscoveruseimgtitleimg"
                             src={dschatmess.linkanh || defaultAvatarSrc}
                             alt=""
                           />{" "}
@@ -981,6 +1001,7 @@ setdstinchat([...dstinchat, response.data]);
                       type="text"
                       className="inputbox1"
                       placeholder={"Aa"}
+                      style={{width: "250px",height:"20px"}}
                       // value={""}
                       // onClick={() => setHienModal(true)}
                       value={chatfollowing.writechat}
@@ -1038,14 +1059,14 @@ setdstinchat([...dstinchat, response.data]);
                     <p>Cài đặt và quyền riêng tư</p>
                     <img src={arrowright} className="settingarrow" />
                   </li>
-                  <li>
+                  {/* <li>
                     <div className="coverkhungpicavataduoi">
                       <img src={help} />
                     </div>
                     <p>Trợ giúp và hỗ trợ</p>
                     <img src={arrowright} className="settingarrow" />
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     onClick={() => {
                       setIsVisibleavatar(false);
                       setshowtronang(true);
@@ -1056,8 +1077,8 @@ setdstinchat([...dstinchat, response.data]);
                     </div>
                     <p>Màn hình & trợ năng</p>
                     <img src={arrowright} className="settingarrow" />
-                  </li>
-                  <li>
+                  </li> */}
+                  {/* <li>
                     <div className="coverkhungpicavataduoi">
                       <img src={mark} />
                     </div>
@@ -1065,10 +1086,9 @@ setdstinchat([...dstinchat, response.data]);
                       <p>Đóng góp ý kiến</p>
                       <p>CRT B</p>
                     </div>
-                    {/* <p>Đóng góp ý kiến</p>                    */}
-                    {/* <p>CRT+B</p> */}
+                    
                     <img src={arrowright} className="settingarrow" />
-                  </li>
+                  </li> */}
                   <li onClick={ClickSignOut}>
                     <div className="coverkhungpicavataduoi">
                       <img

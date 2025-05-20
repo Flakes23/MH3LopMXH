@@ -5,6 +5,7 @@ public class UserMesageDTO {
 	private String lastName;
 	private String linkanh;
 	private String phuttin;
+	private Long idnd;
 	public UserMesageDTO() {
 	}
 	public UserMesageDTO(String firstName, String lastName, String linkanh) {
@@ -19,6 +20,14 @@ public class UserMesageDTO {
 		this.lastName = lastName;
 		this.linkanh = linkanh;
 		this.phuttin=tintmp;
+	}
+	public UserMesageDTO(String firstName, String lastName, String linkanh,String tintmp,Long idnd) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.linkanh = linkanh;
+		this.phuttin=tintmp;
+		this.idnd=idnd;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -43,6 +52,12 @@ public class UserMesageDTO {
 	}
 	public void setPhuttin(String phuttin) {
 		this.phuttin = phuttin;
+	}
+	public Long getIdnd() {
+		return idnd;
+	}
+	public void setIdnd(Long idnd) {
+		this.idnd = idnd;
 	}
 	
 }

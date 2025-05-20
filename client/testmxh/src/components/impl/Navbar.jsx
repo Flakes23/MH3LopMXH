@@ -23,14 +23,19 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Navbar() {
+   const quatcn = () => {
+    navigate("/finduse", {
+      state: { findchat: valfind.valuefind },
+    });
+  };
   const [showmessageuse, setshowmessageuse] = useState(false);
-  const [isVisibleavatar, setIsVisibleavatar] = useState(false);
+  const [isVisibleavata, setIsVisibleavata] = useState(false);
   const [showtronang, setshowtronang] = useState(false);
   const ClickSignOut = () => {
     navigate("/login");
   };
   const hienkhunganh = () => {
-    setIsVisibleavatar(!isVisibleavatar);
+    setIsVisibleavata(!isVisibleavata);
   };
       const navigate = useNavigate();
 
@@ -42,6 +47,7 @@ function Navbar() {
   };
   const Clickhienkc = () => {
     navigate("/mess");
+    window.location.reload();
   };
   const ClickHome = () => {
     navigate("/home");
@@ -50,7 +56,9 @@ function Navbar() {
   const [loading, setLoading] = useState(true);
   const userInfo = profileData?.userInfo || {};
     const userId = 4638422354641785; // ID người dùng bạn đã cung cấp
-
+ const [valfind, setvalfind] = useState({
+    valuefind: "",
+  });
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -76,25 +84,38 @@ function Navbar() {
       <div className="search-container">
         <img src={face} alt="Facebook Logo" className="logo" />
         <div className="search-box">
-          <i>
+          <i
+          onClick={quatcn}>
             <img
               src={kinh}
               style={{ width: "15px", height: "15px", fill: "blue" }}
             />
           </i>
-          <input type="text" placeholder="Tìm kiếm trên Facebook" />
+          <input type="text" placeholder="Tìm kiếm trên Facebook" 
+          value={valfind.valuefind}
+              onChange={(e) =>
+                setvalfind({
+                  ...valfind,
+                  valuefind: e.target.value,
+                })
+              }
+          />
+
+          
         </div>
       </div>
 
       <div className="Bannercenter">
         <ul>
           <li
-            onClick={() => {
-              setHienModal(true);
-              setshowprivacyhome(false);
-              setprivacywrite(privacy); // cập nhật giá trị cuối cùng
-              handleChangewrite(privacy);
-            }}
+            // onClick={() => {
+            //   setHienModal(true);
+            //   setshowprivacyhome(false);
+            //   setprivacywrite(privacy); // cập nhật giá trị cuối cùng
+            //   handleChangewrite(privacy);
+            // }}
+                        onClick={ClickHome}
+
           >
             <img src={home} 
             onClick={ClickHome}
@@ -117,16 +138,16 @@ function Navbar() {
 
       <div className="Bannerright">
         <ul>
-          <li>
+          {/* <li>
             <img src={menu} />
-          </li>
+          </li> */}
           {/* <li onClick={() => setshowmessage(true)}> */}
           <li onClick={Clickhienkc}>
             <img src={mess} />
           </li>
-          <li>
+          {/* <li>
             <img src={bell} />
-          </li>
+          </li> */}
           {/* <li>
           <img src={testa} />
           </li> */}
@@ -305,7 +326,7 @@ function Navbar() {
           </div>
         )}
       </>
-      {isVisibleavatar && (
+      {isVisibleavata && (
         <div className="khungpicavata">
           <div className="khungpicavatatren">
             <div className="khungpicavatatrenavatar" onClick={handleClick}>
