@@ -998,5 +998,12 @@ input[type="radio"] {
     cursor: pointer;
     margin-right: 20px;
 }
+.post-image{
+    margin: 10px;
+}
+.imagepreview{
+    width: 100%;
+    margin: 10px;
+}
 
 /* ------- */

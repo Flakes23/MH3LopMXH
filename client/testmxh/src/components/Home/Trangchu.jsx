@@ -65,6 +65,18 @@ function Trangchu() {
       state: { findchat: valfind.valuefind},
     });
   }
+  const [selectedImageFile, setSelectedImageFile] = useState(null)
+  const [imagePreviewUrl, setimagePreviewUrl] = useState(null)
+  const triggerImageInput = () => {
+    document.getElementById("image-input").click()
+  }
+  const handleImageChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      setSelectedImageFile(file);
+      setimagePreviewUrl(URL.createObjectURL(file));
+    }
+  }
   const handleAddComment = async (postId, commentText) => {
     try {
       const userId = localStorage.getItem("idUser")
@@ -271,40 +283,49 @@ function Trangchu() {
   };
 
   const handleDangBai = async () => {
-    if (!noidung.trim()) return;
-    // const linkanh=anhDaTai;
-    const baiviet = {
-      iduser: userId,
-      content: noidung,
-      // imageUrl:anhDaTai
-    };
-    try {
-      const response = await fetch(`http://localhost:8080/api/home/postwrite`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(baiviet),
-      });
+  if (!noidung.trim()) return;
 
-      const rawText = await response.text();
-      // console.log("Phản hồi từ backend:", rawText);
-      if (response.ok) {
-        try {
-          const newPost = JSON.parse(rawText);
-          // const newPost = await response.json();
-          // console.log("Bài viết mới từ server:", newPost);
-          setDsBaiViet([newPost, ...dsBaiViet]);
-          setNoidung("");
-          setHienModal(false);
-        } catch (jsonError) {
-          console.error("JSON không hợp lệ:", jsonError);
-        }
-      } else {
-        console.error("Server trả lỗi:", response.status);
-      }
-    } catch (error) {
-      console.error("Lỗi khi đăng bài:", error);
-    }
+  const baiviet = {
+    iduser: userId,
+    content: noidung,
   };
+
+  const formData = new FormData();
+  formData.append("postDto", new Blob([JSON.stringify(baiviet)], { type: "application/json" }));
+  console.log("formData", formData);
+  
+  // Nếu có file ảnh thì thêm vào
+  if (selectedImageFile) {
+    formData.append("image", selectedImageFile);
+  }
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/home/postwrite`, {
+      method: "POST",
+      body: formData, // KHÔNG set Content-Type — trình duyệt sẽ tự động thêm boundary cho multipart/form-data
+    });
+
+    const rawText = await response.text();
+
+    if (response.ok) {
+      try {
+        const newPost = JSON.parse(rawText);
+        setDsBaiViet([newPost, ...dsBaiViet]);
+        setNoidung("");
+        setSelectedImageFile(null);
+        setHienModal(false);
+        location.reload();
+      } catch (jsonError) {
+        console.error("Lỗi khi parse JSON:", jsonError);
+      }
+    } else {
+      console.error("Lỗi từ server:", response.status);
+    }
+  } catch (error) {
+    console.error("Lỗi khi đăng bài:", error);
+  }
+};
+
 
   const [anhDaTai, setAnhDaTai] = useState(null);
   const handlePaste = (event) => {
@@ -588,16 +609,21 @@ setdstinchat([...dstinchat, response.data]);
                 <p>Thêm vào bài viết của bạn</p>
                 <div className="modalpostmenu">
                   <ul>
-                    <li>
+                    <li onClick={triggerImageInput}>
                       <img src={upicon} alt="" />
-                    </li>
-                    <li>
-                      <img src={friendicon} alt="" />
+                      <input
+                        type="file"
+                        id="image-input"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        style={{ display: "none" }}
+                      />
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
+            <img src={imagePreviewUrl} alt="" className="imagepreview" />
 
             <div className="modalbamdangcover">
               <button onClick={handleDangBai}>Đăng</button>

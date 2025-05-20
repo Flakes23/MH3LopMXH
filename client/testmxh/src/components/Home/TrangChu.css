@@ -15,7 +15,6 @@ html, body, #root {
     height: 100%;
     
 }
-
 .Homebanner{
      background: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -168,7 +167,7 @@ html, body, #root {
 
 
 .HomeCenter{
-    height: 3000px;
+    height: 100%;
     background-color: red;
     width: 100%;
     display: flex;
@@ -1631,4 +1630,11 @@ margin-top: 3px;
 .avatar-modal-actions {
   display: flex;
   gap: 10px;
+}
+.imagepreview{
+    width: 100%;
+    margin: 10px;
+}
+.post-image{
+    margin: 10px;
 }

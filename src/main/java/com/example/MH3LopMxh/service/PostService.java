@@ -1,17 +1,15 @@
 package com.example.MH3LopMxh.service;
 
-import com.example.MH3LopMxh.model.Post;
-import com.example.MH3LopMxh.model.PostUser;
-import com.example.MH3LopMxh.model.User;
-import com.example.MH3LopMxh.repository.PostRepository;
-import com.example.MH3LopMxh.repository.PostUserRepository;
-import com.example.MH3LopMxh.repository.UserRepository;
+import com.example.MH3LopMxh.model.*;
+import com.example.MH3LopMxh.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +25,15 @@ public class PostService {
     
     @Autowired
     private PostUserRepository postUserRepository;
+
+    @Autowired
+    private PostImageRepository postImageRepository;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
+    @Autowired
+    private ImageRepository imageRepository;
     
     public List<Post> getAllPosts() {
         return postRepository.findAll();
@@ -103,4 +110,37 @@ public class PostService {
            throw new RuntimeException("Không tìm thấy người dùng với ID: ");
        }
    }
+
+    public String updatePostImage(Long postId, MultipartFile imageFile) throws IOException {
+        // Tìm bài viết theo postId
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài viết"));
+
+        // Kiểm tra xem bài viết đã có ảnh chưa
+        Optional<PostImage> optionalPostImage = postImageRepository.findByPost(post);
+
+        // Upload ảnh lên Cloudinary
+        String imageUrl = cloudinaryService.uploadImage(imageFile);
+
+        if (optionalPostImage.isPresent()) {
+            // Nếu đã có ảnh, cập nhật ảnh mới
+            PostImage postsImage = optionalPostImage.get();
+            Image image = postsImage.getImage();
+            image.setUrlImage(imageUrl);
+            imageRepository.save(image);
+        } else {
+            // Nếu chưa có ảnh, tạo mới ảnh và thêm vào bảng posts_image
+            Image newImage = new Image();
+            newImage.setUrlImage(imageUrl);
+            imageRepository.save(newImage);
+
+            PostImage postsImage = new PostImage();
+            postsImage.setPost(post);
+            postsImage.setImage(newImage);
+            postImageRepository.save(postsImage);
+        }
+
+        return imageUrl; // Trả về URL ảnh
+    }
+
 }
